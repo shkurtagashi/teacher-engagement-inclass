@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_graph"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.android.teacher.GraphActivity">
+
+    <TextView
+        android:id="@+id/eda_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Electrodermal Activity"
+        android:textSize="15dp"
+        android:gravity="center"
+        android:textColor="#ff4081"/>
+
+    <com.jjoe64.graphview.GraphView
+        android:layout_width="match_parent"
+        android:layout_height="100dip"
+        android:id="@+id/graph_eda"
+        android:layout_below="@id/eda_title"/>
+
+    <TextView
+        android:id="@+id/bvp_title"
+        android:layout_below="@id/graph_eda"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Blood Volume Pressure"
+        android:textSize="15dp"
+        android:gravity="center"
+        android:textColor="#ff4081"/>
+
+    <com.jjoe64.graphview.GraphView
+        android:layout_width="match_parent"
+        android:layout_height="100dip"
+        android:id="@+id/graph_bvp"
+        android:layout_below="@id/bvp_title"/>
+
+    <TextView
+        android:id="@+id/acc_title"
+        android:layout_below="@id/graph_bvp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Accelereometer"
+        android:textSize="15dp"
+        android:gravity="center"
+        android:textColor="#ff4081"/>
+
+
+    <com.jjoe64.graphview.GraphView
+        android:layout_width="match_parent"
+        android:layout_height="100dip"
+        android:id="@+id/graph_acc"
+        android:layout_below="@id/acc_title"/>
+
+    <TextView
+        android:id="@+id/temp_title"
+        android:layout_below="@id/graph_acc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Temperature"
+        android:textSize="15dp"
+        android:gravity="center"
+        android:textColor="#ff4081"/>
+
+
+    <com.jjoe64.graphview.GraphView
+        android:layout_width="match_parent"
+        android:layout_height="100dip"
+        android:id="@+id/graph_temp"
+        android:layout_below="@id/temp_title"/>
+
+    <LinearLayout
+        android:id="@+id/first_part"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/graph_temp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_alignParentStart="true"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/deviceName"
+            android:layout_below="@id/status"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Upload"
+            android:onClick="uploadFiles"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+
+</RelativeLayout>

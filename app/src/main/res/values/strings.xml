@@ -1,0 +1,170 @@
+<resources>
+    <string name="app_name">Teacher</string>
+    <string name="agree_button">Agree</string>
+    <string name="disagree_button">Disagree</string>
+    <string name="male">M</string>
+    <string name="female">F</string>
+    <string name="range20to30">20-30</string>
+    <string name="range30to40">30-40</string>
+    <string name="range40to50">40-50</string>
+    <string name="range50andAbove">50 and above</string>
+
+
+    <string name="consent_text">By pressing the agree button, you agree to participate in the study conducted by the Faculty of Informatics students at Università della Svizzera Italiana.
+
+Participation in this study is voluntary and we kindly ask you to immediately raise any concerns or areas of discomfort during the session.
+
+Please press one of the buttons below to indicate that you have read and understand the information on this form and that you agree/disagree for being part of the session.
+
+        Thank you in advance!
+ </string>
+    <string name="log_in_message">Do you want to proceed as</string>
+
+    <string name="create_account_text">You first need to create an account. Would you like to proceed?</string>
+
+    <string name="welcome_user">Welcome</string>
+    <string name="disagree_text">Are you sure you do not want to be part of this experiment?</string>
+    <string name="delete_user_text">Are you sure you want to delete this account?</string>
+
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="sensor_data">Sensor Data</string>
+    <string name="survey_data">Surveys</string>
+    <string name="real_time_streaming">Real Time Streaming</string>
+    <string name="student_survey_data">Survey Data Visualization</string>
+
+
+    <string name="microphone_switch">Microphone</string>
+    <string name="microphone_record">Record</string>
+
+
+    <string name="accel">ACC</string>
+    <string name="accel_x">x:</string>
+    <string name="accel_y">y:</string>
+    <string name="accel_z">z:</string>
+    <string name="bvp_label">BVP</string>
+    <string name="eda_label">EDA</string>
+    <string name="ibi_label">IBI</string>
+    <string name="emptyText">-</string>
+    <string name="temp_label">TEMP</string>
+    <string name="battery_label">Battery</string>
+
+    <string name="program_label">Programme</string>
+    <string name="faculty_label">Faculty</string>
+    <string name="age_label">Age</string>
+    <string name="status_label">Status</string>
+    <string name="course_label">Course</string>
+    <string name="gender_label">Gender</string>
+    <string name="username_label">Username</string>
+
+    <string name="teaching_experience_label">Teaching Experience</string>
+
+    <string name="full_professor">Full Professor</string>
+    <string name="associate_professor">Associate Professor</string>
+    <string name="assistant_professor">Assistant Professor</string>
+    <string name="adjunct_professor">Adjunct Professor</string>
+    <string name="post_doc">Post-doc</string>
+    <string name="phd_student">Ph.D. Student</string>
+    <string name="assistant">Assistant</string>
+    <string name="other">Other</string>
+
+    <string name="informatics">Informatics</string>
+    <string name="economics">Economics</string>
+    <string name="communication_sciences">Communication Sciences</string>
+    <string name="academy_of_architecture">Academy of Architecture</string>
+
+    <string name="bachelor">Bachelor</string>
+    <string name="master">Master</string>
+
+
+    <string name="course_1">Information Security</string>
+    <string name="course_2">Cyber Communication</string>
+    <string name="course_3">Software Architecture and Design</string>
+    <string name="course_4">Course 4</string>
+
+    <string name="teachingExperience0to5">0 to 5 years</string>
+    <string name="teachingExperience5to10">5 to 10 years</string>
+    <string name="teachingExperience10to20">10 to 20 years</string>
+    <string name="teachingExperience20to30">20 to 30 years</string>
+    <string name="teachingExperience30toAbove">30 and above</string>
+
+
+    <string-array name="age_range_choices">
+        <item>@string/range20to30</item>
+        <item>@string/range30to40</item>
+        <item>@string/range40to50</item>
+        <item>@string/range50andAbove</item>
+    </string-array>
+
+    <string-array name="faculty_title_choices">
+        <item>@string/informatics</item>
+        <item>@string/economics</item>
+        <item>@string/communication_sciences</item>
+        <item>@string/academy_of_architecture</item>
+        <item>@string/other</item>
+    </string-array>
+
+    <string-array name="program_title_choices">
+        <item>@string/bachelor</item>
+        <item>@string/master</item>
+        <item>@string/other</item>
+    </string-array>
+
+    <string-array name="course_choices">
+        <item>@string/course_1</item>
+        <item>@string/course_2</item>
+        <item>@string/course_3</item>
+        <item>@string/course_4</item>
+        <item>@string/other</item>
+    </string-array>
+
+    <string-array name="status_choices">
+        <item>@string/full_professor</item>
+        <item>@string/associate_professor</item>
+        <item>@string/assistant_professor</item>
+        <item>@string/adjunct_professor</item>
+        <item>@string/post_doc</item>
+        <item>@string/phd_student</item>
+        <item>@string/assistant</item>
+        <item>@string/other</item>
+    </string-array>
+
+    <string-array name="teaching_experience_choices">
+        <item>@string/teachingExperience0to5</item>
+        <item>@string/teachingExperience5to10</item>
+        <item>@string/teachingExperience10to20</item>
+        <item>@string/teachingExperience20to30</item>
+        <item>@string/teachingExperience30toAbove</item>
+    </string-array>
+
+
+    <!--Menu options-->
+    <string name="choose_account">Choose Account</string>
+    <string name="add_account">Create Account</string>
+    <string name="view_account">Manage Account</string>
+    <string name="set_e4_settings">E4 settings</string>
+    <string name="help">Help</string>
+    <string name="log_out">Log Out</string>
+
+    <string name="api_key">API Key</string>
+    <string name="empatica_name">Device Name</string>
+
+    <string name="step0">Complete surveys that pop up</string>
+    <string name="step1">Enter Empatica E4 data</string>
+    <string name="step2">Turn on Bluetooth</string>
+    <string name="step3">Turn on Empatica E4 manually</string>
+    <string name="step5">Start real-time session</string>
+    <string name="step6">End real-time session</string>
+    <string name="step7">Complete general survey</string>
+
+    <string name="enterE4Data">You first need to enter data about Empatica E4 device. Do you want to continue?</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="attend_text">Are you going to give a lecture today?</string>
+    <string name="attend_yes">Yes</string>
+    <string name="attend_no">No</string>
+    <string name="attend_title">Feelings and emotions survey time</string>
+
+</resources>

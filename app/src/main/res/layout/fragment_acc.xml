@@ -1,0 +1,39 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.android.teacher.Fragments.AccFragment"
+    android:paddingTop="60dp"
+    android:paddingBottom="40dp">
+
+   <TextView
+       android:id="@+id/acc_title"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:text="Accelereometer"
+       android:textSize="25dp"
+       android:gravity="center"
+       android:layout_marginBottom="15dp"
+       android:textColor="#ff4081"/>
+
+
+   <com.github.mikephil.charting.charts.LineChart
+       android:layout_below="@id/acc_title"
+       android:id="@+id/acc_chart"
+       android:layout_width="match_parent"
+       android:layout_height="300dp" />
+
+   <Button
+       android:id="@+id/save_acc_chart"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_marginLeft="120dp"
+       android:layout_marginTop="10dp"
+       android:layout_marginRight="120dp"
+       android:text="Save"
+       android:layout_below="@id/acc_chart"/>
+
+
+
+
+</RelativeLayout>

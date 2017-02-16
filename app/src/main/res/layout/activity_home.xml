@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.android.teacher.HomeActivity"
+    android:gravity="center_vertical"
+    android:layout_gravity="">
+
+    <TextView
+        android:id="@+id/welcome_user"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/welcome_user"
+        android:padding="30dp"
+        android:textSize="25dp"
+        android:gravity="center"/>
+
+    <LinearLayout
+        android:id="@+id/first_group"
+        android:layout_below="@id/welcome_user"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingRight="20dp"
+        android:paddingLeft="20dp">
+
+        <TextView
+            android:id="@+id/sensor_data"
+            style="@style/CategoryStyle"
+            android:background="@color/sensor_data"
+            android:gravity="center"
+            android:text="@string/sensor_data"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/survey_data"
+            style="@style/CategoryStyle"
+            android:background="@color/survey_data"
+            android:gravity="center"
+            android:text="@string/survey_data"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/second_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/first_group"
+        android:paddingRight="20dp"
+        android:paddingLeft="20dp">
+
+        <TextView
+            android:id="@+id/real_time_streaming"
+            style="@style/CategoryStyle"
+            android:background="@color/real_time_streaming"
+            android:text="@string/real_time_streaming"
+            android:gravity="center"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/student_survey_data"
+            style="@style/CategoryStyle"
+            android:background="@color/student_survey_data"
+            android:text="@string/student_survey_data"
+            android:gravity="center"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+
+
+
+    <!--<LinearLayout-->
+        <!--android:id="@+id/third_group"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:layout_below="@id/second_group"-->
+        <!--android:padding="30dp">-->
+
+
+        <!--<Button-->
+            <!--android:id="@+id/microphone_record"-->
+            <!--android:layout_width="140dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="bottom"-->
+            <!--android:text="@string/microphone_record"-->
+            <!--android:onClick="buttonPressed"-->
+            <!--android:layout_weight="1"/>-->
+
+        <!--<Button-->
+            <!--android:id="@+id/microphone_play"-->
+            <!--android:layout_width="140dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="bottom"-->
+            <!--android:onClick="buttonPressed"-->
+            <!--android:text="Play"-->
+            <!--android:layout_weight="1"/>-->
+
+    <!--</LinearLayout>-->
+
+
+
+
+</RelativeLayout>
