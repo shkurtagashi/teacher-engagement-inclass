@@ -1,6 +1,9 @@
 package com.example.android.teacher.data.Sensors;
 
+import android.database.Cursor;
 import android.provider.BaseColumns;
+
+import com.aware.providers.ESM_Provider;
 
 
 /**
@@ -27,6 +30,7 @@ public final class EdaSensorContract {
 
             return columns;
         }
+
     }
 
 }

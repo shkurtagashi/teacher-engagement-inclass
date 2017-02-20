@@ -37,25 +37,33 @@ import com.example.android.teacher.data.LocalDataStorage.DatabaseHelper;
 import com.example.android.teacher.data.LocalDataStorage.LocalDbUtility;
 import com.example.android.teacher.data.LocalDataStorage.LocalTables;
 import com.example.android.teacher.data.LocalDataStorage.SQLiteController;
+import com.example.android.teacher.data.RemoteDataStorage.Uploader;
 import com.example.android.teacher.data.User.User;
 import com.example.android.teacher.data.User.UserData;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class HomeActivity extends AppCompatActivity{
 
     public DatabaseHelper dbHelper;
+
     public static final String admin_password = "te2017";
     public String password = "";
 
     private TextView userTextView;
-
     public String username;
-    public String selectedCourses;
+
 
     Calendar calendar;
+    String weekday;
+    SimpleDateFormat dayFormat;
+    int month;
+    int dayOfMonth;
 
     MyScheduler scheduler;
     String androidID;
@@ -82,7 +90,17 @@ public class HomeActivity extends AppCompatActivity{
 
         //Toast.makeText(getApplicationContext(), "Syncing data...", Toast.LENGTH_SHORT).show();
 
+
         dbHelper = new DatabaseHelper(this);
+
+        scheduler = new MyScheduler();
+        dayFormat = new SimpleDateFormat("EEEE", Locale.US);
+        calendar = Calendar.getInstance();
+        weekday = dayFormat.format(calendar.getTime());
+        scheduler = new MyScheduler();
+        month = calendar.get(Calendar.MONTH) + 1;
+        dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+
 
         userTextView = (TextView) findViewById(R.id.welcome_user);
         TextView sensorData = (TextView) findViewById(R.id.sensor_data);
@@ -91,23 +109,25 @@ public class HomeActivity extends AppCompatActivity{
         TextView studentSurveyData = (TextView) findViewById(R.id.student_survey_data);
 
 
-        //If there is no user in the database - then assign user variable to NULL
+        /*
+        *   Set up Home page in different cases: # users in database equals to 0, 1 or more
+         */
         if(dbHelper.getUsersCount() == 0){
             UserData._username = null;
             UserData._selectedCourses = null;
 
             userTextView.append(" " + "\n Please create an account first");
             sensorData.setEnabled(false);
-            sensorData.setBackgroundColor(Color.parseColor("#BDBDBD"));
+            sensorData.setBackground(getResources().getDrawable(R.drawable.chartsdisabled));
 
             surveyData.setEnabled(false);
-            surveyData.setBackgroundColor(Color.parseColor("#BDBDBD"));
+            surveyData.setBackground(getResources().getDrawable(R.drawable.surveysdisabled));
 
             realTimeStreaming.setEnabled(false);
-            realTimeStreaming.setBackgroundColor(Color.parseColor("#BDBDBD"));
+            realTimeStreaming.setBackground(getResources().getDrawable(R.drawable.empadisabled));
 
             studentSurveyData.setEnabled(false);
-            studentSurveyData.setBackgroundColor(Color.parseColor("#BDBDBD"));
+            studentSurveyData.setBackground(getResources().getDrawable(R.drawable.classdisabled));
 
         }else if(dbHelper.getUsersCount() == 1){
             List<User> users = dbHelper.getAllUsers();
@@ -119,19 +139,18 @@ public class HomeActivity extends AppCompatActivity{
             }
         }else if(UserData._username == null && dbHelper.getUsersCount() > 1){
             userTextView.append(" " + "\n Please choose an account first");
+
             sensorData.setEnabled(false);
-            sensorData.setBackgroundColor(Color.parseColor("#BDBDBD"));
+            sensorData.setBackground(getResources().getDrawable(R.drawable.chartsdisabled));
 
             surveyData.setEnabled(false);
-            surveyData.setBackgroundColor(Color.parseColor("#BDBDBD"));
+            surveyData.setBackground(getResources().getDrawable(R.drawable.surveysdisabled));
 
             realTimeStreaming.setEnabled(false);
-            realTimeStreaming.setBackgroundColor(Color.parseColor("#BDBDBD"));
+            realTimeStreaming.setBackground(getResources().getDrawable(R.drawable.empadisabled));
 
             studentSurveyData.setEnabled(false);
-            studentSurveyData.setBackgroundColor(Color.parseColor("#BDBDBD"));
-            Log.v("HomeActivity3", "No username");
-
+            studentSurveyData.setBackground(getResources().getDrawable(R.drawable.classdisabled));
         }else{
             if(dbHelper.getUserInformation(UserData._username)._agreement.equals("No")){
                 Intent agreementForm = new Intent(HomeActivity.this, AgreementFormActivity.class);
@@ -142,70 +161,38 @@ public class HomeActivity extends AppCompatActivity{
             Log.v("HomeActivity4", "Else statement" + UserData._username);
         }
 
-
-        localController = new SQLiteController(this);
-        switchDriveController = new SwitchDriveController(getString(R.string.server_address), getString(R.string.token), getString(R.string.password));
-
         androidID = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
 
-        //Filename as: android_id_username_date
-        //Data every week
 
-        //number of tables
-//        int nbTableToClean = LocalTables.values().length;
-//        int i = 0;
-//        Cursor c;
-//        //current table to clean
-//        LocalTables currTable;
-//        String fileName;
-//
-//        while(i < nbTableToClean) {
-//            currTable = LocalTables.values()[i];
-//
-//            //build name of file to upload
-//            fileName = buildFileName(currTable);
-//
-//            //get all data currently in the table
-//            c = getRecords(currTable);
-//
-//            if (c.getCount() > 0) {
-//                c.moveToFirst();
-//
-//                //upload the data to the server
-//                int response = switchDriveController.upload(fileName, toCSV(c, currTable));
-//
-//                //if the file was put, delete records and update the arrays
-//                if (response >= 200 && response <= 207) {
-//                    //delete from the db the records where id > startId and id <= endId
-//
-//                } else {
-//                    Log.d("DATA UPLOAD SERVICE", "Owncould's response: " + Integer.toString(response));
-//                }
-//            }
-//
-//            i++;
-//        }
+        /*
+         * Trigger survey schedulers only in this period - February 20th and March 12th
+         * Upload all the data Remotely only in this period
+         */
+        if((month == 2 && dayOfMonth >=20 && dayOfMonth <= 29) || (month == 3 && dayOfMonth >=1 && dayOfMonth <= 12)){
+            //Trigger PAM and Lecture Surveys
+            if(UserData._username != null && UserData._selectedCourses != null) {
+                scheduler.createFirstPAM(this, UserData._selectedCourses);
+                scheduler.createFirstPostLectureESM(this, UserData._selectedCourses);
+                scheduler.createSecondPAM(this, UserData._selectedCourses);
+                scheduler.createSecondPostLectureESM(this, UserData._selectedCourses);
+                scheduler.createThirdPAM(this, UserData._selectedCourses);
+            }
 
+            //Upload the data everyday after 15 oclock
+            if (Calendar.getInstance().get(Calendar.HOUR_OF_DAY) >= 15) {
+                switchDriveController = new SwitchDriveController(getString(R.string.server_address), getString(R.string.token), getString(R.string.password));
+                localController = new SQLiteController(this);
+                Uploader uploader = new Uploader(androidID, switchDriveController, localController);
+                //Upload Local Tables
+                uploader.upload();
 
-        //switchDriveController = new SwitchDriveController(getString(R.string.server_address), getString(R.string.token), getString(R.string.password));
-        //int a = switchDriveController.upload(androidID, "AAAAA");
+                //Upload Data from Esms table
+                uploader.uploadAware(this);
+            }
 
-
-
-        scheduler = new MyScheduler();
-
-        if(UserData._username != null && UserData._selectedCourses != null){
-            scheduler.createFirstPAM(this, UserData._selectedCourses);
-            scheduler.createFirstPostLectureESM(this, UserData._selectedCourses);
-            scheduler.createSecondPAM(this, UserData._selectedCourses);
-            scheduler.createSecondPostLectureESM(this, UserData._selectedCourses);
-            scheduler.createThirdPAM(this, UserData._selectedCourses);
         }
 
-
         /******* Sensor Data Category ******/
-        //Find the View that shows the teacher's sensor data category
-        //Set a clicklistener on that View
         sensorData.setOnClickListener(new View.OnClickListener(){
 
             // The code in this method will be executed when the numbers View is clicked on.
@@ -248,48 +235,6 @@ public class HomeActivity extends AppCompatActivity{
         });
 
     }
-
-    private String toCSV(Cursor records, LocalTables table) {
-        String csv = "";
-        String[] columns = LocalDbUtility.getTableColumns(table);
-
-        for(int i = 0; i < columns.length; i++) {
-            csv += columns[i] + ",";
-        }
-
-        csv = csv.substring(0, csv.length()-1);
-        csv += "\n";
-
-        do {
-            for(int i = 0; i < columns.length; i++) {
-                csv += records.getString(i) + ",";
-            }
-            csv = csv.substring(0, csv.length()-1);
-            csv += "\n";
-        } while(records.moveToNext());
-        csv = csv.substring(0, csv.length()-1);
-
-        return csv;
-    }
-
-    private String buildFileName(LocalTables table) {
-        //get current date
-        String today = buildDate();
-        return androidID + "_" + today + "_" + LocalDbUtility.getTableName(table) + "_" + UserData._username + ".csv";
-    }
-
-    private String buildDate() {
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat mdformat = new SimpleDateFormat("MM-dd-yyyy");
-        return mdformat.format(calendar.getTime());
-    }
-
-    private Cursor getRecords(LocalTables table) {
-        String query = "SELECT * FROM " + LocalDbUtility.getTableName(table);
-//                " WHERE " + LocalDbUtility.getTableColumns(table)[0] + " > " + Integer.toString(getRecordId(table));
-        return localController.rawQuery(query, null);
-    }
-
 
     @Override
     public void onBackPressed() {

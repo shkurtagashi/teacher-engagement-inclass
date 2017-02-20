@@ -10,7 +10,6 @@ import java.util.concurrent.CountDownLatch;
 import javax.net.ssl.HttpsURLConnection;
 
 /**
- * Created by shkurtagashi on 09.02.17.
  * Code contribution from Luca Dotti
  */
 

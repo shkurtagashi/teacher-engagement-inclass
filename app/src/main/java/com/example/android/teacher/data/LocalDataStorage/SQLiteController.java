@@ -33,7 +33,6 @@ public class SQLiteController implements LocalStorageController {
         return cursor;
     }
 
-
     @Override
     public void insertRecords(String tableName, List<Map<String, String>> records) {
         ContentValues values;

@@ -35,12 +35,12 @@ public class MyScheduler {
 
     private int firstPamTrigger = -1; //Minutes before the lecture
 
-    private int secondPamTrigger = 1; //Minutes after the lecture starts
     private int firstESMTrigger = 2; //Minutes after the lecture starts
+    private int secondPamTrigger = 1; //Minutes after the lecture starts
     private int thirdPamTrigger = 3; //Minutes after the lecture starts
     private int secondESMTrigger = 4; //Minutes after the lecture starts
 
-    private int firstPamThreshold = 3; //Keep the notification alive x minutes after it fires
+    private int firstPamThreshold = 3; //Keep the notification alive x minutes after it fires- UNTIL 7 PM
 
     private int secondPamThreshold = 3; //Minutes after it fires
     private int firstESMThreshold = 45; //Minutes after it fires
@@ -62,7 +62,7 @@ public class MyScheduler {
 
     //Information Security on Monday from 13:30 - 17:15
     private Weekday mondayInformationSecurity1 = new Weekday(11, 13, "Monday"); //13-30 Monday
-    private Weekday mondayInformationSecurity2 = new Weekday(15, 30, "Monday"); // 15:30 Monday
+    private Weekday mondayInformationSecurity2 = new Weekday(15, 28, "Monday"); // 15:30 Monday
     private Course InformationSecurity = new Course(mondayInformationSecurity1, mondayInformationSecurity2, "Information Security");
 
     //Cyber Communication on Tuesday, Wednesday, Thursday from 10:30 - 12:15

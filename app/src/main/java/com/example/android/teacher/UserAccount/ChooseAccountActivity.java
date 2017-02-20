@@ -181,7 +181,7 @@ public class ChooseAccountActivity extends AppCompatActivity {
                         LinearLayout.LayoutParams.MATCH_PARENT,
                         LinearLayout.LayoutParams.MATCH_PARENT);
                 input.setLayoutParams(lp);
-                input.setTextColor(Color.BLACK);
+                input.setTextColor(Color.WHITE);
                 input.setTransformationMethod(PasswordTransformationMethod.getInstance());
                 input.setGravity(Gravity.CENTER);
                 alertDialog.setView(input);

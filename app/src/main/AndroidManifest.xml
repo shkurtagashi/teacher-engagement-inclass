@@ -27,30 +27,28 @@
         android:icon="@drawable/logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light"
+        android:theme="@style/Theme.AppCompat"
         tools:replace="android:icon, android:theme">
         <activity android:name=".UserAccount.AgreementFormActivity" />
         <activity android:name=".UserAccount.RegisterFormActivity" />
-
         <activity
             android:name=".HomeActivity"
-            android:theme="@style/Theme.AppCompat.Light">
+            android:theme="@style/Theme.AppCompat">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".Surveys.SurveyDataActivity" />
         <activity android:name=".Sensors.SensorDataActivity" />
         <activity android:name=".Sensors.RealTimeStreamingActivity" />
 
         <service android:name=".EmpaticaE4.EmpaticaService" />
 
-        <adapter android:name=".SimpleFragmentPagerAdapter"/>
+        <adapter android:name=".SimpleFragmentPagerAdapter" />
 
-        <activity android:name=".Sensors.MainSensorDataActivity"/>
+        <activity android:name=".Sensors.MainSensorDataActivity" />
         <activity android:name=".GraphActivity" />
         <activity android:name=".InitialActivity" />
         <activity android:name=".EmpaticaE4.EmpaticaActivity" />
@@ -71,7 +69,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
         <activity android:name=".UserAccount.ViewRegistrationFormActivity" />
         <activity android:name=".UserAccount.EditRegistrationActivity" />
         <activity android:name=".UserAccount.ChooseAccountActivity" />
