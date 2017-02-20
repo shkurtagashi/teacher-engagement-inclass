@@ -1,20 +1,11 @@
 package com.example.android.teacher;
 
-import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
-import android.media.MediaRecorder;
-import android.os.Environment;
-import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.v4.app.NavUtils;
-import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,59 +15,45 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.media.MediaPlayer;
 import android.widget.Toast;
 
 
 import com.aware.Aware;
 import com.example.android.teacher.Courses.MyScheduler;
-import com.example.android.teacher.RemoteDataStorage.RemoteStorageController;
-import com.example.android.teacher.RemoteDataStorage.SwitchDriveController;
-import com.example.android.teacher.RemoteDataStorage.Uploader;
-import com.example.android.teacher.data.DatabaseHelper;
-import com.example.android.teacher.data.LocalDbUtility;
-import com.example.android.teacher.data.LocalStorageController;
-import com.example.android.teacher.data.LocalTables;
-import com.example.android.teacher.data.SQLiteController;
-import com.example.android.teacher.data.UploaderUtilityTable;
+import com.example.android.teacher.EmpaticaE4.EmpaticaActivity;
+import com.example.android.teacher.data.RemoteDataStorage.SwitchDriveController;
+import com.example.android.teacher.Sensors.MainSensorDataActivity;
+import com.example.android.teacher.Sensors.SensorDataActivity;
+import com.example.android.teacher.Surveys.StudentSurveyDataActivity;
+import com.example.android.teacher.Surveys.SurveyDataActivity;
+import com.example.android.teacher.UserAccount.AgreementFormActivity;
+import com.example.android.teacher.UserAccount.ChooseAccountActivity;
+import com.example.android.teacher.UserAccount.RegisterFormActivity;
+import com.example.android.teacher.UserAccount.ViewRegistrationFormActivity;
+import com.example.android.teacher.data.LocalDataStorage.DatabaseHelper;
+import com.example.android.teacher.data.LocalDataStorage.LocalDbUtility;
+import com.example.android.teacher.data.LocalDataStorage.LocalTables;
+import com.example.android.teacher.data.LocalDataStorage.SQLiteController;
 import com.example.android.teacher.data.User.User;
 import com.example.android.teacher.data.User.UserData;
 
-import org.json.JSONException;
-
-import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
-
-import static android.R.attr.password;
-import static com.example.android.teacher.R.id.username;
-import static com.example.android.teacher.data.LocalTables.TABLE_NAME_USERS;
 
 public class HomeActivity extends AppCompatActivity{
 
-    //Declaration of media player, recorder and storing file.
     public DatabaseHelper dbHelper;
-    public String admin_password;
+    public static final String admin_password = "te2017";
     public String password = "";
-
-    private MediaPlayer mediaPlayer;
-    private MediaRecorder recorder;
-    private String OUTPUT_FILE;
-    private Button recordButton;
-    private Button playButton;
 
     private TextView userTextView;
 
     public String username;
-    public String course;
+    public String selectedCourses;
 
     Calendar calendar;
 
@@ -85,7 +62,6 @@ public class HomeActivity extends AppCompatActivity{
 
     SwitchDriveController switchDriveController;
     SQLiteController localController;
-    private LocalTables tableToClean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,17 +71,18 @@ public class HomeActivity extends AppCompatActivity{
         setContentView(R.layout.activity_home);
 
         //Start Aware services
-        Intent startAware = new Intent(this, Aware.class);
-        startService(startAware);
+//        Intent startAware = new Intent(this, Aware.class);
+//        startService(startAware);
         Aware.startESM(this);
         Aware.startScheduler(this);
 
-        Aware.joinStudy(this, "https://api.awareframework.com/index.php/webservice/index/1098/CySyIhauY1Yw");
+        //Aware.joinStudy(this, "https://api.awareframework.com/index.php/webservice/index/1098/CySyIhauY1Yw");
+//        Intent sync = new Intent(Aware.ACTION_AWARE_SYNC_DATA);
+//        sendBroadcast(sync);
 
+        //Toast.makeText(getApplicationContext(), "Syncing data...", Toast.LENGTH_SHORT).show();
 
         dbHelper = new DatabaseHelper(this);
-        admin_password = "admin";
-
 
         userTextView = (TextView) findViewById(R.id.welcome_user);
         TextView sensorData = (TextView) findViewById(R.id.sensor_data);
@@ -117,6 +94,8 @@ public class HomeActivity extends AppCompatActivity{
         //If there is no user in the database - then assign user variable to NULL
         if(dbHelper.getUsersCount() == 0){
             UserData._username = null;
+            UserData._selectedCourses = null;
+
             userTextView.append(" " + "\n Please create an account first");
             sensorData.setEnabled(false);
             sensorData.setBackgroundColor(Color.parseColor("#BDBDBD"));
@@ -130,19 +109,15 @@ public class HomeActivity extends AppCompatActivity{
             studentSurveyData.setEnabled(false);
             studentSurveyData.setBackgroundColor(Color.parseColor("#BDBDBD"));
 
-            Log.v("HomeActivity1", "nooo");
         }else if(dbHelper.getUsersCount() == 1){
             List<User> users = dbHelper.getAllUsers();
             for(User u: users){
                 UserData._username = u.getUsername();
                 UserData._selectedCourses = u.getCourse();
-                username = UserData._username;
-                course = UserData._selectedCourses;
-                userTextView.append(" " + username);
+                userTextView.append(" " + UserData._username);
                 Log.v("HomeActivity2", UserData._username);
             }
         }else if(UserData._username == null && dbHelper.getUsersCount() > 1){
-//            UserData._username = null;
             userTextView.append(" " + "\n Please choose an account first");
             sensorData.setEnabled(false);
             sensorData.setBackgroundColor(Color.parseColor("#BDBDBD"));
@@ -158,6 +133,11 @@ public class HomeActivity extends AppCompatActivity{
             Log.v("HomeActivity3", "No username");
 
         }else{
+            if(dbHelper.getUserInformation(UserData._username)._agreement.equals("No")){
+                Intent agreementForm = new Intent(HomeActivity.this, AgreementFormActivity.class);
+                startActivity(agreementForm);
+            }
+
             userTextView.append(" " + UserData._username);
             Log.v("HomeActivity4", "Else statement" + UserData._username);
         }
@@ -178,19 +158,15 @@ public class HomeActivity extends AppCompatActivity{
 //        //current table to clean
 //        LocalTables currTable;
 //        String fileName;
-
+//
 //        while(i < nbTableToClean) {
 //            currTable = LocalTables.values()[i];
 //
 //            //build name of file to upload
 //            fileName = buildFileName(currTable);
 //
-//            //fileName = androidID + "UsersTable";
-//
 //            //get all data currently in the table
 //            c = getRecords(currTable);
-//
-//            //        c = localController.rawQuery("SELECT * FROM users", null);
 //
 //            if (c.getCount() > 0) {
 //                c.moveToFirst();
@@ -216,21 +192,15 @@ public class HomeActivity extends AppCompatActivity{
 
 
 
-
-        //File to save the audio recording
-        OUTPUT_FILE = Environment.getExternalStorageDirectory() + "/audiorecorder.3gpp";
-
         scheduler = new MyScheduler();
 
-        if(UserData._username != null){
+        if(UserData._username != null && UserData._selectedCourses != null){
             scheduler.createFirstPAM(this, UserData._selectedCourses);
             scheduler.createFirstPostLectureESM(this, UserData._selectedCourses);
             scheduler.createSecondPAM(this, UserData._selectedCourses);
             scheduler.createSecondPostLectureESM(this, UserData._selectedCourses);
             scheduler.createThirdPAM(this, UserData._selectedCourses);
-
         }
-
 
 
         /******* Sensor Data Category ******/
@@ -324,49 +294,12 @@ public class HomeActivity extends AppCompatActivity{
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-    }
 
-    //Handles user's buttons clicks
-//    public void buttonPressed(View view){
-//        recordButton = (Button) findViewById(R.id.microphone_record);
-//        playButton = (Button) findViewById(R.id.microphone_play);
-//
-//        switch (view.getId()){
-//            case R.id.microphone_record:
-//                try {
-//                    if(recordButton.getText() == "Record"){
-//                        recordButton.setText("Stop Recording");
-//                        beginRecording();
-//                    }else{
-//                        recordButton.setText("Record");
-//                        stopRecording();
-//                    }
-//
-//                }catch(Exception e){
-//                    e.printStackTrace();
-//                }
-//                break;
-//
-//            case R.id.microphone_play:
-//                try {
-//                    if(playButton.getText() == "Play") {
-//                        playButton.setText("Stop Playing");
-//                        beginPlaying();
-//                    }
-//                    else{
-//                        playButton.setText("Play");
-//                        stopPlaying();
-//                    }
-//                }catch(Exception e){
-//                    e.printStackTrace();
-//                }
-//                break;
-//
+//        if(UserData._username != null){
+//            username = UserData._username;
 //        }
-//
-//    }
 
-
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -409,7 +342,6 @@ public class HomeActivity extends AppCompatActivity{
         switch (item.getItemId()) {
             //Respond to a click on "Create Account" menu option
             case R.id.add_account:
-
                 if(dbHelper.getUsersCount() < 1) {
                     startActivity(new Intent(this, RegisterFormActivity.class));
                     finish();
@@ -439,7 +371,7 @@ public class HomeActivity extends AppCompatActivity{
                                         startActivityForResult(intent, 0);
 
                                     } else {
-                                        Toast.makeText(getApplicationContext(), "Wrong Password! Cannot create new user", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), "Wrong Password! You cannot create new user.", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });
@@ -467,7 +399,7 @@ public class HomeActivity extends AppCompatActivity{
                         LinearLayout.LayoutParams.MATCH_PARENT,
                         LinearLayout.LayoutParams.MATCH_PARENT);
                 input.setLayoutParams(lp);
-                input.setTextColor(Color.BLACK);
+                input.setTextColor(Color.WHITE);
                 input.setTransformationMethod(PasswordTransformationMethod.getInstance());
                 input.setGravity(Gravity.CENTER);
                 alertDialog.setView(input);
@@ -483,7 +415,7 @@ public class HomeActivity extends AppCompatActivity{
                                     startActivityForResult(intent, 0);
 
                                 } else {
-                                    Toast.makeText(getApplicationContext(), "Wrong Password! Cannot create new user", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "Wrong Password! You cannot choose account.", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
@@ -535,66 +467,4 @@ public class HomeActivity extends AppCompatActivity{
         }
         return super.onOptionsItemSelected(item);
     }
-
-
-    //Records voice
-    private void beginRecording() throws Exception{
-
-        ditchMediaRecorder();
-        File outputFile = new File(OUTPUT_FILE);
-
-        if(outputFile.exists()){
-            outputFile.delete();
-        }
-
-        recorder = new MediaRecorder();
-        recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
-        recorder.setOutputFile(OUTPUT_FILE);
-        recorder.prepare();
-        recorder.start();
-
-    }
-
-    private void stopRecording(){
-        if(recorder != null){
-            recorder.stop();
-        }
-
-    }
-
-    private void beginPlaying() throws Exception{
-        ditchMediaPlayer();
-        mediaPlayer = new MediaPlayer();
-        mediaPlayer.setDataSource(OUTPUT_FILE);
-        mediaPlayer.prepare();
-        mediaPlayer.start();
-
-
-    }
-
-    private void stopPlaying(){
-        if(mediaPlayer != null){
-            mediaPlayer.stop();
-        }
-    }
-
-    private void ditchMediaRecorder(){
-        if(recorder != null){
-            recorder.release();
-        }
-    }
-
-    private void ditchMediaPlayer(){
-        if(mediaPlayer != null){
-            try {
-                mediaPlayer.release();
-            }catch(Exception e){
-                e.printStackTrace();
-            }
-        }
-    }
-
-
 }

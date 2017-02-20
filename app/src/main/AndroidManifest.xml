@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -21,47 +22,38 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@drawable/logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
+        android:theme="@style/Theme.AppCompat.Light"
         tools:replace="android:icon, android:theme">
-        <activity android:name=".AgreementFormActivity" />
-        <activity android:name=".RegisterFormActivity" />
+        <activity android:name=".UserAccount.AgreementFormActivity" />
+        <activity android:name=".UserAccount.RegisterFormActivity" />
+
         <activity
             android:name=".HomeActivity"
-            android:theme="@style/AppTheme">
+            android:theme="@style/Theme.AppCompat.Light">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SurveyDataActivity" />
-        <activity
-            android:name=".SensorDataActivity"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".RealTimeStreamingActivity"
-            android:theme="@style/AppTheme" />
 
-        <service android:name=".EmpaticaService" />
+        <activity android:name=".Surveys.SurveyDataActivity" />
+        <activity android:name=".Sensors.SensorDataActivity" />
+        <activity android:name=".Sensors.RealTimeStreamingActivity" />
 
-        <adapter
-            android:name=".SimpleFragmentPagerAdapter"
-            android:theme="@style/AppTheme" />
+        <service android:name=".EmpaticaE4.EmpaticaService" />
 
-        <activity
-            android:name=".MainSensorDataActivity"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".GraphActivity"
-            android:theme="@style/AppTheme" />
+        <adapter android:name=".SimpleFragmentPagerAdapter"/>
+
+        <activity android:name=".Sensors.MainSensorDataActivity"/>
+        <activity android:name=".GraphActivity" />
         <activity android:name=".InitialActivity" />
-        <activity android:name=".EmpaticaActivity" />
+        <activity android:name=".EmpaticaE4.EmpaticaActivity" />
         <activity android:name=".HelpActivity" />
         <activity
             android:name="com.dropbox.client2.android.AuthActivity"
@@ -79,16 +71,11 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".DatabaseTestActivity" />
-        <activity android:name=".PhotoGrid.PhotoGridActivity" />
 
-        <receiver android:name=".PhotoGrid.GridReceiver" />
-
-        <activity android:name=".ViewRegistrationFormActivity" />
-        <activity android:name=".EditRegistrationActivity" />
-        <activity android:name=".ChooseAccountActivity" />
-        <activity android:name=".AwareTest.TestActivity" />
-        <activity android:name=".StudentSurveyDataActivity"></activity>
+        <activity android:name=".UserAccount.ViewRegistrationFormActivity" />
+        <activity android:name=".UserAccount.EditRegistrationActivity" />
+        <activity android:name=".UserAccount.ChooseAccountActivity" />
+        <activity android:name=".Surveys.StudentSurveyDataActivity" />
     </application>
 
 </manifest>

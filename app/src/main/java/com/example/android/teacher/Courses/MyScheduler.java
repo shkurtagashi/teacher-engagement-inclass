@@ -48,30 +48,32 @@ public class MyScheduler {
     private int thirdPamThreshold = 60; //Minutes after it fires
     private int secondESMThreshold = 60; //Minutes after it fires
 
+    //Programming Fundamentals 2 - Monday, Wednesday, Friday 10:30 - 12:15
+    private Weekday mondayProgrammingFundamentals2 = new Weekday(10, 30, "Monday");
+    private Weekday wednesdayProgrammingFundamentals2 = new Weekday(10, 30, "Wednesday");
+    private Weekday fridayProgrammingFundamentals3 = new Weekday(10, 30, "Friday");
+    private Course programmingFundamentals = new Course(mondayProgrammingFundamentals2, wednesdayProgrammingFundamentals2, fridayProgrammingFundamentals3, "Programming Fundamentals 2");
 
 
-
-    //Test Course 4
-    private Weekday testCourseDay1 = new Weekday(13, 50, "Tuesday");
-    private Weekday testCourseDay2 = new Weekday(14, 15, "Thursday");
-    private Course testCourse = new Course(testCourseDay1, testCourseDay2, "Course 4");
-
+    //Linear Algebra - Monday, Wednesday 8:30 - 10:15
+    private Weekday mondayLinearAlgebra = new Weekday(8, 30, "Monday");
+    private Weekday wednesdayLinearAlgebra = new Weekday(8, 30, "Wednesday");
+    private Course linearAlgebra = new Course(mondayLinearAlgebra, wednesdayLinearAlgebra, "Linear Algebra");
 
     //Information Security on Monday from 13:30 - 17:15
-    private Weekday mondayInformationSecurity1 = new Weekday(11, 23, "Thursday"); //13-30 Monday
-    private Weekday mondayInformationSecurity2 = new Weekday(20, 10, "Monday"); // 15:30 Monday
+    private Weekday mondayInformationSecurity1 = new Weekday(11, 13, "Monday"); //13-30 Monday
+    private Weekday mondayInformationSecurity2 = new Weekday(15, 30, "Monday"); // 15:30 Monday
     private Course InformationSecurity = new Course(mondayInformationSecurity1, mondayInformationSecurity2, "Information Security");
 
-
     //Cyber Communication on Tuesday, Wednesday, Thursday from 10:30 - 12:15
-    private Weekday tuesdayCyberCommunication = new Weekday(22, 15, "Tuesday");
-    private Weekday wednesdayCyberCommunication = new Weekday(20, 53, "Monday");
-    private Weekday thursdayCyberCommunication = new Weekday(20, 54, "Monday");
+    private Weekday tuesdayCyberCommunication = new Weekday(10, 30, "Tuesday");
+    private Weekday wednesdayCyberCommunication = new Weekday(10, 30, "Wednesday");
+    private Weekday thursdayCyberCommunication = new Weekday(10, 30, "Thursday");
     private Course CyberCommunication = new Course(tuesdayCyberCommunication, wednesdayCyberCommunication, thursdayCyberCommunication, "Cyber Communication");
 
     //Software Architecture on Tuesday and Thursday from 13:30 - 15:15
-    private Weekday tuesdaySoftwareArchitecture = new Weekday(21, 10, "Sunday");
-    private Weekday thursdaySoftwareArchitecture = new Weekday(21, 13, "Sunday");
+    private Weekday tuesdaySoftwareArchitecture = new Weekday(13, 30, "Tuesday");
+    private Weekday thursdaySoftwareArchitecture = new Weekday(13, 30, "Thursday");
     private Course SoftwareArchitecture = new Course(tuesdaySoftwareArchitecture, thursdaySoftwareArchitecture, "Software Architecture and Design");
 
 
@@ -79,8 +81,6 @@ public class MyScheduler {
     ////Create first PAM 15 minutes before the lecture starts and remove notification 15 after it starts
     //Take the course from the logged in user, the day from the Calendar
     public void createFirstPAM(Context context, String userCourses){
-        Aware.joinStudy(context, "https://api.awareframework.com/index.php/webservice/index/1098/CySyIhauY1Yw");
-
         try {
 
             ESMFactory factory = new ESMFactory();
@@ -91,24 +91,14 @@ public class MyScheduler {
             q1.setNotificationRetry(3);
             q1.setNotificationTimeout(60*firstPamThreshold); //Different in x cases
 
-            ESM_QuickAnswer esmQuickAnswer2 = new ESM_QuickAnswer();
-            esmQuickAnswer2.addQuickAnswer("Finish")
-                    .setTitle("Cookies on the way ...")
-                    .setExpirationThreshold(60*firstPamThreshold)
-                    .setInstructions("Thank you very much for your participation!");
-
-
             factory.addESM(q1);
-            factory.addESM(esmQuickAnswer2);
 
-           // if(!UserData._username.equals("")){
-
-            if(userCourses.contains(testCourse.getName())){
-                q1.setInstructions("Pick the closest to how you feel now after first part of " + testCourse.getName() + " lecture!");
+            if(userCourses.contains(linearAlgebra.getName())){
+                q1.setInstructions("Pick the closest to how you feel now before the " + linearAlgebra.getName() + " lecture!");
                 Schedule first_pam = new Schedule("first_pam" + UserData._username);
-                first_pam.addWeekday(testCourse.getWeekday1()._DAY);
-                first_pam.addHour(testCourse.getWeekday1()._HOUR);
-                first_pam.addMinute(testCourse.getWeekday1()._MINUTE + firstPamTrigger);
+                first_pam.addWeekday(linearAlgebra.getWeekday1()._DAY);
+                first_pam.addHour(linearAlgebra.getWeekday1()._HOUR);
+                first_pam.addMinute(linearAlgebra.getWeekday1()._MINUTE + firstPamTrigger);
 
                 first_pam.setActionType(Scheduler.ACTION_TYPE_BROADCAST);
                 first_pam.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
@@ -117,9 +107,9 @@ public class MyScheduler {
                 Scheduler.saveSchedule(context, first_pam);
 
                 Schedule first_pam0 = new Schedule("first_pam0" + UserData._username);
-                first_pam0.addWeekday(testCourse.getWeekday2()._DAY);
-                first_pam0.addHour(testCourse.getWeekday2()._HOUR);
-                first_pam0.addMinute(testCourse.getWeekday2()._MINUTE + firstPamTrigger);
+                first_pam0.addWeekday(linearAlgebra.getWeekday2()._DAY);
+                first_pam0.addHour(linearAlgebra.getWeekday2()._HOUR);
+                first_pam0.addMinute(linearAlgebra.getWeekday2()._MINUTE + firstPamTrigger);
 
                 first_pam0.setActionType(Scheduler.ACTION_TYPE_BROADCAST);
                 first_pam0.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
@@ -127,6 +117,7 @@ public class MyScheduler {
 
                 Scheduler.saveSchedule(context, first_pam0);
             }
+
 
             if (userCourses.contains(InformationSecurity.getName())) {
                 q1.setInstructions("Pick the closest to how you feel now before the " + InformationSecurity.getName() + " lecture!");
@@ -218,8 +209,43 @@ public class MyScheduler {
                 com.aware.utils.Scheduler.saveSchedule(context, first_pam7);
             }
 
-            factory.addESM(q1);
-            factory.addESM(esmQuickAnswer2);
+            if(userCourses.contains(programmingFundamentals.getName())){
+                q1.setInstructions("Pick the closest to how you feel right now before the " + programmingFundamentals.getName() + " lecture");
+
+                Schedule first_pam8 = new Schedule("first_pam8" + UserData._username);
+                first_pam8.addWeekday(programmingFundamentals.getWeekday1()._DAY);
+                first_pam8.addHour(programmingFundamentals.getWeekday1()._HOUR);
+                first_pam8.addMinute(programmingFundamentals.getWeekday1()._MINUTE + firstPamTrigger);
+
+                first_pam8.setActionType(Scheduler.ACTION_TYPE_BROADCAST);
+                first_pam8.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
+                first_pam8.addActionExtra(ESM.EXTRA_ESM, factory.build());
+
+                Scheduler.saveSchedule(context, first_pam8);
+
+                Schedule first_pam9 = new Schedule("first_pam9" + UserData._username);
+                first_pam9.addWeekday(programmingFundamentals.getWeekday2()._DAY);
+                first_pam9.addHour(programmingFundamentals.getWeekday2()._HOUR);
+                first_pam9.addMinute(programmingFundamentals.getWeekday2()._MINUTE + firstPamTrigger);
+
+                first_pam9.setActionType(Scheduler.ACTION_TYPE_BROADCAST);
+                first_pam9.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
+                first_pam9.addActionExtra(ESM.EXTRA_ESM, factory.build());
+
+                Scheduler.saveSchedule(context, first_pam9);
+
+                Schedule first_pam10 = new Schedule("first_pam10" + UserData._username);
+                first_pam10.addWeekday(programmingFundamentals.getWeekday3()._DAY);
+                first_pam10.addHour(programmingFundamentals.getWeekday3()._HOUR);
+                first_pam10.addMinute(programmingFundamentals.getWeekday3()._MINUTE + firstPamTrigger);
+
+                first_pam10.setActionType(Scheduler.ACTION_TYPE_BROADCAST);
+                first_pam10.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
+                first_pam10.addActionExtra(ESM.EXTRA_ESM, factory.build());
+
+                Scheduler.saveSchedule(context, first_pam10);
+            }
+
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -229,8 +255,6 @@ public class MyScheduler {
 
     ////Create second PAM 5 minutes before the beak and remove notification 5 after break
     public void createSecondPAM(Context context, String userCourses){
-        Aware.joinStudy(context, "https://api.awareframework.com/index.php/webservice/index/1098/CySyIhauY1Yw");
-
         try {
 
             ESMFactory factory = new ESMFactory();
@@ -240,28 +264,23 @@ public class MyScheduler {
             q1.setSubmitButton("Done");
             q1.setNotificationTimeout(60*secondPamThreshold); //How long does the notification last?
 
-            ESM_QuickAnswer esmQuickAnswer2 = new ESM_QuickAnswer();
-            esmQuickAnswer2.addQuickAnswer("Finish")
-                    .setTitle("Cookies on the way ...")
-                    .setExpirationThreshold(60*firstPamThreshold)
-                    .setInstructions("Thank you very much for your participation!");
+//            ESM_QuickAnswer esmQuickAnswer2 = new ESM_QuickAnswer();
+//            esmQuickAnswer2.addQuickAnswer("Finish")
+//                    .setTitle("Cookies on the way ...")
+//                    .setExpirationThreshold(60*firstPamThreshold)
+//                    .setInstructions("Thank you very much for your participation!");
 
 
             factory.addESM(q1);
-            factory.addESM(esmQuickAnswer2);
+//            factory.addESM(esmQuickAnswer2);
 
 
-//
-//            com.aware.utils.Scheduler.Schedule second_pam = com.aware.utils.Scheduler.getSchedule(context, "second_pam");
-//            com.aware.utils.Scheduler.Schedule second_pam2 = com.aware.utils.Scheduler.getSchedule(context, "second_pam2");
-//            com.aware.utils.Scheduler.Schedule second_pam3 = com.aware.utils.Scheduler.getSchedule(context, "second_pam3");
-
-            if(userCourses.contains(testCourse.getName())){
-                q1.setInstructions("Pick the closest to how you feel now after first part of " + testCourse.getName() + " lecture!");
+            if(userCourses.contains(linearAlgebra.getName())){
+                q1.setInstructions("Pick the closest to how you feel now after first part of " + linearAlgebra.getName() + " lecture!");
                 Schedule second_pam1 = new Schedule("second_pam1" + UserData._username);
-                second_pam1.addWeekday(testCourse.getWeekday1()._DAY);
-                second_pam1.addHour(testCourse.getWeekday1()._HOUR);
-                second_pam1.addMinute(testCourse.getWeekday1()._MINUTE + secondPamTrigger);
+                second_pam1.addWeekday(linearAlgebra.getWeekday1()._DAY);
+                second_pam1.addHour(linearAlgebra.getWeekday1()._HOUR);
+                second_pam1.addMinute(linearAlgebra.getWeekday1()._MINUTE + secondPamTrigger);
 
                 second_pam1.setActionType(Scheduler.ACTION_TYPE_BROADCAST);
                 second_pam1.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
@@ -270,9 +289,9 @@ public class MyScheduler {
                 Scheduler.saveSchedule(context, second_pam1);
 
                 Schedule second_pam2 = new Schedule("second_pam2" + UserData._username);
-                second_pam2.addWeekday(testCourse.getWeekday2()._DAY);
-                second_pam2.addHour(testCourse.getWeekday2()._HOUR);
-                second_pam2.addMinute(testCourse.getWeekday2()._MINUTE + secondPamTrigger);
+                second_pam2.addWeekday(linearAlgebra.getWeekday2()._DAY);
+                second_pam2.addHour(linearAlgebra.getWeekday2()._HOUR);
+                second_pam2.addMinute(linearAlgebra.getWeekday2()._MINUTE + secondPamTrigger);
 
                 second_pam2.setActionType(Scheduler.ACTION_TYPE_BROADCAST);
                 second_pam2.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
@@ -375,8 +394,45 @@ public class MyScheduler {
 
             }
 
-            factory.addESM(q1);
-            factory.addESM(esmQuickAnswer2);
+            if(userCourses.contains(programmingFundamentals.getName())){
+                q1.setInstructions("Pick the closest to how you feel right now after the first lecture of " + programmingFundamentals.getName() + "!");
+
+                Schedule second_pam10 = new Schedule("second_pam10" + UserData._username);
+                second_pam10.addWeekday(programmingFundamentals.getWeekday1()._DAY);
+                second_pam10.addHour(programmingFundamentals.getWeekday1()._HOUR);
+                second_pam10.addMinute(programmingFundamentals.getWeekday1()._MINUTE + secondPamTrigger);
+
+                second_pam10.setActionType(Scheduler.ACTION_TYPE_BROADCAST);
+                second_pam10.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
+                second_pam10.addActionExtra(ESM.EXTRA_ESM, factory.build());
+
+                Scheduler.saveSchedule(context, second_pam10);
+
+                Schedule second_pam11 = new Schedule("second_pam11" + UserData._username);
+                second_pam11.addWeekday(programmingFundamentals.getWeekday2()._DAY);
+                second_pam11.addHour(programmingFundamentals.getWeekday2()._HOUR);
+                second_pam11.addMinute(programmingFundamentals.getWeekday2()._MINUTE + secondPamTrigger);
+
+                second_pam11.setActionType(Scheduler.ACTION_TYPE_BROADCAST);
+                second_pam11.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
+                second_pam11.addActionExtra(ESM.EXTRA_ESM, factory.build());
+
+                Scheduler.saveSchedule(context, second_pam11);
+
+                Schedule second_pam12 = new Schedule("second_pam12" + UserData._username);
+                second_pam12.addWeekday(programmingFundamentals.getWeekday3()._DAY);
+                second_pam12.addHour(programmingFundamentals.getWeekday3()._HOUR);
+                second_pam12.addMinute(programmingFundamentals.getWeekday3()._MINUTE + secondPamTrigger);
+
+                second_pam12.setActionType(Scheduler.ACTION_TYPE_BROADCAST);
+                second_pam12.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
+                second_pam12.addActionExtra(ESM.EXTRA_ESM, factory.build());
+
+                Scheduler.saveSchedule(context, second_pam12);
+            }
+
+//            factory.addESM(q1);
+//            factory.addESM(esmQuickAnswer2);
 
 
         } catch (JSONException e) {
@@ -387,8 +443,6 @@ public class MyScheduler {
 
     ////Create second PAM 5 minutes before the beak and remove notification 5 after break
     public void createThirdPAM(Context context, String userCourses){
-        Aware.joinStudy(context, "https://api.awareframework.com/index.php/webservice/index/1098/CySyIhauY1Yw");
-
         try {
 
             ESMFactory factory = new ESMFactory();
@@ -398,23 +452,23 @@ public class MyScheduler {
             q1.setSubmitButton("Done");
             q1.setNotificationTimeout(60*thirdPamThreshold); //How long does the notification last?
 
-            ESM_QuickAnswer esmQuickAnswer2 = new ESM_QuickAnswer();
-            esmQuickAnswer2.addQuickAnswer("Finish")
-                    .setTitle("Cookies on the way ...")
-                    .setExpirationThreshold(60*firstPamThreshold)
-                    .setInstructions("Thank you very much for your participation!");
+//            ESM_QuickAnswer esmQuickAnswer2 = new ESM_QuickAnswer();
+//            esmQuickAnswer2.addQuickAnswer("Finish")
+//                    .setTitle("Cookies on the way ...")
+//                    .setExpirationThreshold(60*firstPamThreshold)
+//                    .setInstructions("Thank you very much for your participation!");
 
 
             factory.addESM(q1);
-            factory.addESM(esmQuickAnswer2);
+//            factory.addESM(esmQuickAnswer2);
 
 
-            if(userCourses.contains(testCourse.getName())){
-                q1.setInstructions("Pick the closest to how you feel now after second part of " + testCourse.getName() + " lecture!");
+            if(userCourses.contains(linearAlgebra.getName())){
+                q1.setInstructions("Pick the closest to how you feel now after second part of " + linearAlgebra.getName() + " lecture!");
                 Schedule third_pam1 = new Schedule("third_pam1" + UserData._username);
-                third_pam1.addWeekday(testCourse.getWeekday1()._DAY);
-                third_pam1.addHour(testCourse.getWeekday1()._HOUR);
-                third_pam1.addMinute(testCourse.getWeekday1()._MINUTE + thirdPamTrigger);
+                third_pam1.addWeekday(linearAlgebra.getWeekday1()._DAY);
+                third_pam1.addHour(linearAlgebra.getWeekday1()._HOUR);
+                third_pam1.addMinute(linearAlgebra.getWeekday1()._MINUTE + thirdPamTrigger);
 
                 third_pam1.setActionType(Scheduler.ACTION_TYPE_BROADCAST);
                 third_pam1.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
@@ -423,9 +477,9 @@ public class MyScheduler {
                 Scheduler.saveSchedule(context, third_pam1);
 
                 Schedule third_pam2 = new Schedule("third_pam2" + UserData._username);
-                third_pam2.addWeekday(testCourse.getWeekday2()._DAY);
-                third_pam2.addHour(testCourse.getWeekday2()._HOUR);
-                third_pam2.addMinute(testCourse.getWeekday2()._MINUTE + thirdPamTrigger);
+                third_pam2.addWeekday(linearAlgebra.getWeekday2()._DAY);
+                third_pam2.addHour(linearAlgebra.getWeekday2()._HOUR);
+                third_pam2.addMinute(linearAlgebra.getWeekday2()._MINUTE + thirdPamTrigger);
 
                 third_pam2.setActionType(Scheduler.ACTION_TYPE_BROADCAST);
                 third_pam2.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
@@ -526,8 +580,45 @@ public class MyScheduler {
 
             }
 
-            factory.addESM(q1);
-            factory.addESM(esmQuickAnswer2);
+            if(userCourses.contains(programmingFundamentals.getName())){
+                q1.setInstructions("Pick the closest to how you feel right now after the second lecture of " + programmingFundamentals.getName() + "!");
+
+                Schedule third_pam10 = new Schedule("third_pam10" + UserData._username);
+                third_pam10.addWeekday(programmingFundamentals.getWeekday1()._DAY);
+                third_pam10.addHour(programmingFundamentals.getWeekday1()._HOUR);
+                third_pam10.addMinute(programmingFundamentals.getWeekday1()._MINUTE + secondPamTrigger);
+
+                third_pam10.setActionType(Scheduler.ACTION_TYPE_BROADCAST);
+                third_pam10.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
+                third_pam10.addActionExtra(ESM.EXTRA_ESM, factory.build());
+
+                Scheduler.saveSchedule(context, third_pam10);
+
+                Schedule third_pam11 = new Schedule("third_pam11" + UserData._username);
+                third_pam11.addWeekday(programmingFundamentals.getWeekday2()._DAY);
+                third_pam11.addHour(programmingFundamentals.getWeekday2()._HOUR);
+                third_pam11.addMinute(programmingFundamentals.getWeekday2()._MINUTE + secondPamTrigger);
+
+                third_pam11.setActionType(Scheduler.ACTION_TYPE_BROADCAST);
+                third_pam11.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
+                third_pam11.addActionExtra(ESM.EXTRA_ESM, factory.build());
+
+                Scheduler.saveSchedule(context, third_pam11);
+
+                Schedule third_pam12 = new Schedule("third_pam12" + UserData._username);
+                third_pam12.addWeekday(programmingFundamentals.getWeekday3()._DAY);
+                third_pam12.addHour(programmingFundamentals.getWeekday3()._HOUR);
+                third_pam12.addMinute(programmingFundamentals.getWeekday3()._MINUTE + secondPamTrigger);
+
+                third_pam12.setActionType(Scheduler.ACTION_TYPE_BROADCAST);
+                third_pam12.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
+                third_pam12.addActionExtra(ESM.EXTRA_ESM, factory.build());
+
+                Scheduler.saveSchedule(context, third_pam12);
+            }
+
+//            factory.addESM(q1);
+//            factory.addESM(esmQuickAnswer2);
 
 
         } catch (JSONException e) {
@@ -538,56 +629,43 @@ public class MyScheduler {
 
     ////Create first post lecture survey
     public void createFirstPostLectureESM(Context context, String userCourses) {
-        Aware.joinStudy(context, "https://api.awareframework.com/index.php/webservice/index/1098/CySyIhauY1Yw");
-
         try {
 
             ESMFactory factory = new ESMFactory();
 
             ESM_Radio esmRadio1 = new ESM_Radio();
-            esmRadio1.setNotificationTimeout(60 * firstESMThreshold)
-                    .setInstructions("I felt confident with the topic I explained in this lecture.");
+            esmRadio1.setInstructions("I loved teaching this lecture.");
+            esmRadio1.setTitle("Post Lecture Survey (1/5)");
 
 
             ESM_Radio esmRadio2 = new ESM_Radio();
-            esmRadio2.setNotificationTimeout(60 * firstESMThreshold)
-                    .setInstructions("I like the topic I explained in this lecture.");
+            esmRadio2.setInstructions("I was excited about teaching this lecture.");
+            esmRadio2.setTitle("Post Lecture Survey (2/5)");
+
 
             ESM_Radio esmRadio3 = new ESM_Radio();
-            esmRadio3.setNotificationTimeout(60 * firstESMThreshold)
-                    .setInstructions("I was anxious while I was explaining this lecture.");
+            esmRadio3.setInstructions("I felt happy while teaching this lecture.");
+            esmRadio3.setTitle("Post Lecture Survey (3/5)");
 
             ESM_Radio esmRadio4 = new ESM_Radio();
-            esmRadio4.setNotificationTimeout(60 * firstESMThreshold)
-                    .setInstructions("I loved teaching this lecture.");
-
-            ESM_Radio esmRadio5 = new ESM_Radio();
-            esmRadio5.setNotificationTimeout(60 * firstESMThreshold)
-                    .setInstructions("I was excited about teaching this lecture.");
-
-            ESM_Radio esmRadio6 = new ESM_Radio();
-            esmRadio6.setNotificationTimeout(60 * firstESMThreshold)
-                    .setInstructions("I felt happy while I was teaching this lecture.");
-
+            esmRadio4.setInstructions("I found teaching this lecture fun.");
+            esmRadio4.setTitle("Post Lecture Survey (4/5)");
 
             ESM_Freetext esmFreeText = new ESM_Freetext();
-            esmFreeText.setTitle("Survey about first lecture")
-                    .setNotificationTimeout(60 * firstESMThreshold)
+            esmFreeText.setTitle("Post Lecture Survey")
+                    .setSubmitButton("Finish")
+                    .setExpirationThreshold(60*firstESMThreshold)
                     .setInstructions("Please describe the moment(s) during which you felt particularly engaged");
+
 
             ESM_QuickAnswer esmQuickAnswer = new ESM_QuickAnswer();
             esmQuickAnswer.addQuickAnswer("Yes")
                     .addQuickAnswer("No")
-                    .setTitle("Survey about first lecture")
-                    .setNotificationTimeout(60 * firstESMThreshold)
+                    .setTitle("Post Lecture Survey (5/5)")
+                    .setExpirationThreshold(60*firstESMThreshold)
                     .setInstructions("Did you feel particularly engaged in one or more moments during the lecture?")
                     .addFlow("Yes", esmFreeText.build());
 
-            ESM_QuickAnswer esmQuickAnswer2 = new ESM_QuickAnswer();
-            esmQuickAnswer2.addQuickAnswer("Finish")
-                    .setTitle("Cookies on the way ...")
-                    .setExpirationThreshold(60*firstPamThreshold)
-                    .setInstructions("Thank you very much for your participation!");
 
 
             ArrayList<ESM_Radio> esms = new ArrayList<>();
@@ -595,8 +673,6 @@ public class MyScheduler {
             esms.add(esmRadio2);
             esms.add(esmRadio3);
             esms.add(esmRadio4);
-            esms.add(esmRadio5);
-            esms.add(esmRadio6);
 
             for (ESM_Radio esmRadio : esms) {
                 esmRadio.addRadio("Strongly Agree")
@@ -612,28 +688,24 @@ public class MyScheduler {
             factory.addESM(esmRadio2);
             factory.addESM(esmRadio3);
             factory.addESM(esmRadio4);
-            factory.addESM(esmRadio5);
-            factory.addESM(esmRadio6);
             factory.addESM(esmQuickAnswer);
-            factory.addESM(esmQuickAnswer2);
 
 
 
-            if (userCourses.contains(testCourse.getName())) {
-                esmRadio1.setTitle("Survey about the first lecture in " + testCourse.getName() + " (1/7)");
-                esmRadio2.setTitle("Survey about the first lecture in " + testCourse.getName() + " (2/7)");
-                esmRadio3.setTitle("Survey about the first lecture in " + testCourse.getName() + " (3/7)");
-                esmRadio4.setTitle("Survey about the first lecture in " + testCourse.getName() + " (4/7)");
-                esmRadio5.setTitle("Survey about the first lecture in " + testCourse.getName() + " (5/7)");
-                esmRadio6.setTitle("Survey about the first lecture in " + testCourse.getName() + " (6/7)");
-                esmQuickAnswer.setTitle("Survey about the first lecture in " + testCourse.getName());
-                esmFreeText.setTitle("Survey about the first lecture in " + testCourse.getName() + " (7/7)");
+
+            if (userCourses.contains(linearAlgebra.getName())) {
+                esmRadio1.setTitle("Survey about the first lecture in " + linearAlgebra.getName() + " (1/5)");
+                esmRadio2.setTitle("Survey about the first lecture in " + linearAlgebra.getName() + " (2/5)");
+                esmRadio3.setTitle("Survey about the first lecture in " + linearAlgebra.getName() + " (3/5)");
+                esmRadio4.setTitle("Survey about the first lecture in " + linearAlgebra.getName() + " (4/5)");
+                esmQuickAnswer.setTitle("Survey about the first lecture in " + linearAlgebra.getName());
+                esmFreeText.setTitle("Survey about the first lecture in " + linearAlgebra.getName() + " (5/5)");
 
                 Schedule first_esm1 = new Schedule("first_esm1" + UserData._username);
 
-                first_esm1.addWeekday(testCourse.getWeekday1()._DAY);
-                first_esm1.addHour(testCourse.getWeekday1()._HOUR);
-                first_esm1.addMinute(testCourse.getWeekday1()._MINUTE + firstESMTrigger);
+                first_esm1.addWeekday(linearAlgebra.getWeekday1()._DAY);
+                first_esm1.addHour(linearAlgebra.getWeekday1()._HOUR);
+                first_esm1.addMinute(linearAlgebra.getWeekday1()._MINUTE + firstESMTrigger);
 
                 first_esm1.setActionType(Scheduler.ACTION_TYPE_BROADCAST);
                 first_esm1.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
@@ -643,9 +715,9 @@ public class MyScheduler {
 
                 Schedule first_esm2 = new Schedule("first_esm2" + UserData._username);
 
-                first_esm2.addWeekday(testCourse.getWeekday2()._DAY);
-                first_esm2.addHour(testCourse.getWeekday2()._HOUR);
-                first_esm2.addMinute(testCourse.getWeekday2()._MINUTE + firstESMTrigger);
+                first_esm2.addWeekday(linearAlgebra.getWeekday2()._DAY);
+                first_esm2.addHour(linearAlgebra.getWeekday2()._HOUR);
+                first_esm2.addMinute(linearAlgebra.getWeekday2()._MINUTE + firstESMTrigger);
 
                 first_esm2.setActionType(Scheduler.ACTION_TYPE_BROADCAST);
                 first_esm2.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
@@ -655,14 +727,12 @@ public class MyScheduler {
             }
 
             if (userCourses.contains(InformationSecurity.getName())) {
-                esmRadio1.setTitle("Survey about the first lecture in " + InformationSecurity.getName() + " (1/7)");
-                esmRadio2.setTitle("Survey about the first lecture in " + InformationSecurity.getName() + " (2/7)");
-                esmRadio3.setTitle("Survey about the first lecture in " + InformationSecurity.getName() + " (3/7)");
-                esmRadio4.setTitle("Survey about the first lecture in " + InformationSecurity.getName() + " (4/7)");
-                esmRadio5.setTitle("Survey about the first lecture in " + InformationSecurity.getName() + " (5/7)");
-                esmRadio6.setTitle("Survey about the first lecture in " + InformationSecurity.getName() + " (6/7)");
+                esmRadio1.setTitle("Survey about the first lecture in " + InformationSecurity.getName() + " (1/5)");
+                esmRadio2.setTitle("Survey about the first lecture in " + InformationSecurity.getName() + " (2/5)");
+                esmRadio3.setTitle("Survey about the first lecture in " + InformationSecurity.getName() + " (3/5)");
+                esmRadio4.setTitle("Survey about the first lecture in " + InformationSecurity.getName() + " (4/5)");
                 esmQuickAnswer.setTitle("Survey about the first lecture in " + InformationSecurity.getName());
-                esmFreeText.setTitle("Survey about the first lecture in " + InformationSecurity.getName() + " (7/7)");
+                esmFreeText.setTitle("Survey about the first lecture in " + InformationSecurity.getName() + " (5/5)");
 
                 Schedule first_esm3 = new Schedule("first_esm3" + UserData._username);
                 first_esm3.addWeekday(mondayInformationSecurity1._DAY);
@@ -688,14 +758,12 @@ public class MyScheduler {
             }
 
             if (userCourses.contains(CyberCommunication.getName())) {
-                esmRadio1.setTitle("Survey about the first lecture in " + CyberCommunication.getName() + " (1/7)");
-                esmRadio2.setTitle("Survey about the first lecture in " + CyberCommunication.getName() + " (2/7)");
-                esmRadio3.setTitle("Survey about the first lecture in " + CyberCommunication.getName() + " (3/7)");
-                esmRadio4.setTitle("Survey about the first lecture in " + CyberCommunication.getName() + " (4/7)");
-                esmRadio5.setTitle("Survey about the first lecture in " + CyberCommunication.getName() + " (5/7)");
-                esmRadio6.setTitle("Survey about the first lecture in " + CyberCommunication.getName() + " (6/7)");
+                esmRadio1.setTitle("Survey about the first lecture in " + CyberCommunication.getName() + " (1/5)");
+                esmRadio2.setTitle("Survey about the first lecture in " + CyberCommunication.getName() + " (2/5)");
+                esmRadio3.setTitle("Survey about the first lecture in " + CyberCommunication.getName() + " (3/5)");
+                esmRadio4.setTitle("Survey about the first lecture in " + CyberCommunication.getName() + " (4/5)");
                 esmQuickAnswer.setTitle("Survey about the first lecture in " + CyberCommunication.getName());
-                esmFreeText.setTitle("Survey about the first lecture in " + CyberCommunication.getName() + " (7/7)");
+                esmFreeText.setTitle("Survey about the first lecture in " + CyberCommunication.getName() + " (5/5)");
 
                 Schedule first_esm5 = new Schedule("first_esm5" + UserData._username);
                 first_esm5.addWeekday(CyberCommunication.getWeekday1()._DAY);
@@ -728,14 +796,12 @@ public class MyScheduler {
             }
 
             if (userCourses.contains(SoftwareArchitecture.getName())) {
-                esmRadio1.setTitle("Survey about the first lecture in " + SoftwareArchitecture.getName() + " (1/7)");
-                esmRadio2.setTitle("Survey about the first lecture in " + SoftwareArchitecture.getName() + " (2/7)");
-                esmRadio3.setTitle("Survey about the first lecture in " + SoftwareArchitecture.getName() + " (3/7)");
-                esmRadio4.setTitle("Survey about the first lecture in " + SoftwareArchitecture.getName() + " (4/7)");
-                esmRadio5.setTitle("Survey about the first lecture in " + SoftwareArchitecture.getName() + " (5/7)");
-                esmRadio6.setTitle("Survey about the first lecture in " + SoftwareArchitecture.getName() + " (6/7)");
+                esmRadio1.setTitle("Survey about the first lecture in " + SoftwareArchitecture.getName() + " (1/5)");
+                esmRadio2.setTitle("Survey about the first lecture in " + SoftwareArchitecture.getName() + " (2/5)");
+                esmRadio3.setTitle("Survey about the first lecture in " + SoftwareArchitecture.getName() + " (3/5)");
+                esmRadio4.setTitle("Survey about the first lecture in " + SoftwareArchitecture.getName() + " (4/5)");
                 esmQuickAnswer.setTitle("Survey about the first lecture in " + SoftwareArchitecture.getName());
-                esmFreeText.setTitle("Survey about the first lecture in " + SoftwareArchitecture.getName() + " (7/7)");
+                esmFreeText.setTitle("Survey about the first lecture in " + SoftwareArchitecture.getName() + " (5/5)");
 
                 Schedule first_esm8 = new Schedule("first_esm8" + UserData._username);
                 first_esm8.addWeekday(SoftwareArchitecture.getWeekday1()._DAY);
@@ -759,14 +825,51 @@ public class MyScheduler {
 
             }
 
-            factory.addESM(esmRadio1);
-            factory.addESM(esmRadio2);
-            factory.addESM(esmRadio3);
-            factory.addESM(esmRadio4);
-            factory.addESM(esmRadio5);
-            factory.addESM(esmRadio6);
-            factory.addESM(esmQuickAnswer);
-            factory.addESM(esmQuickAnswer2);
+            if (userCourses.contains(programmingFundamentals.getName())) {
+                esmRadio1.setTitle("Survey about the first lecture in " + programmingFundamentals.getName() + " (1/5)");
+                esmRadio2.setTitle("Survey about the first lecture in " + programmingFundamentals.getName() + " (2/5)");
+                esmRadio3.setTitle("Survey about the first lecture in " + programmingFundamentals.getName() + " (3/5)");
+                esmRadio4.setTitle("Survey about the first lecture in " + programmingFundamentals.getName() + " (4/5)");
+                esmQuickAnswer.setTitle("Survey about the first lecture in " + programmingFundamentals.getName());
+                esmFreeText.setTitle("Survey about the first lecture in " + programmingFundamentals.getName() + " (5/5)");
+
+                Schedule first_esm10 = new Schedule("first_esm10" + UserData._username);
+                first_esm10.addWeekday(programmingFundamentals.getWeekday1()._DAY);
+                first_esm10.addHour(programmingFundamentals.getWeekday1()._HOUR);
+                first_esm10.addMinute(programmingFundamentals.getWeekday1()._MINUTE + firstESMTrigger);
+                first_esm10.setActionType(Scheduler.ACTION_TYPE_BROADCAST);
+                first_esm10.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
+                first_esm10.addActionExtra(ESM.EXTRA_ESM, factory.build());
+
+                Scheduler.saveSchedule(context, first_esm10);
+
+                Schedule first_esm11 = new Schedule("first_esm11" + UserData._username);
+                first_esm11.addWeekday(programmingFundamentals.getWeekday2()._DAY);
+                first_esm11.addHour(programmingFundamentals.getWeekday2()._HOUR);
+                first_esm11.addMinute(programmingFundamentals.getWeekday2()._MINUTE + firstESMTrigger);
+                first_esm11.setActionType(Scheduler.ACTION_TYPE_BROADCAST);
+                first_esm11.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
+                first_esm11.addActionExtra(ESM.EXTRA_ESM, factory.build());
+
+                Scheduler.saveSchedule(context, first_esm11);
+
+                Schedule first_esm12 = new Schedule("first_esm12" + UserData._username);
+                first_esm12.addWeekday(programmingFundamentals.getWeekday3()._DAY);
+                first_esm12.addHour(programmingFundamentals.getWeekday3()._HOUR);
+                first_esm12.addMinute(programmingFundamentals.getWeekday3()._MINUTE + firstESMTrigger);
+                first_esm12.setActionType(Scheduler.ACTION_TYPE_BROADCAST);
+                first_esm12.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
+                first_esm12.addActionExtra(ESM.EXTRA_ESM, factory.build());
+
+                Scheduler.saveSchedule(context, first_esm12);
+
+            }
+
+//            factory.addESM(esmRadio1);
+//            factory.addESM(esmRadio2);
+//            factory.addESM(esmRadio3);
+//            factory.addESM(esmRadio4);
+//            factory.addESM(esmQuickAnswer);
 
 
         } catch (JSONException e) {
@@ -777,55 +880,42 @@ public class MyScheduler {
 
     ////Create first post lecture survey
     public void createSecondPostLectureESM(Context context, String userCourses) {
-        Aware.joinStudy(context, "https://api.awareframework.com/index.php/webservice/index/1098/CySyIhauY1Yw");
-
         try {
 
             ESMFactory factory = new ESMFactory();
 
             ESM_Radio esmRadio1 = new ESM_Radio();
-            esmRadio1.setNotificationTimeout(60 * secondESMThreshold)
-                    .setInstructions("I felt confident with the topic I explained in this lecture.");
+            esmRadio1.setInstructions("I loved teaching this lecture.");
+            esmRadio1.setTitle("Post Lecture Survey (1/5)");
 
 
             ESM_Radio esmRadio2 = new ESM_Radio();
-            esmRadio2.setNotificationTimeout(60 * secondESMThreshold)
-                    .setInstructions("I like the topic I explained in this lecture.");
+            esmRadio2.setInstructions("I was excited about teaching this lecture.");
+            esmRadio2.setTitle("Post Lecture Survey (2/5)");
+
 
             ESM_Radio esmRadio3 = new ESM_Radio();
-            esmRadio3.setNotificationTimeout(60 * secondESMThreshold)
-                    .setInstructions("I was anxious while I was explaining this lecture.");
+            esmRadio3.setInstructions("I felt happy while teaching this lecture.");
+            esmRadio3.setTitle("Post Lecture Survey (3/5)");
 
             ESM_Radio esmRadio4 = new ESM_Radio();
-            esmRadio4.setNotificationTimeout(60 * secondESMThreshold)
-                    .setInstructions("I loved teaching this lecture.");
-
-            ESM_Radio esmRadio5 = new ESM_Radio();
-            esmRadio5.setNotificationTimeout(60 * secondESMThreshold)
-                    .setInstructions("I was excited about teaching this lecture.");
-
-            ESM_Radio esmRadio6 = new ESM_Radio();
-            esmRadio6.setNotificationTimeout(60 * secondESMThreshold)
-                    .setInstructions("I felt happy while I was teaching this lecture.");
-
+            esmRadio4.setInstructions("I found teaching this lecture fun.");
+            esmRadio4.setTitle("Post Lecture Survey (4/5)");
 
             ESM_Freetext esmFreeText = new ESM_Freetext();
-            esmFreeText.setTitle("Survey about first lecture")
-                    .setNotificationTimeout(60 * secondESMThreshold)
+            esmFreeText.setTitle("Post Lecture Survey")
+                    .setSubmitButton("Finish")
+                    .setExpirationThreshold(60*firstESMThreshold)
                     .setInstructions("Please describe the moment(s) during which you felt particularly engaged");
+
 
             ESM_QuickAnswer esmQuickAnswer = new ESM_QuickAnswer();
             esmQuickAnswer.addQuickAnswer("Yes")
                     .addQuickAnswer("No")
-                    .setNotificationTimeout(60 * secondESMThreshold)
+                    .setTitle("Post Lecture Survey (5/5)")
+                    .setExpirationThreshold(60*firstESMThreshold)
                     .setInstructions("Did you feel particularly engaged in one or more moments during the lecture?")
                     .addFlow("Yes", esmFreeText.build());
-
-            ESM_QuickAnswer esmQuickAnswer2 = new ESM_QuickAnswer();
-            esmQuickAnswer2.addQuickAnswer("Finish")
-                    .setTitle("Cookies on the way ...")
-                    .setExpirationThreshold(60*firstPamThreshold)
-                    .setInstructions("Thank you very much for your participation!");
 
 
             ArrayList<ESM_Radio> esms = new ArrayList<>();
@@ -833,8 +923,6 @@ public class MyScheduler {
             esms.add(esmRadio2);
             esms.add(esmRadio3);
             esms.add(esmRadio4);
-            esms.add(esmRadio5);
-            esms.add(esmRadio6);
 
             for (ESM_Radio esmRadio : esms) {
                 esmRadio.addRadio("Strongly Agree")
@@ -849,28 +937,21 @@ public class MyScheduler {
             factory.addESM(esmRadio2);
             factory.addESM(esmRadio3);
             factory.addESM(esmRadio4);
-            factory.addESM(esmRadio5);
-            factory.addESM(esmRadio6);
             factory.addESM(esmQuickAnswer);
-            factory.addESM(esmQuickAnswer2);
 
-
-
-            if (userCourses.contains(testCourse.getName())) {
-                esmRadio1.setTitle("Survey about the second lecture in " + testCourse.getName() + " (1/7)");
-                esmRadio2.setTitle("Survey about the second lecture in " + testCourse.getName() + " (2/7)");
-                esmRadio3.setTitle("Survey about the second lecture in " + testCourse.getName() + " (3/7)");
-                esmRadio4.setTitle("Survey about the second lecture in " + testCourse.getName() + " (4/7)");
-                esmRadio5.setTitle("Survey about the second lecture in " + testCourse.getName() + " (5/7)");
-                esmRadio6.setTitle("Survey about the second lecture in " + testCourse.getName() + " (6/7)");
-                esmQuickAnswer.setTitle("Survey about the second lecture in " + testCourse.getName());
-                esmFreeText.setTitle("Survey about the second lecture in " + testCourse.getName() + " (7/7)");
+            if (userCourses.contains(linearAlgebra.getName())) {
+                esmRadio1.setTitle("Survey about the second lecture in " + linearAlgebra.getName() + " (1/5)");
+                esmRadio2.setTitle("Survey about the second lecture in " + linearAlgebra.getName() + " (2/5)");
+                esmRadio3.setTitle("Survey about the second lecture in " + linearAlgebra.getName() + " (3/5)");
+                esmRadio4.setTitle("Survey about the second lecture in " + linearAlgebra.getName() + " (4/5)");
+                esmQuickAnswer.setTitle("Survey about the second lecture in " + linearAlgebra.getName());
+                esmFreeText.setTitle("Survey about the second lecture in " + linearAlgebra.getName() + " (5/5)");
 
                 Schedule first_esm1 = new Schedule("second_esm1" + UserData._username);
 
-                first_esm1.addWeekday(testCourse.getWeekday1()._DAY);
-                first_esm1.addHour(testCourse.getWeekday1()._HOUR);
-                first_esm1.addMinute(testCourse.getWeekday1()._MINUTE + secondESMTrigger);
+                first_esm1.addWeekday(linearAlgebra.getWeekday1()._DAY);
+                first_esm1.addHour(linearAlgebra.getWeekday1()._HOUR);
+                first_esm1.addMinute(linearAlgebra.getWeekday1()._MINUTE + secondESMTrigger);
 
                 first_esm1.setActionType(Scheduler.ACTION_TYPE_BROADCAST);
                 first_esm1.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
@@ -880,9 +961,9 @@ public class MyScheduler {
 
                 Schedule first_esm2 = new Schedule("second_esm2" + UserData._username);
 
-                first_esm2.addWeekday(testCourse.getWeekday2()._DAY);
-                first_esm2.addHour(testCourse.getWeekday2()._HOUR);
-                first_esm2.addMinute(testCourse.getWeekday2()._MINUTE + secondESMTrigger);
+                first_esm2.addWeekday(linearAlgebra.getWeekday2()._DAY);
+                first_esm2.addHour(linearAlgebra.getWeekday2()._HOUR);
+                first_esm2.addMinute(linearAlgebra.getWeekday2()._MINUTE + secondESMTrigger);
 
                 first_esm2.setActionType(Scheduler.ACTION_TYPE_BROADCAST);
                 first_esm2.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
@@ -892,14 +973,12 @@ public class MyScheduler {
             }
 
             if (userCourses.contains(InformationSecurity.getName())) {
-                esmRadio1.setTitle("Survey about the second lecture in " + InformationSecurity.getName() + " (1/7)");
-                esmRadio2.setTitle("Survey about the second lecture in " + InformationSecurity.getName() + " (2/7)");
-                esmRadio3.setTitle("Survey about the second lecture in " + InformationSecurity.getName() + " (3/7)");
-                esmRadio4.setTitle("Survey about the second lecture in " + InformationSecurity.getName() + " (4/7)");
-                esmRadio5.setTitle("Survey about the second lecture in " + InformationSecurity.getName() + " (5/7)");
-                esmRadio6.setTitle("Survey about the second lecture in " + InformationSecurity.getName() + " (6/7)");
+                esmRadio1.setTitle("Survey about the second lecture in " + InformationSecurity.getName() + " (1/5)");
+                esmRadio2.setTitle("Survey about the second lecture in " + InformationSecurity.getName() + " (2/5)");
+                esmRadio3.setTitle("Survey about the second lecture in " + InformationSecurity.getName() + " (3/5)");
+                esmRadio4.setTitle("Survey about the second lecture in " + InformationSecurity.getName() + " (4/5)");
                 esmQuickAnswer.setTitle("Survey about the second lecture in " + InformationSecurity.getName());
-                esmFreeText.setTitle("Survey about the second lecture in " + InformationSecurity.getName() + " (7/7)");
+                esmFreeText.setTitle("Survey about the second lecture in " + InformationSecurity.getName() + " (5/5)");
 
                 Schedule first_esm3 = new Schedule("second_esm3" + UserData._username);
                 first_esm3.addWeekday(mondayInformationSecurity1._DAY);
@@ -922,19 +1001,15 @@ public class MyScheduler {
                 first_esm4.addActionExtra(ESM.EXTRA_ESM, factory.build());
 
                 Scheduler.saveSchedule(context, first_esm4);
-
-
             }
 
             if (userCourses.contains(CyberCommunication.getName())) {
-                esmRadio1.setTitle("Survey about the second lecture in " + CyberCommunication.getName() + " (1/7)");
-                esmRadio2.setTitle("Survey about the second lecture in " + CyberCommunication.getName() + " (2/7)");
-                esmRadio3.setTitle("Survey about the second lecture in " + CyberCommunication.getName() + " (3/7)");
-                esmRadio4.setTitle("Survey about the second lecture in " + CyberCommunication.getName() + " (4/7)");
-                esmRadio5.setTitle("Survey about the second lecture in " + CyberCommunication.getName() + " (5/7)");
-                esmRadio6.setTitle("Survey about the second lecture in " + CyberCommunication.getName() + " (6/7)");
+                esmRadio1.setTitle("Survey about the second lecture in " + CyberCommunication.getName() + " (1/5)");
+                esmRadio2.setTitle("Survey about the second lecture in " + CyberCommunication.getName() + " (2/5)");
+                esmRadio3.setTitle("Survey about the second lecture in " + CyberCommunication.getName() + " (3/5)");
+                esmRadio4.setTitle("Survey about the second lecture in " + CyberCommunication.getName() + " (4/5)");
                 esmQuickAnswer.setTitle("Survey about the second lecture in " + CyberCommunication.getName());
-                esmFreeText.setTitle("Survey about the second lecture in " + CyberCommunication.getName() + " (7/7)");
+                esmFreeText.setTitle("Survey about the second lecture in " + CyberCommunication.getName() + " (5/5)");
 
                 Schedule first_esm5 = new Schedule("second_esm5" + UserData._username);
                 first_esm5.addWeekday(CyberCommunication.getWeekday1()._DAY);
@@ -967,14 +1042,12 @@ public class MyScheduler {
             }
 
             if (userCourses.contains(SoftwareArchitecture.getName())) {
-                esmRadio1.setTitle("Survey about the second lecture in " + SoftwareArchitecture.getName() + " (1/7)");
-                esmRadio2.setTitle("Survey about the second lecture in " + SoftwareArchitecture.getName() + " (2/7)");
-                esmRadio3.setTitle("Survey about the second lecture in " + SoftwareArchitecture.getName() + " (3/7)");
-                esmRadio4.setTitle("Survey about the second lecture in " + SoftwareArchitecture.getName() + " (4/7)");
-                esmRadio5.setTitle("Survey about the second lecture in " + SoftwareArchitecture.getName() + " (5/7)");
-                esmRadio6.setTitle("Survey about the second lecture in " + SoftwareArchitecture.getName() + " (6/7)");
+                esmRadio1.setTitle("Survey about the second lecture in " + SoftwareArchitecture.getName() + " (1/5)");
+                esmRadio2.setTitle("Survey about the second lecture in " + SoftwareArchitecture.getName() + " (2/5)");
+                esmRadio3.setTitle("Survey about the second lecture in " + SoftwareArchitecture.getName() + " (3/5)");
+                esmRadio4.setTitle("Survey about the second lecture in " + SoftwareArchitecture.getName() + " (4/5)");
                 esmQuickAnswer.setTitle("Survey about the second lecture in " + SoftwareArchitecture.getName());
-                esmFreeText.setTitle("Survey about the second lecture in " + SoftwareArchitecture.getName() + " (7/7)");
+                esmFreeText.setTitle("Survey about the second lecture in " + SoftwareArchitecture.getName() + " (5/5)");
 
                 Schedule first_esm8 = new Schedule("second_esm8" + UserData._username);
                 first_esm8.addWeekday(SoftwareArchitecture.getWeekday1()._DAY);
@@ -998,14 +1071,51 @@ public class MyScheduler {
 
             }
 
-            factory.addESM(esmRadio1);
-            factory.addESM(esmRadio2);
-            factory.addESM(esmRadio3);
-            factory.addESM(esmRadio4);
-            factory.addESM(esmRadio5);
-            factory.addESM(esmRadio6);
-            factory.addESM(esmQuickAnswer);
-            factory.addESM(esmQuickAnswer2);
+            if (userCourses.contains(programmingFundamentals.getName())) {
+                esmRadio1.setTitle("Survey about the second lecture in " + programmingFundamentals.getName() + " (1/5)");
+                esmRadio2.setTitle("Survey about the second lecture in " + programmingFundamentals.getName() + " (2/5)");
+                esmRadio3.setTitle("Survey about the second lecture in " + programmingFundamentals.getName() + " (3/5)");
+                esmRadio4.setTitle("Survey about the second lecture in " + programmingFundamentals.getName() + " (4/5)");
+                esmQuickAnswer.setTitle("Survey about the second lecture in " + programmingFundamentals.getName());
+                esmFreeText.setTitle("Survey about the second lecture in " + programmingFundamentals.getName() + " (5/5)");
+
+                Schedule second_esm10 = new Schedule("second_esm10" + UserData._username);
+                second_esm10.addWeekday(programmingFundamentals.getWeekday1()._DAY);
+                second_esm10.addHour(programmingFundamentals.getWeekday1()._HOUR);
+                second_esm10.addMinute(programmingFundamentals.getWeekday1()._MINUTE + secondESMTrigger);
+                second_esm10.setActionType(Scheduler.ACTION_TYPE_BROADCAST);
+                second_esm10.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
+                second_esm10.addActionExtra(ESM.EXTRA_ESM, factory.build());
+
+                Scheduler.saveSchedule(context, second_esm10);
+
+                Schedule second_esm11 = new Schedule("second_esm11" + UserData._username);
+                second_esm11.addWeekday(programmingFundamentals.getWeekday2()._DAY);
+                second_esm11.addHour(programmingFundamentals.getWeekday2()._HOUR);
+                second_esm11.addMinute(programmingFundamentals.getWeekday2()._MINUTE + secondESMTrigger);
+                second_esm11.setActionType(Scheduler.ACTION_TYPE_BROADCAST);
+                second_esm11.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
+                second_esm11.addActionExtra(ESM.EXTRA_ESM, factory.build());
+
+                Scheduler.saveSchedule(context, second_esm11);
+
+                Schedule second_esm12 = new Schedule("second_esm12" + UserData._username);
+                second_esm12.addWeekday(programmingFundamentals.getWeekday3()._DAY);
+                second_esm12.addHour(programmingFundamentals.getWeekday3()._HOUR);
+                second_esm12.addMinute(programmingFundamentals.getWeekday3()._MINUTE + secondESMTrigger);
+                second_esm12.setActionType(Scheduler.ACTION_TYPE_BROADCAST);
+                second_esm12.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
+                second_esm12.addActionExtra(ESM.EXTRA_ESM, factory.build());
+
+                Scheduler.saveSchedule(context, second_esm12);
+
+            }
+
+//            factory.addESM(esmRadio1);
+//            factory.addESM(esmRadio2);
+//            factory.addESM(esmRadio3);
+//            factory.addESM(esmRadio4);
+//            factory.addESM(esmQuickAnswer);
 
 
         } catch (JSONException e) {

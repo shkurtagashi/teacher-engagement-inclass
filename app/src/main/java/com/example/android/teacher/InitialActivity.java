@@ -9,7 +9,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.example.android.teacher.data.DatabaseHelper;
+import com.example.android.teacher.UserAccount.AgreementFormActivity;
+import com.example.android.teacher.UserAccount.RegisterFormActivity;
+import com.example.android.teacher.data.LocalDataStorage.DatabaseHelper;
 import com.example.android.teacher.data.User.UsersContract.UserEntry;
 
 import java.io.File;

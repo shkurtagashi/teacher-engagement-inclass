@@ -4,6 +4,9 @@ import android.provider.BaseColumns;
 
 import com.example.android.teacher.R;
 
+import static android.R.attr.name;
+import static com.github.mikephil.charting.animation.Easing.EasingOption.Linear;
+
 /**
  * Created by shkurtagashi on 14.12.16.
  */
@@ -60,10 +63,12 @@ public final class UsersContract {
         public static final String PROGRAMME_MASTER = "Master";
 
         public static final String COURSE_OTHER = "Other";
-        public static final String COURSE_1 = "Course 1";
-        public static final String COURSE_2 = "Course 2";
-        public static final String COURSE_3 = "Course 3";
-        public static final String COURSE_4 = "Course 4";
+        public static final String COURSE_1 = "Information Security";
+        public static final String COURSE_2 = "Cyber Communication";
+        public static final String COURSE_3 = "Software Architecture and Design";
+        public static final String COURSE_4 = "Linear Algebra";
+        public static final String COURSE_5 = "Programming Fundamentals 2";
+
 
         public static final String STATUS_OTHER = "Other";
         public static final String STATUS_FULL_PROFESSOR = "Full Professor";

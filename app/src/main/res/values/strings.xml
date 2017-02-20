@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Teacher</string>
+    <string name="app_name">Teachify</string>
     <string name="agree_button">Agree</string>
     <string name="disagree_button">Disagree</string>
     <string name="male">M</string>
@@ -25,6 +25,8 @@ Please press one of the buttons below to indicate that you have read and underst
     <string name="welcome_user">Welcome</string>
     <string name="disagree_text">Are you sure you do not want to be part of this experiment?</string>
     <string name="delete_user_text">Are you sure you want to delete this account?</string>
+    <string name="delete_empatica_text">Are you sure you want to delete this Empatica E4 device?</string>
+
 
     <string name="yes">Yes</string>
     <string name="no">No</string>
@@ -58,6 +60,7 @@ Please press one of the buttons below to indicate that you have read and underst
     <string name="username_label">Username</string>
 
     <string name="teaching_experience_label">Teaching Experience</string>
+    <string name="terms_conditions_agreement">Consent Form </string>
 
     <string name="full_professor">Full Professor</string>
     <string name="associate_professor">Associate Professor</string>
@@ -68,11 +71,13 @@ Please press one of the buttons below to indicate that you have read and underst
     <string name="assistant">Assistant</string>
     <string name="other">Other</string>
 
+
     <string name="informatics">Informatics</string>
     <string name="economics">Economics</string>
     <string name="communication_sciences">Communication Sciences</string>
     <string name="academy_of_architecture">Academy of Architecture</string>
 
+    <string name="emptyLevel"> </string>
     <string name="bachelor">Bachelor</string>
     <string name="master">Master</string>
 
@@ -80,7 +85,8 @@ Please press one of the buttons below to indicate that you have read and underst
     <string name="course_1">Information Security</string>
     <string name="course_2">Cyber Communication</string>
     <string name="course_3">Software Architecture and Design</string>
-    <string name="course_4">Course 4</string>
+    <string name="course_4">Linear Algebra</string>
+    <string name="course_5">Programming Fundamentals 2</string>
 
     <string name="teachingExperience0to5">0 to 5 years</string>
     <string name="teachingExperience5to10">5 to 10 years</string>
@@ -88,8 +94,12 @@ Please press one of the buttons below to indicate that you have read and underst
     <string name="teachingExperience20to30">20 to 30 years</string>
     <string name="teachingExperience30toAbove">30 and above</string>
 
+    <string name="emptyString"> </string>
+    <string name="selectItem">Select Item</string>
+
 
     <string-array name="age_range_choices">
+        <item>@string/selectItem</item>
         <item>@string/range20to30</item>
         <item>@string/range30to40</item>
         <item>@string/range40to50</item>
@@ -97,6 +107,7 @@ Please press one of the buttons below to indicate that you have read and underst
     </string-array>
 
     <string-array name="faculty_title_choices">
+        <item>@string/selectItem</item>
         <item>@string/informatics</item>
         <item>@string/economics</item>
         <item>@string/communication_sciences</item>
@@ -105,6 +116,7 @@ Please press one of the buttons below to indicate that you have read and underst
     </string-array>
 
     <string-array name="program_title_choices">
+        <item>@string/selectItem</item>
         <item>@string/bachelor</item>
         <item>@string/master</item>
         <item>@string/other</item>
@@ -115,10 +127,12 @@ Please press one of the buttons below to indicate that you have read and underst
         <item>@string/course_2</item>
         <item>@string/course_3</item>
         <item>@string/course_4</item>
+        <item>@string/course_5</item>
         <item>@string/other</item>
     </string-array>
 
     <string-array name="status_choices">
+        <item>@string/selectItem</item>
         <item>@string/full_professor</item>
         <item>@string/associate_professor</item>
         <item>@string/assistant_professor</item>
@@ -130,6 +144,7 @@ Please press one of the buttons below to indicate that you have read and underst
     </string-array>
 
     <string-array name="teaching_experience_choices">
+        <item>@string/selectItem</item>
         <item>@string/teachingExperience0to5</item>
         <item>@string/teachingExperience5to10</item>
         <item>@string/teachingExperience10to20</item>

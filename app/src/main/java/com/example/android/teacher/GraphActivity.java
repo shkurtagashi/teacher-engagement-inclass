@@ -27,7 +27,7 @@ import com.empatica.empalink.delegate.EmpaDataDelegate;
 import com.empatica.empalink.delegate.EmpaStatusDelegate;
 import com.example.android.teacher.data.Sensors.AccSensorContract;
 import com.example.android.teacher.data.Sensors.BvpSensorContract;
-import com.example.android.teacher.data.DatabaseHelper;
+import com.example.android.teacher.data.LocalDataStorage.DatabaseHelper;
 import com.example.android.teacher.data.Sensors.EdaSensorContract;
 import com.example.android.teacher.data.Sensors.TempSensorContract;
 import com.jjoe64.graphview.GraphView;

@@ -8,8 +8,6 @@ import static android.R.attr.value;
  */
 
 public class EmpaticaE4 {
-
-    String _username;
     String _name;
     String _apiKey;
 
@@ -18,19 +16,11 @@ public class EmpaticaE4 {
     }
 
 
-    public EmpaticaE4(String username, String name, String apiKey){
-        setUsername(username);
+    public EmpaticaE4(String name, String apiKey){
         setName(name);
         setApiKey(apiKey);
     }
 
-    public void setUsername(String username){
-        this._username = username;
-    }
-
-    public String getUsername(){
-        return this._username;
-    }
 
     public void setName(String name){
         this._name = name;

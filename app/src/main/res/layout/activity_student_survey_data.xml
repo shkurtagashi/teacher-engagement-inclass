@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.android.teacher.StudentSurveyDataActivity">
+    tools:context="com.example.android.teacher.Surveys.StudentSurveyDataActivity">
 
     <TextView
         android:id="@+id/welcome_user"

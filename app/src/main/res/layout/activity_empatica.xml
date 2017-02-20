@@ -9,7 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="140dp"
-    tools:context="com.example.android.teacher.EmpaticaActivity"
+    tools:context="com.example.android.teacher.EmpaticaE4.EmpaticaActivity"
     android:layout_gravity="center">
 
 

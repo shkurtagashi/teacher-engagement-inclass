@@ -2,20 +2,39 @@ package com.example.android.teacher;
 
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.provider.Settings;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.PasswordTransformationMethod;
+import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.empatica.empalink.EmpaDeviceManager;
-import com.example.android.teacher.data.DatabaseHelper;
+import com.example.android.teacher.EmpaticaE4.EmpaticaActivity;
+import com.example.android.teacher.Surveys.SurveyDataActivity;
+import com.example.android.teacher.UserAccount.ChooseAccountActivity;
+import com.example.android.teacher.UserAccount.RegisterFormActivity;
+import com.example.android.teacher.UserAccount.ViewRegistrationFormActivity;
+import com.example.android.teacher.data.LocalDataStorage.DatabaseHelper;
 import com.example.android.teacher.data.EmpaticaE4.E4DataContract.E4DataEntry;
+import com.example.android.teacher.data.User.UserData;
 import com.example.android.teacher.data.User.UsersContract;
+
+import static com.example.android.teacher.HomeActivity.admin_password;
 
 public class HelpActivity extends AppCompatActivity{
     private static final String TAG = "HelpActivity";
@@ -37,21 +56,16 @@ public class HelpActivity extends AppCompatActivity{
 
     private ProgressDialog progressDialog;
 
+    String password = "";
+    DatabaseHelper dbHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help);
 
         android_id = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
-
-
-        // Create a new EmpaDeviceManager. MainActivity is both its data and status delegate.
-        //deviceManager = new EmpaDeviceManager(getApplicationContext(), this, this);
-
-        // Initialize the Device Manager using your API key. You need to have Internet access at this point.
-//        deviceManager.authenticateWithAPIKey(EMPATICA_API_KEY);
-
-
+        dbHelper = new DatabaseHelper(this);
 
         step1 = (CheckBox) findViewById(R.id.step1CheckBox);
         step1.setOnClickListener(new View.OnClickListener() {
@@ -90,77 +104,6 @@ public class HelpActivity extends AppCompatActivity{
 
     }
 
-//    @Override
-//    public void didDiscoverDevice(BluetoothDevice bluetoothDevice, String deviceName, int rssi, boolean allowed) {
-//        // Check if the discovered device can be used with your API key. If allowed is always false,
-//        // the device is not linked with your API key. Please check your developer area at
-//        // https://www.empatica.com/connect/developer.php
-//        if (allowed) {
-//            // Stop scanning. The first allowed device will do.
-//            deviceManager.stopScanning();
-//            try {
-//                // Connect to the device
-//                deviceManager.connectDevice(bluetoothDevice);
-//                //updateLabel(deviceNameLabel, "To: " + deviceName);
-//                Log.v(TAG, "device name");
-//            } catch (ConnectionNotAllowedException e) {
-//                // This should happen only if you try to connect when allowed == false.
-//                Toast.makeText(HelpActivity.this, "Sorry, you can't connect to this device", Toast.LENGTH_SHORT).show();
-//            }
-//        }
-//    }
-//
-//    @Override
-//    public void didRequestEnableBluetooth() {
-//
-//    }
-//
-//    @Override
-//    public void didUpdateSensorStatus(EmpaSensorStatus status, EmpaSensorType type) {
-//        // No need to implement this right now
-//    }
-//
-//    @Override
-//    public void didUpdateStatus(EmpaStatus status) {
-//        // Update the UI
-//        //updateLabel(statusLabel, status.name());
-//        Log.v(TAG, status.name());
-//
-//        // The device manager is ready for use
-//        if (status == EmpaStatus.READY) {
-//            //updateLabel(statusLabel, status.name() + " - Turn on your device");
-//            Log.v(TAG,status.name() + "- Turn on your device");
-//            //progressDialog = ProgressDialog.show(this, "Ready - Switch on your device","Waiting for the device" , true);
-//            //Toast.makeText(this,"Ready - Switch on your device", Toast.LENGTH_SHORT).show();
-//            // Start scanning
-//            deviceManager.startScanning();
-//            // The device manager has established a connection
-//        } else if (status == EmpaStatus.CONNECTED) {
-//           // progressDialog = ProgressDialog.show(this, "Connected","Starting to get sensor data" , true);
-//            //Toast.makeText(this,"Connected to Empatica E4 Name", Toast.LENGTH_SHORT).show();
-//            // Stop streaming after STREAMING_TIME
-//            runOnUiThread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    //dataCnt.setVisibility(View.VISIBLE);
-//                    new Handler().postDelayed(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            // Disconnect device
-//                            deviceManager.disconnect();
-//                        }
-//                    }, STREAMING_TIME);
-//                }
-//            });
-//            // The device manager disconnected from a device
-//        } else if (status == EmpaStatus.DISCONNECTED) {
-//            //updateLabel(deviceNameLabel, "");
-//            //progressDialog = ProgressDialog.show(this, "Disconnected","Stopped getting sensor data" , true);
-//            //Toast.makeText(this,"Disconnected", Toast.LENGTH_SHORT).show();
-//            Log.v(TAG, "DISCONNECTED");
-//        }
-//    }
-
     public String checkEmpaticaE4Device(){
         String apiKey = "";
         DatabaseHelper e4DbHelper = new DatabaseHelper(this);
@@ -198,34 +141,173 @@ public class HelpActivity extends AppCompatActivity{
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu options from the res/menu/menu_editor.xml file.
+        // This adds menu items to the app bar.
+        getMenuInflater().inflate(R.menu.menu_home, menu);
 
-//    @Override
-//    public void didReceiveAcceleration(int x, int y, int z, double timestamp) {}
-//
-//    @Override
-//    public void didReceiveBVP(float bvp, double timestamp) {}
-//
-//    @Override
-//    public void didReceiveBatteryLevel(float battery, double timestamp) {}
-//
-//    @Override
-//    public void didReceiveGSR(final float gsr, double timestamp) {}
-//
-//    @Override
-//    public void didReceiveIBI(float ibi, double timestamp) {}
-//
-//    @Override
-//    public void didReceiveTemperature(float temp, double timestamp) {}
+        MenuItem choose_account = menu.findItem(R.id.choose_account);
+        MenuItem manage_account = menu.findItem(R.id.manage_account);
+        MenuItem log_out = menu.findItem(R.id.log_out);
 
-//    private boolean getFromSP(String key){
-//        SharedPreferences preferences = getApplicationContext().getSharedPreferences("Teacher", android.content.Context.MODE_PRIVATE);
-//        return preferences.getBoolean(key, false);
-//    }
-//    private void saveInSp(String key,boolean value){
-//        SharedPreferences preferences = getApplicationContext().getSharedPreferences("Teacher", android.content.Context.MODE_PRIVATE);
-//        SharedPreferences.Editor editor = preferences.edit();
-//        editor.putBoolean(key, value);
-//        editor.commit();
-//    }
+        if(dbHelper.getUsersCount() < 2)
+        {
+            choose_account.setVisible(false);
+            log_out.setVisible(false);
+        }
+        else
+        {
+            choose_account.setVisible(true);
+            if(UserData._username == null){
+                log_out.setVisible(false);
+            }
+
+            log_out.setVisible(true);
+        }
+
+        if(UserData._username != null){
+            manage_account.setVisible(true);
+        }else{
+            manage_account.setVisible(false);
+        }
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent i;
+        // User clicked on a menu option in the app bar overflow menu
+        switch (item.getItemId()) {
+            //Respond to a click on "Create Account" menu option
+            case R.id.add_account:
+                if(dbHelper.getUsersCount() < 1) {
+                    startActivity(new Intent(this, RegisterFormActivity.class));
+                    finish();
+                }else {
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(HelpActivity.this);
+                    alertDialog.setTitle("ADMIN PASSWORD");
+                    alertDialog.setMessage(" Please enter Admin Password to create a new user");
+
+                    final EditText input = new EditText(getApplicationContext());
+                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.MATCH_PARENT);
+                    input.setLayoutParams(lp);
+                    input.setTextColor(Color.BLACK);
+                    input.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    input.setGravity(Gravity.CENTER);
+                    alertDialog.setView(input);
+                    alertDialog.setIcon(R.drawable.key);
+
+                    alertDialog.setNegativeButton(R.string.yes,
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    password = input.getText().toString();
+                                    if (admin_password.equals(password)) {
+                                        Toast.makeText(getApplicationContext(), "Password Matched", Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(getApplicationContext(), RegisterFormActivity.class);
+                                        startActivityForResult(intent, 0);
+
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), "Wrong Password! You cannot create new user.", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+
+                    alertDialog.setPositiveButton(R.string.no,
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                }
+                            });
+
+                    alertDialog.show();
+                }
+
+                return true;
+
+            //Respond to a click on "Choose Account" menu option
+            case R.id.choose_account:
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(HelpActivity.this);
+                alertDialog.setTitle("ADMIN PASSWORD");
+                alertDialog.setMessage(" Please enter Admin Password to choose a user");
+
+                final EditText input = new EditText(getApplicationContext());
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.MATCH_PARENT);
+                input.setLayoutParams(lp);
+                input.setTextColor(Color.BLACK);
+                input.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                input.setGravity(Gravity.CENTER);
+                alertDialog.setView(input);
+                alertDialog.setIcon(R.drawable.key);
+
+                alertDialog.setNegativeButton(R.string.yes,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                password = input.getText().toString();
+                                if (admin_password.equals(password)) {
+                                    Toast.makeText(getApplicationContext(), "Password Matched", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(getApplicationContext(), ChooseAccountActivity.class);
+                                    startActivityForResult(intent, 0);
+
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "Wrong Password! You cannot choose account.", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+
+                alertDialog.setPositiveButton(R.string.no,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+
+                alertDialog.show();
+
+                return true;
+
+            // Respond to a click on the "Manage Account" menu option
+            case R.id.manage_account:
+                i = new Intent (this, ViewRegistrationFormActivity.class);
+                startActivity(i);
+                finish();
+                return true;
+
+            // Respond to a click on the "E4 settings" menu option
+            case R.id.action_e4_settings:
+                i = new Intent (this, EmpaticaActivity.class);
+                startActivity(i);
+                return true;
+
+
+            //Respond to a click on the "Log out" menu option
+            case R.id.log_out:
+
+                UserData._username = null;
+                startActivity(new Intent(this, HomeActivity.class));
+                finish();
+                return true;
+
+
+            //Respond to a click on the "Help" menu option
+            case R.id.action_help:
+                startActivity(new Intent(this, HelpActivity.class));
+                return true;
+
+            // Respond to a click on the "Up" arrow button in the app bar
+            case android.R.id.home:
+                // Navigate back to parent activity (HomeActivity)
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
 
 }

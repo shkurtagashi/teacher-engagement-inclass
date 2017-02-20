@@ -6,7 +6,7 @@ android:id="@+id/activity_register_form"
 android:layout_width="fill_parent"
 android:layout_height="fill_parent"
 android:fitsSystemWindows="true"
-tools:context="com.example.android.teacher.EditRegistrationActivity">
+tools:context="com.example.android.teacher.UserAccount.EditRegistrationActivity">
 
 
 <LinearLayout
@@ -156,11 +156,13 @@ tools:context="com.example.android.teacher.EditRegistrationActivity">
             android:layout_marginBottom="8dp"
             android:layout_weight="1"
             android:text="@string/course_label"/>
-        <Spinner
-            android:id="@+id/course_choices"
+        <Button
+            android:id="@+id/courses_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="3"/>
+            android:text="Choose Courses"
+            android:layout_weight="3"
+            android:layout_marginLeft="120dp" />
 
     </LinearLayout>
 

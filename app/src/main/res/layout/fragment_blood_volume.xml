@@ -3,7 +3,7 @@
     android:id="@+id/blood_volume_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.android.teacher.Fragments.BloodVolumeFragment"
+    tools:context=".Sensors.Fragments.BloodVolumeFragment"
     android:paddingTop="60dp"
     android:paddingBottom="40dp">
 

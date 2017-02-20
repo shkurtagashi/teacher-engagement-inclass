@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.android.teacher.Fragments.TempFragment"
+    tools:context=".Sensors.Fragments.TempFragment"
     android:paddingTop="60dp"
     android:paddingBottom="40dp">
 

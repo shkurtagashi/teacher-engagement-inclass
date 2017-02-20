@@ -20,7 +20,6 @@ public final class E4DataContract {
         public final static String TABLE_NAME_EMPATICA_E4 = "empatica_e4";
 
         public final static String _ID = "id";
-        public final static String _USERNAME = "username";
         public final static String COLUMN_E4_NAME = "empatica_name";
         public final static String COLUMN_API_KEY = "api_key";
 
