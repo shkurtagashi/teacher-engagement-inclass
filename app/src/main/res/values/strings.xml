@@ -30,7 +30,7 @@ Please press one of the buttons below to indicate that you have read and underst
 
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="sensor_data">Sensor Data</string>
+    <string name="sensor_data">Sensor Data Visualization</string>
     <string name="survey_data">Surveys</string>
     <string name="real_time_streaming">Real Time Streaming</string>
     <string name="student_survey_data">Survey Data Visualization</string>

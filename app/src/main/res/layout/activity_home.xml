@@ -32,19 +32,47 @@
         android:paddingRight="20dp"
         android:paddingLeft="20dp">
 
-        <TextView
-            style="@style/CategoryStyle"
-            android:id="@+id/sensor_data"
-            android:background="@drawable/charts"
-            android:gravity="center"
-            android:layout_weight="1"/>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/survey_data"
-            style="@style/CategoryStyle"
-            android:background="@drawable/surveyss"
-            android:gravity="center"
-            android:layout_weight="1"/>
+            <TextView
+                style="@style/CategoryStyle"
+                android:id="@+id/sensor_data"
+                android:background="@drawable/charts"
+                android:gravity="center"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/sensor_data"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/survey_data"
+                style="@style/CategoryStyle"
+                android:background="@drawable/surveyss"
+                android:gravity="center"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/survey_data"
+                android:textStyle="bold"/>
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -58,22 +86,50 @@
         android:paddingRight="20dp"
         android:paddingLeft="20dp">
 
-        <TextView
-            android:id="@+id/real_time_streaming"
-            style="@style/CategoryStyle"
-            android:background="@drawable/empa"
-            android:gravity="center"
-            android:layout_weight="1"/>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/real_time_streaming"
+                style="@style/CategoryStyle"
+                android:background="@drawable/empa"
+                android:gravity="center"
+                android:layout_weight="1" />
 
-        <TextView
-            android:id="@+id/student_survey_data"
-            style="@style/CategoryStyle"
-            android:background="@drawable/classroom"
-            android:gravity="center"
-            android:layout_weight="1"/>
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/real_time_streaming"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/student_survey_data"
+                style="@style/CategoryStyle"
+                android:background="@drawable/classroom"
+                android:gravity="center"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/student_survey_data"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+
     </LinearLayout>
-
-
 
 
     <!--<LinearLayout-->

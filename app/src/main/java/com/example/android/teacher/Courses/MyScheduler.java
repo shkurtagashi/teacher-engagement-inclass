@@ -61,8 +61,8 @@ public class MyScheduler {
     private Course linearAlgebra = new Course(mondayLinearAlgebra, wednesdayLinearAlgebra, "Linear Algebra");
 
     //Information Security on Monday from 13:30 - 17:15
-    private Weekday mondayInformationSecurity1 = new Weekday(11, 13, "Monday"); //13-30 Monday
-    private Weekday mondayInformationSecurity2 = new Weekday(15, 28, "Monday"); // 15:30 Monday
+    private Weekday mondayInformationSecurity1 = new Weekday(22, 26, "Tuesday"); //13-30 Monday
+    private Weekday mondayInformationSecurity2 = new Weekday(15, 28, "Tuesday"); // 15:30 Monday
     private Course InformationSecurity = new Course(mondayInformationSecurity1, mondayInformationSecurity2, "Information Security");
 
     //Cyber Communication on Tuesday, Wednesday, Thursday from 10:30 - 12:15
@@ -73,7 +73,7 @@ public class MyScheduler {
 
     //Software Architecture on Tuesday and Thursday from 13:30 - 15:15
     private Weekday tuesdaySoftwareArchitecture = new Weekday(13, 30, "Tuesday");
-    private Weekday thursdaySoftwareArchitecture = new Weekday(13, 30, "Thursday");
+    private Weekday thursdaySoftwareArchitecture = new Weekday(16, 2, "Thursday");
     private Course SoftwareArchitecture = new Course(tuesdaySoftwareArchitecture, thursdaySoftwareArchitecture, "Software Architecture and Design");
 
 

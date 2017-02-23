@@ -67,10 +67,6 @@ import static com.example.android.teacher.HomeActivity.admin_password;
 public class MainSensorDataActivity extends AppCompatActivity implements EmpaStatusDelegate, EmpaDataDelegate{
     private static final String TAG = "MainSensorDataActivity";
 
-    private static final int MY_PERMISSIONS_ACCESS_FINE_LOCATION = 1;
-    private static final int MY_PERMISSIONS_READ_EXTERNAL_STORAGE = 2;
-    private static final int MY_PERMISSIONS_WRITE_EXTERNAL_STORAGE = 3;
-
 
     DatabaseHelper teacherDbHelper;
     SQLiteDatabase db;

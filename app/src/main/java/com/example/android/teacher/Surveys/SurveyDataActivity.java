@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.aware.Aware;
 import com.aware.ESM;
 import com.aware.providers.ESM_Provider;
+import com.aware.ui.ESM_Queue;
 import com.aware.ui.esms.ESMFactory;
 import com.aware.ui.esms.ESM_Freetext;
 import com.aware.ui.esms.ESM_PAM;
@@ -51,7 +52,7 @@ public class SurveyDataActivity extends AppCompatActivity {
     private Button pamButton;
     private Button postLectureSurveyButton;
 
-    int expirationThreshold = 420;
+    int expirationThreshold = 2;
     String password = "";
 
     @Override
@@ -440,22 +441,22 @@ public class SurveyDataActivity extends AppCompatActivity {
 //            }
 //        });
 
-        String[] tableColumns = {"timestamp", "esm_json", "esm_status", "esm_user_answer"};
-        String[] tableArguments = {};
-        Cursor data = getContentResolver().query(ESM_Provider.ESM_Data.CONTENT_URI, tableColumns, "", tableArguments,"");
-
-        if(data != null && data.getCount() > 0){
-            data.moveToFirst();
-            for(int i = 1; i <= data.getCount(); i++){
-//                Log.v("SURVEYSS", data.getString(data.getColumnIndex("timestamp")));
-//                Log.v("SURVEYSS", data.getString(data.getColumnIndex("esm_status")));
-                Log.v("SURVEYSS", data.getString(data.getColumnIndex("timestamp")) + data.getString(data.getColumnIndex("esm_user_answer")));
-
-
-            }
-
-        }
-        data.close();
+//        String[] tableColumns = {"timestamp", "esm_json", "esm_status", "esm_user_answer"};
+//        String[] tableArguments = {};
+//        Cursor data = getContentResolver().query(ESM_Provider.ESM_Data.CONTENT_URI, tableColumns, "", tableArguments,"");
+//
+//        if(data != null && data.getCount() > 0){
+//            data.moveToFirst();
+//            for(int i = 1; i <= data.getCount(); i++){
+////                Log.v("SURVEYSS", data.getString(data.getColumnIndex("timestamp")));
+////                Log.v("SURVEYSS", data.getString(data.getColumnIndex("esm_status")));
+//                Log.v("SURVEYSS", data.getString(data.getColumnIndex("timestamp")) + data.getString(data.getColumnIndex("esm_user_answer")));
+//
+//
+//            }
+//
+//        }
+//        data.close();
 
     }
 

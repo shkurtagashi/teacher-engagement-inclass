@@ -151,7 +151,7 @@ public class Uploader {
      */
     private String toCSV(Cursor records) {
         String csv = "";
-        String[] columns = {ESM_Provider.ESM_Data._ID, ESM_Provider.ESM_Data.TIMESTAMP, ESM_Provider.ESM_Data.DEVICE_ID, ESM_Provider.ESM_Data.JSON,
+        String[] columns = {ESM_Provider.ESM_Data._ID, ESM_Provider.ESM_Data.TIMESTAMP, ESM_Provider.ESM_Data.JSON,
                 ESM_Provider.ESM_Data.STATUS, ESM_Provider.ESM_Data.ANSWER};
 
         for(int i = 0; i < columns.length; i++) {
@@ -226,7 +226,7 @@ public class Uploader {
     * @param table
      */
     private Cursor getAwareRecords(Context context) {
-        String[] tableColumns = {"_id", "timestamp", "device_id", "esm_json", "esm_status", "esm_user_answer"};
+        String[] tableColumns = {"_id", "timestamp", "esm_json", "esm_status", "esm_user_answer"};
         String[] tableArguments = {};
 
         return context.getContentResolver().query(ESM_Provider.ESM_Data.CONTENT_URI, tableColumns, "", tableArguments,"");
