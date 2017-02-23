@@ -52,7 +52,7 @@ public class SurveyDataActivity extends AppCompatActivity {
     private Button pamButton;
     private Button postLectureSurveyButton;
 
-    int expirationThreshold = 2;
+    int expirationThreshold = 420;
     String password = "";
 
     @Override
@@ -76,6 +76,7 @@ public class SurveyDataActivity extends AppCompatActivity {
                     q1.setTitle("PAM")
                             .setInstructions("Pick the closest to how you feel now!")
                             .setSubmitButton("Done")
+                            .setTitle("PAM - " + UserData._selectedCourses)
                             .setExpirationThreshold(60*expirationThreshold);
 
                     factory.addESM(q1);
@@ -98,24 +99,24 @@ public class SurveyDataActivity extends AppCompatActivity {
 
                     ESM_Radio esmRadio1 = new ESM_Radio();
                     esmRadio1.setInstructions("I loved teaching this lecture.");
-                    esmRadio1.setTitle("Post Lecture Survey (1/5)");
+                    esmRadio1.setTitle("Post Lecture Survey - " + UserData._selectedCourses + " (1/5)");
 
 
                     ESM_Radio esmRadio2 = new ESM_Radio();
                     esmRadio2.setInstructions("I was excited about teaching this lecture.");
-                    esmRadio2.setTitle("Post Lecture Survey (2/5)");
+                    esmRadio2.setTitle("Post Lecture Survey - " + UserData._selectedCourses + " (2/5)");
 
 
                     ESM_Radio esmRadio3 = new ESM_Radio();
                     esmRadio3.setInstructions("I felt happy while teaching this lecture.");
-                    esmRadio3.setTitle("Post Lecture Survey (3/5)");
+                    esmRadio3.setTitle("Post Lecture Survey - " + UserData._selectedCourses + " (3/5)");
 
                     ESM_Radio esmRadio4 = new ESM_Radio();
                     esmRadio4.setInstructions("I found teaching this lecture fun.");
-                    esmRadio4.setTitle("Post Lecture Survey (4/5)");
+                    esmRadio4.setTitle("Post Lecture Survey - " + UserData._selectedCourses + " (4/5)");
 
                     ESM_Freetext esmFreeText = new ESM_Freetext();
-                    esmFreeText.setTitle("Post Lecture Survey")
+                    esmFreeText.setTitle("Post Lecture Survey - " + UserData._selectedCourses)
                             .setSubmitButton("Finish")
                             .setExpirationThreshold(60*expirationThreshold)
                             .setInstructions("Please describe the moment(s) during which you felt particularly engaged");
@@ -124,7 +125,7 @@ public class SurveyDataActivity extends AppCompatActivity {
                     ESM_QuickAnswer esmQuickAnswer = new ESM_QuickAnswer();
                     esmQuickAnswer.addQuickAnswer("Yes")
                             .addQuickAnswer("No")
-                            .setTitle("Post Lecture Survey (5/5)")
+                            .setTitle("Post Lecture Survey - " + UserData._selectedCourses + " (5/5)")
                             .setExpirationThreshold(60*expirationThreshold)
                             .setInstructions("Did you feel particularly engaged in one or more moments during the lecture?")
                             .addFlow("Yes", esmFreeText.build());
@@ -173,100 +174,100 @@ public class SurveyDataActivity extends AppCompatActivity {
 
                     ESM_Radio esmRadio1 = new ESM_Radio();
                     esmRadio1.setInstructions("At my work, I feel bursting with energy.");
-                    esmRadio1.setTitle("General Survey (1/21)");
+                    esmRadio1.setTitle("General Survey - " + UserData._selectedCourses + " (1/21)");
 
                     ESM_Radio esmRadio2 = new ESM_Radio();
                     esmRadio2.setInstructions("At my job, I feel strong and vigorous.");
-                    esmRadio2.setTitle("General Survey (2/21)");
+                    esmRadio2.setTitle("General Survey - " + UserData._selectedCourses + " (2/21)");
 
 
                     ESM_Radio esmRadio3 = new ESM_Radio();
                     esmRadio3.setInstructions("I am enthusiastic about my job.");
-                    esmRadio3.setTitle("General Survey (3/21)");
+                    esmRadio3.setTitle("General Survey - " + UserData._selectedCourses + " (3/21)");
 
                     ESM_Radio esmRadio4 = new ESM_Radio();
                     esmRadio4.setInstructions("My job inspires me.");
-                    esmRadio4.setTitle("General Survey (4/21)");
+                    esmRadio4.setTitle("General Survey - " + UserData._selectedCourses + " (4/21)");
 
 
                     ESM_Radio esmRadio5 = new ESM_Radio();
                     esmRadio5.setInstructions("When I get up in the morning I feel like going to work.");
-                    esmRadio5.setTitle("General Survey (5/21)");
+                    esmRadio5.setTitle("General Survey - " + UserData._selectedCourses + " (5/21)");
 
                     ESM_Radio esmRadio6 = new ESM_Radio();
                     esmRadio6.setInstructions("I feel happy when I am working intensively.");
-                    esmRadio6.setTitle("General Survey (6/21)");
+                    esmRadio6.setTitle("General Survey - " + UserData._selectedCourses + " (6/21)");
 
                     ESM_Radio esmRadio7 = new ESM_Radio();
                     esmRadio7.setInstructions("I am proud of the work that I do.");
-                    esmRadio7.setTitle("General Survey (7/21)");
+                    esmRadio7.setTitle("General Survey - " + UserData._selectedCourses + " (7/21)");
 
 
                     ESM_Radio esmRadio8 = new ESM_Radio();
                     esmRadio8.setInstructions("I am immersed in my work.");
-                    esmRadio8.setTitle("General Survey (8/21)");
+                    esmRadio8.setTitle("General Survey - " + UserData._selectedCourses + " (8/21)");
 
                     ESM_Radio esmRadio9 = new ESM_Radio();
                     esmRadio9.setInstructions("I get carried away when I am working.");
-                    esmRadio9.setTitle("General Survey (9/21)");
+                    esmRadio9.setTitle("General Survey - " + UserData._selectedCourses + " (9/21)");
 
 
                     ESM_Radio esmRadio10 = new ESM_Radio();
                     esmRadio10.setInstructions("I love teaching.");
-                    esmRadio10.setTitle("General Survey (10/21)");
+                    esmRadio10.setTitle("General Survey - " + UserData._selectedCourses + " (10/21)");
 
 
                     ESM_Radio esmRadio11 = new ESM_Radio();
                     esmRadio11.setInstructions("I am excited about teaching.");
-                    esmRadio11.setTitle("General Survey (11/21)");
+                    esmRadio11.setTitle("General Survey - " + UserData._selectedCourses + " (11/21)");
 
 
                     ESM_Radio esmRadio12 = new ESM_Radio();
                     esmRadio12.setInstructions("I feel happy while teaching.");
-                    esmRadio12.setTitle("General Survey (12/21)");
+                    esmRadio12.setTitle("General Survey - " + UserData._selectedCourses + " (12/21)");
 
 
                     ESM_Radio esmRadio13 = new ESM_Radio();
                     esmRadio13.setInstructions("I find teaching fun.");
-                    esmRadio13.setTitle("General Survey (13/21)");
+                    esmRadio13.setTitle("General Survey - " + UserData._selectedCourses + " (13/21)");
 
 
                     ESM_Radio esmRadio14 = new ESM_Radio();
                     esmRadio14.setInstructions("While teaching I pay a lot of attention to my work.");
-                    esmRadio14.setTitle("General Survey (14/21)");
+                    esmRadio14.setTitle("General Survey - " + UserData._selectedCourses + " (14/21)");
 
 
                     ESM_Radio esmRadio15 = new ESM_Radio();
                     esmRadio15.setInstructions("While teaching I really throw myself into my work.");
-                    esmRadio15.setTitle("General Survey (13/17)");
+                    esmRadio15.setTitle("General Survey - " + UserData._selectedCourses + " (13/17)");
 
 
                     ESM_Radio esmRadio16 = new ESM_Radio();
                     esmRadio16.setInstructions("While teaching, I work with intensity.");
-                    esmRadio16.setTitle("General Survey (16/21)");
+                    esmRadio16.setTitle("General Survey - " + UserData._selectedCourses + " (16/21)");
 
 
                     ESM_Radio esmRadio17 = new ESM_Radio();
-                    esmRadio17.setTitle("General Survey (17/21)")
+                    esmRadio17.setTitle("General Survey - " + UserData._selectedCourses + " (17/21)")
                             .setInstructions("I try my hardest to perform well while teaching.");
 
                     ESM_Radio esmRadio18 = new ESM_Radio();
-                    esmRadio18.setTitle("General Survey (18/21)")
+                    esmRadio18.setTitle("General Survey - " + UserData._selectedCourses + " (18/21)")
                             .setInstructions("In class, I care about the problems of my students.");
 
 
                     ESM_Radio esmRadio19 = new ESM_Radio();
-                    esmRadio19.setTitle("General Survey (19/21)")
+                    esmRadio19.setTitle("General Survey - " + UserData._selectedCourses + " (19/21)")
                             .setInstructions("In class, I am empathetic towards my students.");
 
 
                     ESM_Radio esmRadio20 = new ESM_Radio();
-                    esmRadio20.setTitle("General Survey (20/21)")
+                    esmRadio20.setTitle("General Survey - " + UserData._selectedCourses + " (20/21)")
                             .setInstructions("In class, I am aware of my student's feelings.");
 
 
                     ESM_Radio esmRadio21 = new ESM_Radio();
-                    esmRadio21.setTitle("General Survey (21/21)")
+                    esmRadio21.setTitle("General Survey - " + UserData._selectedCourses + " (21/21)")
                             .setInstructions("In class, I show warmth to my students.");
 
 

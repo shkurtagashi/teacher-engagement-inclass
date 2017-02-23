@@ -33,20 +33,21 @@ public class MyScheduler {
     Test Case 2 - One course but two different lectures in one day
      */
 
-    private int firstPamTrigger = -1; //Minutes before the lecture
+    private int firstPamTrigger = -15; //Minutes before the lecture
 
-    private int firstESMTrigger = 2; //Minutes after the lecture starts
-    private int secondPamTrigger = 1; //Minutes after the lecture starts
-    private int thirdPamTrigger = 3; //Minutes after the lecture starts
-    private int secondESMTrigger = 4; //Minutes after the lecture starts
+    private int firstESMTrigger = 40; //Minutes after the lecture starts
+    private int secondPamTrigger = 43; //Minutes after the lecture starts
+    private int secondESMTrigger = 100; //Minutes after the lecture starts
+    private int thirdPamTrigger = 103; //Minutes after the lecture starts
 
-    private int firstPamThreshold = 3; //Keep the notification alive x minutes after it fires- UNTIL 7 PM
 
-    private int secondPamThreshold = 3; //Minutes after it fires
-    private int firstESMThreshold = 45; //Minutes after it fires
+    private int firstPamThreshold = 720; //Keep the notification alive x minutes after it fires- UNTIL 7 PM
 
-    private int thirdPamThreshold = 60; //Minutes after it fires
-    private int secondESMThreshold = 60; //Minutes after it fires
+    private int secondPamThreshold = 720; //Minutes after it fires
+    private int firstESMThreshold = 720; //Minutes after it fires
+
+    private int thirdPamThreshold = 720; //Minutes after it fires
+    private int secondESMThreshold = 720; //Minutes after it fires
 
     //Programming Fundamentals 2 - Monday, Wednesday, Friday 10:30 - 12:15
     private Weekday mondayProgrammingFundamentals2 = new Weekday(10, 30, "Monday");
@@ -61,8 +62,8 @@ public class MyScheduler {
     private Course linearAlgebra = new Course(mondayLinearAlgebra, wednesdayLinearAlgebra, "Linear Algebra");
 
     //Information Security on Monday from 13:30 - 17:15
-    private Weekday mondayInformationSecurity1 = new Weekday(22, 26, "Tuesday"); //13-30 Monday
-    private Weekday mondayInformationSecurity2 = new Weekday(15, 28, "Tuesday"); // 15:30 Monday
+    private Weekday mondayInformationSecurity1 = new Weekday(13, 30, "Monday"); //13-30 Monday
+    private Weekday mondayInformationSecurity2 = new Weekday(15, 30, "Monday"); // 15:30 Monday
     private Course InformationSecurity = new Course(mondayInformationSecurity1, mondayInformationSecurity2, "Information Security");
 
     //Cyber Communication on Tuesday, Wednesday, Thursday from 10:30 - 12:15
@@ -71,9 +72,9 @@ public class MyScheduler {
     private Weekday thursdayCyberCommunication = new Weekday(10, 30, "Thursday");
     private Course CyberCommunication = new Course(tuesdayCyberCommunication, wednesdayCyberCommunication, thursdayCyberCommunication, "Cyber Communication");
 
-    //Software Architecture on Tuesday and Thursday from 13:30 - 15:15
+    //Software Architecture on Tuesday and Thursday from 13:30 - 15:30
     private Weekday tuesdaySoftwareArchitecture = new Weekday(13, 30, "Tuesday");
-    private Weekday thursdaySoftwareArchitecture = new Weekday(16, 2, "Thursday");
+    private Weekday thursdaySoftwareArchitecture = new Weekday(13, 30, "Thursday");
     private Course SoftwareArchitecture = new Course(tuesdaySoftwareArchitecture, thursdaySoftwareArchitecture, "Software Architecture and Design");
 
 
@@ -264,15 +265,7 @@ public class MyScheduler {
             q1.setSubmitButton("Done");
             q1.setNotificationTimeout(60*secondPamThreshold); //How long does the notification last?
 
-//            ESM_QuickAnswer esmQuickAnswer2 = new ESM_QuickAnswer();
-//            esmQuickAnswer2.addQuickAnswer("Finish")
-//                    .setTitle("Cookies on the way ...")
-//                    .setExpirationThreshold(60*firstPamThreshold)
-//                    .setInstructions("Thank you very much for your participation!");
-
-
             factory.addESM(q1);
-//            factory.addESM(esmQuickAnswer2);
 
 
             if(userCourses.contains(linearAlgebra.getName())){
@@ -431,10 +424,6 @@ public class MyScheduler {
                 Scheduler.saveSchedule(context, second_pam12);
             }
 
-//            factory.addESM(q1);
-//            factory.addESM(esmQuickAnswer2);
-
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -452,16 +441,7 @@ public class MyScheduler {
             q1.setSubmitButton("Done");
             q1.setNotificationTimeout(60*thirdPamThreshold); //How long does the notification last?
 
-//            ESM_QuickAnswer esmQuickAnswer2 = new ESM_QuickAnswer();
-//            esmQuickAnswer2.addQuickAnswer("Finish")
-//                    .setTitle("Cookies on the way ...")
-//                    .setExpirationThreshold(60*firstPamThreshold)
-//                    .setInstructions("Thank you very much for your participation!");
-
-
             factory.addESM(q1);
-//            factory.addESM(esmQuickAnswer2);
-
 
             if(userCourses.contains(linearAlgebra.getName())){
                 q1.setInstructions("Pick the closest to how you feel now after second part of " + linearAlgebra.getName() + " lecture!");
@@ -617,9 +597,6 @@ public class MyScheduler {
                 Scheduler.saveSchedule(context, third_pam12);
             }
 
-//            factory.addESM(q1);
-//            factory.addESM(esmQuickAnswer2);
-
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -689,9 +666,6 @@ public class MyScheduler {
             factory.addESM(esmRadio3);
             factory.addESM(esmRadio4);
             factory.addESM(esmQuickAnswer);
-
-
-
 
             if (userCourses.contains(linearAlgebra.getName())) {
                 esmRadio1.setTitle("Survey about the first lecture in " + linearAlgebra.getName() + " (1/5)");
@@ -865,13 +839,6 @@ public class MyScheduler {
 
             }
 
-//            factory.addESM(esmRadio1);
-//            factory.addESM(esmRadio2);
-//            factory.addESM(esmRadio3);
-//            factory.addESM(esmRadio4);
-//            factory.addESM(esmQuickAnswer);
-
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -905,7 +872,7 @@ public class MyScheduler {
             ESM_Freetext esmFreeText = new ESM_Freetext();
             esmFreeText.setTitle("Post Lecture Survey")
                     .setSubmitButton("Finish")
-                    .setExpirationThreshold(60*firstESMThreshold)
+                    .setExpirationThreshold(60*secondESMThreshold)
                     .setInstructions("Please describe the moment(s) during which you felt particularly engaged");
 
 
@@ -913,7 +880,7 @@ public class MyScheduler {
             esmQuickAnswer.addQuickAnswer("Yes")
                     .addQuickAnswer("No")
                     .setTitle("Post Lecture Survey (5/5)")
-                    .setExpirationThreshold(60*firstESMThreshold)
+                    .setExpirationThreshold(60*secondESMThreshold)
                     .setInstructions("Did you feel particularly engaged in one or more moments during the lecture?")
                     .addFlow("Yes", esmFreeText.build());
 
@@ -1110,12 +1077,6 @@ public class MyScheduler {
                 Scheduler.saveSchedule(context, second_esm12);
 
             }
-
-//            factory.addESM(esmRadio1);
-//            factory.addESM(esmRadio2);
-//            factory.addESM(esmRadio3);
-//            factory.addESM(esmRadio4);
-//            factory.addESM(esmQuickAnswer);
 
 
         } catch (JSONException e) {
