@@ -47,8 +47,10 @@
         <service android:name=".EmpaticaE4.EmpaticaService" />
 
         <adapter android:name=".SimpleFragmentPagerAdapter" />
+        <receiver android:name=".data.RemoteDataStorage.UploadAlarmReceiver"></receiver>
 
-        <activity android:name=".Sensors.MainSensorDataActivity" />
+        <activity android:name=".Sensors.MainSensorDataActivity"
+            android:theme="@style/Theme.AppCompat.Light"/>
         <activity android:name=".GraphActivity" />
         <activity android:name=".InitialActivity" />
         <activity android:name=".EmpaticaE4.EmpaticaActivity" />

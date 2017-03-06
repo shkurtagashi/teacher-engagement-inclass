@@ -15,12 +15,9 @@ import static com.example.android.teacher.data.User.UsersContract.UserEntry.TABL
  */
 
 public enum LocalTables {
+    TABLE_NAME_USERS,
     TABLE_NAME_ACC_DATA,
     TABLE_NAME_BVP_DATA,
     TABLE_NAME_EDA_DATA,
-    TABLE_NAME_USERS,
     TABLE_NAME_TEMP_DATA
-    //    TABLE_NAME_PAM_DATA,
-//    TABLE_GENERAL_SURVEY,
-//    TABLE_POST_LECTURE_SURVEY;
 }

@@ -33,12 +33,12 @@ public class MyScheduler {
     Test Case 2 - One course but two different lectures in one day
      */
 
-    private int firstPamTrigger = -15; //Minutes before the lecture
+    private int firstPamTrigger = -15; //Minutes before the lecture -15
 
-    private int firstESMTrigger = 40; //Minutes after the lecture starts
-    private int secondPamTrigger = 43; //Minutes after the lecture starts
-    private int secondESMTrigger = 100; //Minutes after the lecture starts
-    private int thirdPamTrigger = 103; //Minutes after the lecture starts
+    private int firstESMTrigger = 40; //Minutes after the lecture starts 40
+    private int secondPamTrigger = 41; //Minutes after the lecture starts 43
+    private int secondESMTrigger = 100; //Minutes after the lecture starts 100
+    private int thirdPamTrigger = 101; //Minutes after the lecture starts 103
 
 
     private int firstPamThreshold = 720; //Keep the notification alive x minutes after it fires- UNTIL 7 PM
@@ -53,7 +53,7 @@ public class MyScheduler {
     private Weekday mondayProgrammingFundamentals2 = new Weekday(10, 30, "Monday");
     private Weekday wednesdayProgrammingFundamentals2 = new Weekday(10, 30, "Wednesday");
     private Weekday fridayProgrammingFundamentals3 = new Weekday(10, 30, "Friday");
-    private Course programmingFundamentals = new Course(mondayProgrammingFundamentals2, wednesdayProgrammingFundamentals2, fridayProgrammingFundamentals3, "Programming Fundamentals 2");
+    private Course programmingFundamentals = new Course(mondayProgrammingFundamentals2, wednesdayProgrammingFundamentals2, fridayProgrammingFundamentals3, "Programming Fundamentals");
 
 
     //Linear Algebra - Monday, Wednesday 8:30 - 10:15
@@ -78,7 +78,6 @@ public class MyScheduler {
     private Course SoftwareArchitecture = new Course(tuesdaySoftwareArchitecture, thursdaySoftwareArchitecture, "Software Architecture and Design");
 
 
-
     ////Create first PAM 15 minutes before the lecture starts and remove notification 15 after it starts
     //Take the course from the logged in user, the day from the Calendar
     public void createFirstPAM(Context context, String userCourses){
@@ -89,13 +88,13 @@ public class MyScheduler {
             ESM_PAM q1 = new ESM_PAM();
             q1.setTitle("PAM");
             q1.setSubmitButton("Done");
-            q1.setNotificationRetry(3);
             q1.setNotificationTimeout(60*firstPamThreshold); //Different in x cases
 
             factory.addESM(q1);
 
             if(userCourses.contains(linearAlgebra.getName())){
                 q1.setInstructions("Pick the closest to how you feel now before the " + linearAlgebra.getName() + " lecture!");
+
                 Schedule first_pam = new Schedule("first_pam" + UserData._username);
                 first_pam.addWeekday(linearAlgebra.getWeekday1()._DAY);
                 first_pam.addHour(linearAlgebra.getWeekday1()._HOUR);
@@ -105,7 +104,7 @@ public class MyScheduler {
                 first_pam.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 first_pam.addActionExtra(ESM.EXTRA_ESM, factory.build());
 
-                Scheduler.saveSchedule(context, first_pam);
+                com.aware.utils.Scheduler.saveSchedule(context, first_pam);
 
                 Schedule first_pam0 = new Schedule("first_pam0" + UserData._username);
                 first_pam0.addWeekday(linearAlgebra.getWeekday2()._DAY);
@@ -116,7 +115,7 @@ public class MyScheduler {
                 first_pam0.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 first_pam0.addActionExtra(ESM.EXTRA_ESM, factory.build());
 
-                Scheduler.saveSchedule(context, first_pam0);
+                com.aware.utils.Scheduler.saveSchedule(context, first_pam0);
             }
 
 
@@ -132,7 +131,7 @@ public class MyScheduler {
                 first_pam1.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 first_pam1.addActionExtra(ESM.EXTRA_ESM, factory.build());
 
-                Scheduler.saveSchedule(context, first_pam1);
+                com.aware.utils.Scheduler.saveSchedule(context, first_pam1);
 
                 Schedule first_pam2 = new Schedule("first_pam2" + UserData._username);
                 first_pam2.addHour(InformationSecurity.getWeekday2()._HOUR);
@@ -143,49 +142,50 @@ public class MyScheduler {
                 first_pam2.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 first_pam2.addActionExtra(ESM.EXTRA_ESM, factory.build());
 
-                Scheduler.saveSchedule(context, first_pam2);
+                com.aware.utils.Scheduler.saveSchedule(context, first_pam2);
             }
 
             if (userCourses.contains((CyberCommunication.getName()))) {
                 q1.setInstructions("Pick the closest to how you feel now before the " + CyberCommunication.getName() + " lecture!");
 
                 Schedule first_pam3 = new Schedule("first_pam3"+UserData._username);
+                first_pam3.addWeekday(CyberCommunication.getWeekday1()._DAY);
                 first_pam3.addHour(CyberCommunication.getWeekday1()._HOUR);
                 first_pam3.addMinute(CyberCommunication.getWeekday1()._MINUTE + firstPamTrigger);
-                first_pam3.addWeekday(CyberCommunication.getWeekday1()._DAY);
 
                 first_pam3.setActionType(com.aware.utils.Scheduler.ACTION_TYPE_BROADCAST);
                 first_pam3.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 first_pam3.addActionExtra(ESM.EXTRA_ESM, factory.build());
 
-                Scheduler.saveSchedule(context, first_pam3);
+                com.aware.utils.Scheduler.saveSchedule(context, first_pam3);
 
 
                 Schedule first_pam4 = new Schedule("first_pam4"+UserData._username);
+                first_pam4.addWeekday(CyberCommunication.getWeekday2()._DAY);
                 first_pam4.addHour(CyberCommunication.getWeekday2()._HOUR);
                 first_pam4.addMinute(CyberCommunication.getWeekday2()._MINUTE + firstPamTrigger);
-                first_pam4.addWeekday(CyberCommunication.getWeekday2()._DAY);
 
                 first_pam4.setActionType(com.aware.utils.Scheduler.ACTION_TYPE_BROADCAST);
                 first_pam4.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 first_pam4.addActionExtra(ESM.EXTRA_ESM, factory.build());
 
-                Scheduler.saveSchedule(context, first_pam4);
+                com.aware.utils.Scheduler.saveSchedule(context, first_pam4);
 
                 Schedule first_pam5 = new Schedule("first_pam5"+UserData._username);
+                first_pam5.addWeekday(CyberCommunication.getWeekday3()._DAY);
                 first_pam5.addHour(CyberCommunication.getWeekday3()._HOUR);
                 first_pam5.addMinute(CyberCommunication.getWeekday3()._MINUTE + firstPamTrigger);
-                first_pam5.addWeekday(CyberCommunication.getWeekday3()._DAY);
 
                 first_pam5.setActionType(Scheduler.ACTION_TYPE_BROADCAST);
                 first_pam5.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 first_pam5.addActionExtra(ESM.EXTRA_ESM, factory.build());
 
-                Scheduler.saveSchedule(context, first_pam5);
+                com.aware.utils.Scheduler.saveSchedule(context, first_pam5);
             }
 
             if (userCourses.contains(SoftwareArchitecture.getName())) {
                 q1.setInstructions("Pick the closest to how you feel now before " + SoftwareArchitecture.getName() + "!");
+
                 Schedule first_pam6 = new Schedule("first_pam6" + UserData._username);
                 first_pam6.addHour(SoftwareArchitecture.getWeekday1()._HOUR);
                 first_pam6.addMinute(SoftwareArchitecture.getWeekday1()._MINUTE + firstPamTrigger);
@@ -195,7 +195,7 @@ public class MyScheduler {
                 first_pam6.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 first_pam6.addActionExtra(ESM.EXTRA_ESM, factory.build());
 
-                Scheduler.saveSchedule(context, first_pam6);
+                com.aware.utils.Scheduler.saveSchedule(context, first_pam6);
 
 
                 Schedule first_pam7 = new Schedule("first_pam7" + UserData._username);
@@ -211,7 +211,7 @@ public class MyScheduler {
             }
 
             if(userCourses.contains(programmingFundamentals.getName())){
-                q1.setInstructions("Pick the closest to how you feel right now before the " + programmingFundamentals.getName() + " lecture");
+                q1.setInstructions("Pick the closest to how you feel right now before the " + programmingFundamentals.getName() + " lecture!");
 
                 Schedule first_pam8 = new Schedule("first_pam8" + UserData._username);
                 first_pam8.addWeekday(programmingFundamentals.getWeekday1()._DAY);
@@ -222,7 +222,7 @@ public class MyScheduler {
                 first_pam8.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 first_pam8.addActionExtra(ESM.EXTRA_ESM, factory.build());
 
-                Scheduler.saveSchedule(context, first_pam8);
+                com.aware.utils.Scheduler.saveSchedule(context, first_pam8);
 
                 Schedule first_pam9 = new Schedule("first_pam9" + UserData._username);
                 first_pam9.addWeekday(programmingFundamentals.getWeekday2()._DAY);
@@ -233,7 +233,7 @@ public class MyScheduler {
                 first_pam9.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 first_pam9.addActionExtra(ESM.EXTRA_ESM, factory.build());
 
-                Scheduler.saveSchedule(context, first_pam9);
+                com.aware.utils.Scheduler.saveSchedule(context, first_pam9);
 
                 Schedule first_pam10 = new Schedule("first_pam10" + UserData._username);
                 first_pam10.addWeekday(programmingFundamentals.getWeekday3()._DAY);
@@ -244,9 +244,8 @@ public class MyScheduler {
                 first_pam10.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 first_pam10.addActionExtra(ESM.EXTRA_ESM, factory.build());
 
-                Scheduler.saveSchedule(context, first_pam10);
+                com.aware.utils.Scheduler.saveSchedule(context, first_pam10);
             }
-
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -279,7 +278,7 @@ public class MyScheduler {
                 second_pam1.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 second_pam1.addActionExtra(ESM.EXTRA_ESM, factory.build());
 
-                Scheduler.saveSchedule(context, second_pam1);
+                com.aware.utils.Scheduler.saveSchedule(context, second_pam1);
 
                 Schedule second_pam2 = new Schedule("second_pam2" + UserData._username);
                 second_pam2.addWeekday(linearAlgebra.getWeekday2()._DAY);
@@ -290,7 +289,7 @@ public class MyScheduler {
                 second_pam2.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 second_pam2.addActionExtra(ESM.EXTRA_ESM, factory.build());
 
-                Scheduler.saveSchedule(context, second_pam2);
+                com.aware.utils.Scheduler.saveSchedule(context, second_pam2);
             }
 
             if(userCourses.contains(InformationSecurity.getName())){
@@ -306,7 +305,7 @@ public class MyScheduler {
                 second_pam3.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 second_pam3.addActionExtra(ESM.EXTRA_ESM, factory.build());
 
-                Scheduler.saveSchedule(context, second_pam3);
+                com.aware.utils.Scheduler.saveSchedule(context, second_pam3);
 
                 Schedule second_pam4 = new Schedule("second_pam4"+UserData._username);
 
@@ -318,7 +317,7 @@ public class MyScheduler {
                 second_pam4.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 second_pam4.addActionExtra(ESM.EXTRA_ESM, factory.build());
 
-                Scheduler.saveSchedule(context, second_pam4);
+                com.aware.utils.Scheduler.saveSchedule(context, second_pam4);
             }
 
             if(userCourses.contains(CyberCommunication.getName())){
@@ -374,7 +373,8 @@ public class MyScheduler {
                 second_pam8.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 second_pam8.addActionExtra(ESM.EXTRA_ESM, factory.build());
 
-                Scheduler.saveSchedule(context, second_pam8);
+                com.aware.utils.Scheduler.saveSchedule(context, second_pam8);
+
                 Schedule second_pam9 = new Schedule("second_pam9" + UserData._username);
                 second_pam9.addWeekday(SoftwareArchitecture.getWeekday2()._DAY);
                 second_pam9.addHour(SoftwareArchitecture.getWeekday2()._HOUR);
@@ -383,7 +383,7 @@ public class MyScheduler {
                 second_pam9.setActionType(Scheduler.ACTION_TYPE_BROADCAST);
                 second_pam9.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 second_pam9.addActionExtra(ESM.EXTRA_ESM, factory.build());
-                Scheduler.saveSchedule(context, second_pam9);
+                com.aware.utils.Scheduler.saveSchedule(context, second_pam9);
 
             }
 
@@ -393,13 +393,13 @@ public class MyScheduler {
                 Schedule second_pam10 = new Schedule("second_pam10" + UserData._username);
                 second_pam10.addWeekday(programmingFundamentals.getWeekday1()._DAY);
                 second_pam10.addHour(programmingFundamentals.getWeekday1()._HOUR);
-                second_pam10.addMinute(programmingFundamentals.getWeekday1()._MINUTE + secondPamTrigger);
+                second_pam10.addMinute(programmingFundamentals.getWeekday1()._MINUTE + 1);
 
                 second_pam10.setActionType(Scheduler.ACTION_TYPE_BROADCAST);
                 second_pam10.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 second_pam10.addActionExtra(ESM.EXTRA_ESM, factory.build());
 
-                Scheduler.saveSchedule(context, second_pam10);
+                com.aware.utils.Scheduler.saveSchedule(context, second_pam10);
 
                 Schedule second_pam11 = new Schedule("second_pam11" + UserData._username);
                 second_pam11.addWeekday(programmingFundamentals.getWeekday2()._DAY);
@@ -410,7 +410,7 @@ public class MyScheduler {
                 second_pam11.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 second_pam11.addActionExtra(ESM.EXTRA_ESM, factory.build());
 
-                Scheduler.saveSchedule(context, second_pam11);
+                com.aware.utils.Scheduler.saveSchedule(context, second_pam11);
 
                 Schedule second_pam12 = new Schedule("second_pam12" + UserData._username);
                 second_pam12.addWeekday(programmingFundamentals.getWeekday3()._DAY);
@@ -421,7 +421,7 @@ public class MyScheduler {
                 second_pam12.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 second_pam12.addActionExtra(ESM.EXTRA_ESM, factory.build());
 
-                Scheduler.saveSchedule(context, second_pam12);
+                com.aware.utils.Scheduler.saveSchedule(context, second_pam12);
             }
 
         } catch (JSONException e) {
@@ -454,7 +454,7 @@ public class MyScheduler {
                 third_pam1.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 third_pam1.addActionExtra(ESM.EXTRA_ESM, factory.build());
 
-                Scheduler.saveSchedule(context, third_pam1);
+                com.aware.utils.Scheduler.saveSchedule(context, third_pam1);
 
                 Schedule third_pam2 = new Schedule("third_pam2" + UserData._username);
                 third_pam2.addWeekday(linearAlgebra.getWeekday2()._DAY);
@@ -465,7 +465,7 @@ public class MyScheduler {
                 third_pam2.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 third_pam2.addActionExtra(ESM.EXTRA_ESM, factory.build());
 
-                Scheduler.saveSchedule(context, third_pam2);
+                com.aware.utils.Scheduler.saveSchedule(context, third_pam2);
             }
 
             if(userCourses.contains(InformationSecurity.getName())){
@@ -481,7 +481,7 @@ public class MyScheduler {
                 third_pam3.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 third_pam3.addActionExtra(ESM.EXTRA_ESM, factory.build());
 
-                Scheduler.saveSchedule(context, third_pam3);
+                com.aware.utils.Scheduler.saveSchedule(context, third_pam3);
 
                 Schedule third_pam4 = new Schedule("third_pam4"+UserData._username);
                 third_pam4.addWeekday(InformationSecurity.getWeekday2()._DAY);
@@ -491,7 +491,7 @@ public class MyScheduler {
                 third_pam4.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 third_pam4.addActionExtra(ESM.EXTRA_ESM, factory.build());
 
-                Scheduler.saveSchedule(context, third_pam4);
+                com.aware.utils.Scheduler.saveSchedule(context, third_pam4);
             }
 
             if(userCourses.contains(CyberCommunication.getName())){
@@ -547,7 +547,8 @@ public class MyScheduler {
                 second_pam8.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 second_pam8.addActionExtra(ESM.EXTRA_ESM, factory.build());
 
-                Scheduler.saveSchedule(context, second_pam8);
+                com.aware.utils.Scheduler.saveSchedule(context, second_pam8);
+
                 Schedule second_pam9 = new Schedule("second_pam9" + UserData._username);
                 second_pam9.addWeekday(SoftwareArchitecture.getWeekday2()._DAY);
                 second_pam9.addHour(SoftwareArchitecture.getWeekday2()._HOUR);
@@ -556,7 +557,7 @@ public class MyScheduler {
                 second_pam9.setActionType(Scheduler.ACTION_TYPE_BROADCAST);
                 second_pam9.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 second_pam9.addActionExtra(ESM.EXTRA_ESM, factory.build());
-                Scheduler.saveSchedule(context, second_pam9);
+                com.aware.utils.Scheduler.saveSchedule(context, second_pam9);
 
             }
 
@@ -566,13 +567,13 @@ public class MyScheduler {
                 Schedule third_pam10 = new Schedule("third_pam10" + UserData._username);
                 third_pam10.addWeekday(programmingFundamentals.getWeekday1()._DAY);
                 third_pam10.addHour(programmingFundamentals.getWeekday1()._HOUR);
-                third_pam10.addMinute(programmingFundamentals.getWeekday1()._MINUTE + secondPamTrigger);
+                third_pam10.addMinute(programmingFundamentals.getWeekday1()._MINUTE + 2);
 
                 third_pam10.setActionType(Scheduler.ACTION_TYPE_BROADCAST);
                 third_pam10.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 third_pam10.addActionExtra(ESM.EXTRA_ESM, factory.build());
 
-                Scheduler.saveSchedule(context, third_pam10);
+                com.aware.utils.Scheduler.saveSchedule(context, third_pam10);
 
                 Schedule third_pam11 = new Schedule("third_pam11" + UserData._username);
                 third_pam11.addWeekday(programmingFundamentals.getWeekday2()._DAY);
@@ -583,7 +584,7 @@ public class MyScheduler {
                 third_pam11.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 third_pam11.addActionExtra(ESM.EXTRA_ESM, factory.build());
 
-                Scheduler.saveSchedule(context, third_pam11);
+                com.aware.utils.Scheduler.saveSchedule(context, third_pam11);
 
                 Schedule third_pam12 = new Schedule("third_pam12" + UserData._username);
                 third_pam12.addWeekday(programmingFundamentals.getWeekday3()._DAY);
@@ -594,7 +595,7 @@ public class MyScheduler {
                 third_pam12.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 third_pam12.addActionExtra(ESM.EXTRA_ESM, factory.build());
 
-                Scheduler.saveSchedule(context, third_pam12);
+                com.aware.utils.Scheduler.saveSchedule(context, third_pam12);
             }
 
 
@@ -685,7 +686,7 @@ public class MyScheduler {
                 first_esm1.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 first_esm1.addActionExtra(ESM.EXTRA_ESM, factory.build());
 
-                Scheduler.saveSchedule(context, first_esm1);
+                com.aware.utils.Scheduler.saveSchedule(context, first_esm1);
 
                 Schedule first_esm2 = new Schedule("first_esm2" + UserData._username);
 
@@ -697,7 +698,7 @@ public class MyScheduler {
                 first_esm2.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 first_esm2.addActionExtra(ESM.EXTRA_ESM, factory.build());
 
-                Scheduler.saveSchedule(context, first_esm2);
+                com.aware.utils.Scheduler.saveSchedule(context, first_esm2);
             }
 
             if (userCourses.contains(InformationSecurity.getName())) {
@@ -717,7 +718,7 @@ public class MyScheduler {
                 first_esm3.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 first_esm3.addActionExtra(ESM.EXTRA_ESM, factory.build());
 
-                Scheduler.saveSchedule(context, first_esm3);
+                com.aware.utils.Scheduler.saveSchedule(context, first_esm3);
 
                 Schedule first_esm4 = new Schedule("first_esm4" + UserData._username);
                 first_esm4.addWeekday(mondayInformationSecurity2._DAY);
@@ -728,7 +729,7 @@ public class MyScheduler {
                 first_esm4.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 first_esm4.addActionExtra(ESM.EXTRA_ESM, factory.build());
 
-                Scheduler.saveSchedule(context, first_esm4);
+                com.aware.utils.Scheduler.saveSchedule(context, first_esm4);
             }
 
             if (userCourses.contains(CyberCommunication.getName())) {
@@ -746,7 +747,7 @@ public class MyScheduler {
                 first_esm5.setActionType(Scheduler.ACTION_TYPE_BROADCAST);
                 first_esm5.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 first_esm5.addActionExtra(ESM.EXTRA_ESM, factory.build());
-                Scheduler.saveSchedule(context, first_esm5);
+                com.aware.utils.Scheduler.saveSchedule(context, first_esm5);
 
                 Schedule first_esm6 = new Schedule("first_esm6" + UserData._username);
                 first_esm6.addWeekday(CyberCommunication.getWeekday2()._DAY);
@@ -755,7 +756,7 @@ public class MyScheduler {
                 first_esm6.setActionType(Scheduler.ACTION_TYPE_BROADCAST);
                 first_esm6.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 first_esm6.addActionExtra(ESM.EXTRA_ESM, factory.build());
-                Scheduler.saveSchedule(context, first_esm6);
+                com.aware.utils.Scheduler.saveSchedule(context, first_esm6);
 
                 Schedule first_esm7 = new Schedule("first_esm7" + UserData._username);
                 first_esm7.addWeekday(CyberCommunication.getWeekday3()._DAY);
@@ -765,7 +766,7 @@ public class MyScheduler {
                 first_esm7.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 first_esm7.addActionExtra(ESM.EXTRA_ESM, factory.build());
 
-                Scheduler.saveSchedule(context, first_esm7);
+                com.aware.utils.Scheduler.saveSchedule(context, first_esm7);
 
             }
 
@@ -785,7 +786,7 @@ public class MyScheduler {
                 first_esm8.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 first_esm8.addActionExtra(ESM.EXTRA_ESM, factory.build());
 
-                Scheduler.saveSchedule(context, first_esm8);
+                com.aware.utils.Scheduler.saveSchedule(context, first_esm8);
 
                 Schedule first_esm9 = new Schedule("first_esm9" + UserData._username);
                 first_esm9.addWeekday(SoftwareArchitecture.getWeekday2()._DAY);
@@ -795,7 +796,7 @@ public class MyScheduler {
                 first_esm9.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 first_esm9.addActionExtra(ESM.EXTRA_ESM, factory.build());
 
-                Scheduler.saveSchedule(context, first_esm9);
+                com.aware.utils.Scheduler.saveSchedule(context, first_esm9);
 
             }
 
@@ -810,12 +811,12 @@ public class MyScheduler {
                 Schedule first_esm10 = new Schedule("first_esm10" + UserData._username);
                 first_esm10.addWeekday(programmingFundamentals.getWeekday1()._DAY);
                 first_esm10.addHour(programmingFundamentals.getWeekday1()._HOUR);
-                first_esm10.addMinute(programmingFundamentals.getWeekday1()._MINUTE + firstESMTrigger);
+                first_esm10.addMinute(programmingFundamentals.getWeekday1()._MINUTE + 1);
                 first_esm10.setActionType(Scheduler.ACTION_TYPE_BROADCAST);
                 first_esm10.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 first_esm10.addActionExtra(ESM.EXTRA_ESM, factory.build());
 
-                Scheduler.saveSchedule(context, first_esm10);
+                com.aware.utils.Scheduler.saveSchedule(context, first_esm10);
 
                 Schedule first_esm11 = new Schedule("first_esm11" + UserData._username);
                 first_esm11.addWeekday(programmingFundamentals.getWeekday2()._DAY);
@@ -825,7 +826,7 @@ public class MyScheduler {
                 first_esm11.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 first_esm11.addActionExtra(ESM.EXTRA_ESM, factory.build());
 
-                Scheduler.saveSchedule(context, first_esm11);
+                com.aware.utils.Scheduler.saveSchedule(context, first_esm11);
 
                 Schedule first_esm12 = new Schedule("first_esm12" + UserData._username);
                 first_esm12.addWeekday(programmingFundamentals.getWeekday3()._DAY);
@@ -835,7 +836,7 @@ public class MyScheduler {
                 first_esm12.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 first_esm12.addActionExtra(ESM.EXTRA_ESM, factory.build());
 
-                Scheduler.saveSchedule(context, first_esm12);
+                com.aware.utils.Scheduler.saveSchedule(context, first_esm12);
 
             }
 
@@ -924,7 +925,7 @@ public class MyScheduler {
                 first_esm1.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 first_esm1.addActionExtra(ESM.EXTRA_ESM, factory.build());
 
-                Scheduler.saveSchedule(context, first_esm1);
+                com.aware.utils.Scheduler.saveSchedule(context, first_esm1);
 
                 Schedule first_esm2 = new Schedule("second_esm2" + UserData._username);
 
@@ -936,7 +937,7 @@ public class MyScheduler {
                 first_esm2.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 first_esm2.addActionExtra(ESM.EXTRA_ESM, factory.build());
 
-                Scheduler.saveSchedule(context, first_esm2);
+                com.aware.utils.Scheduler.saveSchedule(context, first_esm2);
             }
 
             if (userCourses.contains(InformationSecurity.getName())) {
@@ -956,7 +957,7 @@ public class MyScheduler {
                 first_esm3.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 first_esm3.addActionExtra(ESM.EXTRA_ESM, factory.build());
 
-                Scheduler.saveSchedule(context, first_esm3);
+                com.aware.utils.Scheduler.saveSchedule(context, first_esm3);
 
                 Schedule first_esm4 = new Schedule("second_esm4" + UserData._username);
                 first_esm4.addWeekday(mondayInformationSecurity2._DAY);
@@ -967,7 +968,7 @@ public class MyScheduler {
                 first_esm4.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 first_esm4.addActionExtra(ESM.EXTRA_ESM, factory.build());
 
-                Scheduler.saveSchedule(context, first_esm4);
+                com.aware.utils.Scheduler.saveSchedule(context, first_esm4);
             }
 
             if (userCourses.contains(CyberCommunication.getName())) {
@@ -985,7 +986,7 @@ public class MyScheduler {
                 first_esm5.setActionType(Scheduler.ACTION_TYPE_BROADCAST);
                 first_esm5.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 first_esm5.addActionExtra(ESM.EXTRA_ESM, factory.build());
-                Scheduler.saveSchedule(context, first_esm5);
+                com.aware.utils.Scheduler.saveSchedule(context, first_esm5);
 
                 Schedule first_esm6 = new Schedule("second_esm6" + UserData._username);
                 first_esm6.addWeekday(CyberCommunication.getWeekday2()._DAY);
@@ -994,7 +995,7 @@ public class MyScheduler {
                 first_esm6.setActionType(Scheduler.ACTION_TYPE_BROADCAST);
                 first_esm6.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 first_esm6.addActionExtra(ESM.EXTRA_ESM, factory.build());
-                Scheduler.saveSchedule(context, first_esm6);
+                com.aware.utils.Scheduler.saveSchedule(context, first_esm6);
 
                 Schedule first_esm7 = new Schedule("second_esm7" + UserData._username);
                 first_esm7.addWeekday(CyberCommunication.getWeekday3()._DAY);
@@ -1004,7 +1005,7 @@ public class MyScheduler {
                 first_esm7.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 first_esm7.addActionExtra(ESM.EXTRA_ESM, factory.build());
 
-                Scheduler.saveSchedule(context, first_esm7);
+                com.aware.utils.Scheduler.saveSchedule(context, first_esm7);
 
             }
 
@@ -1024,7 +1025,7 @@ public class MyScheduler {
                 first_esm8.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 first_esm8.addActionExtra(ESM.EXTRA_ESM, factory.build());
 
-                Scheduler.saveSchedule(context, first_esm8);
+                com.aware.utils.Scheduler.saveSchedule(context, first_esm8);
 
                 Schedule first_esm9 = new Schedule("second_esm9" + UserData._username);
                 first_esm9.addWeekday(SoftwareArchitecture.getWeekday2()._DAY);
@@ -1034,7 +1035,7 @@ public class MyScheduler {
                 first_esm9.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 first_esm9.addActionExtra(ESM.EXTRA_ESM, factory.build());
 
-                Scheduler.saveSchedule(context, first_esm9);
+                com.aware.utils.Scheduler.saveSchedule(context, first_esm9);
 
             }
 
@@ -1049,12 +1050,12 @@ public class MyScheduler {
                 Schedule second_esm10 = new Schedule("second_esm10" + UserData._username);
                 second_esm10.addWeekday(programmingFundamentals.getWeekday1()._DAY);
                 second_esm10.addHour(programmingFundamentals.getWeekday1()._HOUR);
-                second_esm10.addMinute(programmingFundamentals.getWeekday1()._MINUTE + secondESMTrigger);
+                second_esm10.addMinute(programmingFundamentals.getWeekday1()._MINUTE + 2);
                 second_esm10.setActionType(Scheduler.ACTION_TYPE_BROADCAST);
                 second_esm10.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 second_esm10.addActionExtra(ESM.EXTRA_ESM, factory.build());
 
-                Scheduler.saveSchedule(context, second_esm10);
+                com.aware.utils.Scheduler.saveSchedule(context, second_esm10);
 
                 Schedule second_esm11 = new Schedule("second_esm11" + UserData._username);
                 second_esm11.addWeekday(programmingFundamentals.getWeekday2()._DAY);
@@ -1064,7 +1065,7 @@ public class MyScheduler {
                 second_esm11.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 second_esm11.addActionExtra(ESM.EXTRA_ESM, factory.build());
 
-                Scheduler.saveSchedule(context, second_esm11);
+                com.aware.utils.Scheduler.saveSchedule(context, second_esm11);
 
                 Schedule second_esm12 = new Schedule("second_esm12" + UserData._username);
                 second_esm12.addWeekday(programmingFundamentals.getWeekday3()._DAY);
@@ -1074,7 +1075,7 @@ public class MyScheduler {
                 second_esm12.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 second_esm12.addActionExtra(ESM.EXTRA_ESM, factory.build());
 
-                Scheduler.saveSchedule(context, second_esm12);
+                com.aware.utils.Scheduler.saveSchedule(context, second_esm12);
 
             }
 

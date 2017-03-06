@@ -2,49 +2,96 @@ package com.example.android.teacher.data.RemoteDataStorage;
 
 /**
  *
- * Code contribution from Luca Dotti
+ * Code partially contributed from Luca Dotti
  */
 
 import android.content.Context;
 import android.database.Cursor;
-import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.aware.providers.ESM_Provider;
+import com.example.android.teacher.data.EmpaticaE4.E4DataContract;
+import com.example.android.teacher.data.LocalDataStorage.DatabaseHelper;
 import com.example.android.teacher.data.LocalDataStorage.LocalDbUtility;
 import com.example.android.teacher.data.LocalDataStorage.LocalStorageController;
 import com.example.android.teacher.data.LocalDataStorage.LocalTables;
-import com.example.android.teacher.data.UploaderUtilityTable;
+import com.example.android.teacher.data.Sensors.AccSensorContract;
+import com.example.android.teacher.data.Sensors.BvpSensorContract;
+import com.example.android.teacher.data.Sensors.EdaSensorContract;
+import com.example.android.teacher.data.Sensors.TempSensorContract;
 import com.example.android.teacher.data.User.UserData;
 
 import java.util.*;
 import java.text.SimpleDateFormat;
 
-
 public class Uploader {
+    private DatabaseHelper dbHelper;
     private RemoteStorageController switchDriveController;
     private LocalStorageController localController;
     private LocalTables tableToClean;
-    private long uploadThreshold;
     private String userId;
 
-    public Uploader(String userId, RemoteStorageController remoteController, LocalStorageController localController) {
+    public Uploader(String userId, RemoteStorageController remoteController, LocalStorageController localController, DatabaseHelper dbHelper) {
         this.switchDriveController = remoteController;
         this.localController = localController;
         //the start table to clean
         tableToClean = LocalTables.values()[0];
         //user id is the phone id
         this.userId = userId;
+        this.dbHelper = dbHelper;
     }
 
     /**
-     * Upload function to upload local tables' data to Switch Drive
+     * Upload function to upload Users tables' data to Switch Drive
+     * Local Tables: Users, Eda, Acc, Bvp, Temp
      *
      */
-    public void upload(){
+    public int uploadUsersTable(){
+        int response = 0;
+        //number of tables
+        Cursor c;
+        //current table to clean
+        LocalTables currTable;
+        String fileName;
+
+        currTable = LocalTables.values()[0];
+
+        //build name of file to upload
+        fileName = buildFileName(currTable);
+
+        //get all data currently in the table
+        c = getRecords(currTable);
+
+        if (c.getCount() > 0) {
+            c.moveToFirst();
+
+            //upload the data to the server
+            response = switchDriveController.upload(fileName, toCSV(c, currTable));
+
+            //if the file was put, delete records and update the arrays
+            if (response >= 200 && response <= 207) {
+                response = 200;
+            } else {
+                response = 404;
+                Log.d("DATA UPLOAD SERVICE", "Owncould's response: " + Integer.toString(response));
+            }
+        }
+
+        return response;
+    }
+
+
+    /**
+     * Upload function to upload local tables' data to Switch Drive
+     * Local Tables: Users, Eda, Acc, Bvp, Temp
+     *
+     */
+    public int upload(){
+        int response = 0;
         //number of tables
         int nbTableToClean = LocalTables.values().length;
-        int i = 0;
+        int i = 1; //Start it from EDA table not USERS table **********************
         Cursor c;
         //current table to clean
         LocalTables currTable;
@@ -63,29 +110,39 @@ public class Uploader {
                 c.moveToFirst();
 
                 //upload the data to the server
-                int response = switchDriveController.upload(fileName, toCSV(c, currTable));
+                response = switchDriveController.upload(fileName, toCSV(c, currTable));
 
                 //if the file was put, delete records and update the arrays
                 if (response >= 200 && response <= 207) {
+                    response = 200;
                     //delete from the db the records where id > startId and id <= endId
-
+                    if(currTable.name() == "TABLE_NAME_ACC_DATA"){
+                        dbHelper.deleteAllFromTable(AccSensorContract.AccSensorDataEntry.TABLE_NAME_ACC_DATA);
+                    }else if(currTable.name().equals("TABLE_NAME_BVP_DATA")){
+                        dbHelper.deleteAllFromTable(BvpSensorContract.BvpSensorDataEntry.TABLE_NAME_BVP_DATA);
+                    }else if(currTable.name().equals("TABLE_NAME_EDA_DATA")){
+                        dbHelper.deleteAllFromTable(EdaSensorContract.EdaSensorDataEntry.TABLE_NAME_EDA_DATA);
+                    }else if(currTable.name().equals("TABLE_NAME_TEMP_DATA")){
+                        dbHelper.deleteAllFromTable(TempSensorContract.TempSensorDataEntry.TABLE_NAME_TEMP_DATA);
+                    }
                 } else {
+                    response=404;
                     Log.d("DATA UPLOAD SERVICE", "Owncould's response: " + Integer.toString(response));
                 }
             }
-
             i++;
         }
 
+        return response;
     }
-
 
     /**
      * Upload function to upload Aware Framework ESM sensor data from their Content Provider to Switch Drive
      *
      * @param context
      */
-    public void uploadAware(Context context){
+    public int uploadAware(Context context){
+        int response = 0;
         Cursor c;
         String fileName;
 
@@ -99,17 +156,19 @@ public class Uploader {
             c.moveToFirst();
 
             //upload the data to the server
-            int response = switchDriveController.upload(fileName, toCSV(c));
+            response = switchDriveController.upload(fileName, toCSV(c));
 
             //if the file was put, delete records and update the arrays
             if (response >= 200 && response <= 207) {
                 //delete from the db the records where id > startId and id <= endId
-
+                deleteAwareRecords(context);
+                response = 200;
             } else {
+                response = 404;
                 Log.d("DATA UPLOAD SERVICE", "Owncould's response: " + Integer.toString(response));
             }
         }
-
+        return response;
     }
 
     /**
@@ -184,7 +243,8 @@ public class Uploader {
     private String buildFileName(LocalTables table) {
         //get current date
         String today = buildDate();
-        return userId + "_" + today + "_" + LocalDbUtility.getTableName(table) + "_" + UserData._username + ".csv";
+        String fileName = today + "_" + UserData._username + "_" + userId + "_" + LocalDbUtility.getTableName(table) + ".csv";
+        return fileName;
     }
 
     /**
@@ -198,7 +258,9 @@ public class Uploader {
     private String buildAwareFileName(String awareTable) {
         //get current date
         String today = buildDate();
-        return userId + "_" + today + "_" + awareTable + "_" + UserData._username + ".csv";
+        String fileName = today + "_" + UserData._username + "_" + userId + "_" + awareTable +  ".csv";
+        return fileName;
+
     }
 
     /*
@@ -217,7 +279,6 @@ public class Uploader {
      */
     private Cursor getRecords(LocalTables table) {
         String query = "SELECT * FROM " + LocalDbUtility.getTableName(table);
-//                " WHERE " + LocalDbUtility.getTableColumns(table)[0] + " > " + Integer.toString(getRecordId(table));
         return localController.rawQuery(query, null);
     }
 
@@ -231,6 +292,16 @@ public class Uploader {
 
         return context.getContentResolver().query(ESM_Provider.ESM_Data.CONTENT_URI, tableColumns, "", tableArguments,"");
 
+    }
+
+    /*
+    * Build the query to select all records from the Aware "esms" table.
+    * @param table
+     */
+    private void deleteAwareRecords(Context context) {
+        String[] selectionArgs = {};
+
+        context.getContentResolver().delete(ESM_Provider.ESM_Data.CONTENT_URI, "", selectionArgs);
     }
 
     /**

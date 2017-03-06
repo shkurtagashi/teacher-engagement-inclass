@@ -86,7 +86,7 @@ Please press one of the buttons below to indicate that you have read and underst
     <string name="course_2">Cyber Communication</string>
     <string name="course_3">Software Architecture and Design</string>
     <string name="course_4">Linear Algebra</string>
-    <string name="course_5">Programming Fundamentals 2</string>
+    <string name="course_5">Programming Fundamentals</string>
 
     <string name="teachingExperience0to5">0 to 5 years</string>
     <string name="teachingExperience5to10">5 to 10 years</string>
@@ -112,14 +112,12 @@ Please press one of the buttons below to indicate that you have read and underst
         <item>@string/economics</item>
         <item>@string/communication_sciences</item>
         <item>@string/academy_of_architecture</item>
-        <item>@string/other</item>
     </string-array>
 
     <string-array name="program_title_choices">
         <item>@string/selectItem</item>
         <item>@string/bachelor</item>
         <item>@string/master</item>
-        <item>@string/other</item>
     </string-array>
 
     <string-array name="course_choices">
@@ -128,7 +126,6 @@ Please press one of the buttons below to indicate that you have read and underst
         <item>@string/course_3</item>
         <item>@string/course_4</item>
         <item>@string/course_5</item>
-        <item>@string/other</item>
     </string-array>
 
     <string-array name="status_choices">
@@ -140,7 +137,6 @@ Please press one of the buttons below to indicate that you have read and underst
         <item>@string/post_doc</item>
         <item>@string/phd_student</item>
         <item>@string/assistant</item>
-        <item>@string/other</item>
     </string-array>
 
     <string-array name="teaching_experience_choices">

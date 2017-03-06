@@ -1,6 +1,8 @@
 package com.example.android.teacher;
 
 import android.Manifest;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -47,6 +49,7 @@ import com.example.android.teacher.data.LocalDataStorage.DatabaseHelper;
 import com.example.android.teacher.data.LocalDataStorage.LocalDbUtility;
 import com.example.android.teacher.data.LocalDataStorage.LocalTables;
 import com.example.android.teacher.data.LocalDataStorage.SQLiteController;
+import com.example.android.teacher.data.RemoteDataStorage.UploadAlarmReceiver;
 import com.example.android.teacher.data.RemoteDataStorage.Uploader;
 import com.example.android.teacher.data.User.User;
 import com.example.android.teacher.data.User.UserData;
@@ -59,6 +62,9 @@ import java.util.List;
 import java.util.Locale;
 
 public class HomeActivity extends AppCompatActivity{
+
+    private PendingIntent pendingIntent;
+    private AlarmManager manager;
 
 
     // Empatica connect and streaming
@@ -87,8 +93,8 @@ public class HomeActivity extends AppCompatActivity{
     MyScheduler scheduler;
     public static String androidID;
 
-    SwitchDriveController switchDriveController;
-    SQLiteController localController;
+//    SwitchDriveController switchDriveController;
+//    SQLiteController localController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,8 +172,8 @@ public class HomeActivity extends AppCompatActivity{
                 ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
 
             //Start Aware services
-            Intent startAware = new Intent(this, Aware.class);
-            startService(startAware);
+//            Intent startAware = new Intent(this, Aware.class);
+//            startService(startAware);
             Aware.startESM(this);
             Aware.startScheduler(this);
 
@@ -237,16 +243,16 @@ public class HomeActivity extends AppCompatActivity{
      * Upload all the data Remotely only in this period
      */
     public void triggerSchedulers(){
-        scheduler = new MyScheduler();
         dayFormat = new SimpleDateFormat("EEEE", Locale.US);
         calendar = Calendar.getInstance();
         weekday = dayFormat.format(calendar.getTime());
         scheduler = new MyScheduler();
-        month = calendar.get(Calendar.MONTH) + 1;
+        month = calendar.get(Calendar.MONTH);
         dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
 
-        if((month == 2 && dayOfMonth >=20 && dayOfMonth <= 29) || (month == 3 && dayOfMonth >=1 && dayOfMonth <= 12)){
+        //January - 0
+        if(month == 2 && dayOfMonth >=4 && dayOfMonth <= 31){
             //Trigger PAM and Lecture Surveys
             if(UserData._username != null && UserData._selectedCourses != null) {
                 scheduler.createFirstPAM(this, UserData._selectedCourses);
@@ -254,18 +260,35 @@ public class HomeActivity extends AppCompatActivity{
                 scheduler.createSecondPAM(this, UserData._selectedCourses);
                 scheduler.createSecondPostLectureESM(this, UserData._selectedCourses);
                 scheduler.createThirdPAM(this, UserData._selectedCourses);
+
+                uploadDataEveryday();
+
             }
 
-            //Upload the data everyday after 15 oclock
-            if (Calendar.getInstance().get(Calendar.HOUR_OF_DAY) >= 12) {
-                switchDriveController = new SwitchDriveController(getString(R.string.server_address), getString(R.string.token), getString(R.string.password));
-                localController = new SQLiteController(this);
-                Uploader uploader = new Uploader(androidID, switchDriveController, localController);
-                //Upload Local Tables
-                uploader.upload();
+        }
+    }
 
-                //Upload Data from Esms table
-                uploader.uploadAware(this);
+    public void uploadDataEveryday(){
+
+        if(!UserData.alarmTriggered){
+            // Retrieve a PendingIntent that will perform a broadcast
+            Intent alarmIntent = new Intent(getApplicationContext(), UploadAlarmReceiver.class);
+            AlarmManager am = (AlarmManager) getApplicationContext().getSystemService(getApplicationContext().ALARM_SERVICE);
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.HOUR_OF_DAY, 19);
+            calendar.set(Calendar.MINUTE, 15);
+
+            if(calendar.getTimeInMillis() > System.currentTimeMillis()){
+                Log.v("Homeee", "Alarm Triggered");
+                am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, PendingIntent.getBroadcast(this, 1, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT));
+                UserData.alarmTriggered = true;
+            }
+            else{
+                Log.v("Homeee", "Alarm Triggered 2");
+                calendar.add(Calendar.DAY_OF_MONTH, 1);
+                am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, PendingIntent.getBroadcast(this, 1, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT));
+                UserData.alarmTriggered = true;
             }
 
         }
@@ -423,10 +446,6 @@ public class HomeActivity extends AppCompatActivity{
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-
-//        if(UserData._username != null){
-//            username = UserData._username;
-//        }
 
     }
 

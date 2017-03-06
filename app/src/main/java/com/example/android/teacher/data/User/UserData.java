@@ -13,5 +13,6 @@ public class UserData {
 
     public static String _username = null;
     public static String _selectedCourses;
+    public static Boolean alarmTriggered = false;
 
 }

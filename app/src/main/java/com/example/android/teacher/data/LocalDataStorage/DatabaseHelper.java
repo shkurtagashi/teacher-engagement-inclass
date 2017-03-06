@@ -785,7 +785,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Getting Acc Table rows count
     public int getAccValuesCount() {
-        String countQuery = "SELECT  * FROM " + AccSensorDataEntry.TABLE_NAME_ACC_DATA;
+        String countQuery = "SELECT * FROM " + AccSensorDataEntry.TABLE_NAME_ACC_DATA;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
         int number = cursor.getCount();
@@ -798,11 +798,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         DELETE
      */
      public void deleteAllFromTable(String tableName) {
-         String countQuery = "DELETE  * FROM " + tableName;
          SQLiteDatabase db = this.getWritableDatabase();
-         Cursor cursor = db.rawQuery(countQuery, null);
-         cursor.close();
 
+         try{
+             db.beginTransaction();
+             db.execSQL("DELETE FROM " + tableName + ";");
+             db.setTransactionSuccessful();
+         }catch (SQLException e){
+             Log.d("Database Helper", "Error while deleting table records" + tableName);
+         }finally {
+             db.endTransaction();
+         }
      }
 
     //Method for deleting one pam from PAM table

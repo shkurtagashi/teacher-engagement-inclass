@@ -79,6 +79,8 @@ public class RegisterFormActivity extends AppCompatActivity {
         dbHelper = new DatabaseHelper(this);
         android_id = Secure.getString(this.getContentResolver(), Secure.ANDROID_ID);
 
+        selectedCourses = new ArrayList<Integer>();
+
         usernameEditText = (EditText) findViewById(R.id.username_value);
         ageOptions = (Spinner) findViewById(R.id.age_range);
         genderOptions = (RadioGroup) findViewById(R.id.genderRadioButtons);
@@ -166,7 +168,7 @@ public class RegisterFormActivity extends AppCompatActivity {
 
                 Log.v(TAG, user._username);
                 UserData._username = user._username;
-                UserData._selectedCourses = user._courses;
+                UserData._selectedCourses = selectedCoursesString;
 
                 dbHelper.addUser(user);
                 Toast.makeText(getApplicationContext(), "You have successfully created profile with username: " + username + ", age: " + ageSelection +
@@ -194,36 +196,37 @@ public class RegisterFormActivity extends AppCompatActivity {
             switch (course){
                 case 0:
                     if(selectedCoursesString.equals("")){
-                        selectedCoursesString += "Information Security";
+                        selectedCoursesString = "Information Security";
                     }else{
-                        selectedCoursesString += " - Information Security";
+                        selectedCoursesString += ", Information Security";
                     }
                     break;
                 case 1:
                     if(selectedCoursesString.equals("")){
-                        selectedCoursesString += "Cyber Communication";
+                        selectedCoursesString = "Cyber Communication";
                     }else{
-                        selectedCoursesString += " - Cyber Communication";
+                        selectedCoursesString += ", Cyber Communication";
                     }
                     break;
                 case 2:
                     if(selectedCoursesString.equals("")){
-                        selectedCoursesString += "Software Architecture and Design";
+                        selectedCoursesString = "Software Architecture and Design";
                     }else{
-                        selectedCoursesString += " - Software Architecture and Design";
+                        selectedCoursesString += ", Software Architecture and Design";
                     }
                     break;
                 case 3:
                     if(selectedCoursesString.equals("")){
-                        selectedCoursesString += "Linear Algebra";
+                        selectedCoursesString = "Linear Algebra";
                     }else{
-                        selectedCoursesString += " - Linear Algebra";
+                        selectedCoursesString += ", Linear Algebra";
                     }
+                    break;
                 case 4:
                     if(selectedCoursesString.equals("")){
-                        selectedCoursesString += "Programming Fundamentals 2";
+                        selectedCoursesString = "Programming Fundamentals";
                     }else{
-                        selectedCoursesString += " - Programming Fundamentals 2";
+                        selectedCoursesString += ", Programming Fundamentals";
                     }
                     break;
             }
@@ -327,11 +330,8 @@ public class RegisterFormActivity extends AppCompatActivity {
                         facultySelection = UserEntry.FACULTY_ECONOMICS;
                     } else if (selection.equals(getString(R.string.communication_sciences))) {
                         facultySelection = UserEntry.FACULTY_COMMUNICATION_SCIENCES;
-                    } else if(selection.equals(getString(R.string.academy_of_architecture))){
+                    } else if(selection.equals(getString(R.string.academy_of_architecture))) {
                         facultySelection = UserEntry.FACULTY_ACADEMY_OF_ARCHITECTURE;
-
-                    } else {
-                        facultySelection = UserEntry.FACULTY_OTHER;
                     }
                 }
             }
@@ -368,8 +368,6 @@ public class RegisterFormActivity extends AppCompatActivity {
                         programmeSelection = UserEntry.PROGRAMME_BACHELOR;
                     } else if(selection.equals(getString(R.string.master))){
                         programmeSelection = UserEntry.PROGRAMME_MASTER;
-                    } else {
-                        programmeSelection = UserEntry.PROGRAMME_OTHER;
                     }
                 }
             }
@@ -387,15 +385,18 @@ public class RegisterFormActivity extends AppCompatActivity {
     * Courses Button
     */
     private void setUpCourseButton(){
-        selectedCourses = new ArrayList<Integer>();
 
         chooseCourseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final boolean[] checkedCourses = new boolean[6];
+                for(int course: selectedCourses){
+                    checkedCourses[course] = true;
+                }
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(RegisterFormActivity.this);
                 builder.setTitle("Choose your courses")
-                        .setMultiChoiceItems(R.array.course_choices, null, new DialogInterface.OnMultiChoiceClickListener() {
+                        .setMultiChoiceItems(R.array.course_choices, checkedCourses, new DialogInterface.OnMultiChoiceClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which, boolean isChecked) {
                                 if(isChecked){
@@ -456,12 +457,6 @@ public class RegisterFormActivity extends AppCompatActivity {
                         statusSelection = UserEntry.STATUS_PHD_STUDENT;
                     } else if(selection.equals(getString(R.string.assistant))){
                         statusSelection = UserEntry.STATUS_ASSISTANT;
-                    } else {
-                        //otherStatusArea.setVisibility(View.VISIBLE);
-                        statusSelection = UserEntry.STATUS_OTHER; // Unknown
-
-                        //statusSelection =  otherStatusValue.getText().toString();
-                        //Log.v(TAG, statusSelection);
                     }
                 }
             }

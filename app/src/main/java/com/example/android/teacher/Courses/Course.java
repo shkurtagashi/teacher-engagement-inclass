@@ -20,8 +20,8 @@ public class Course {
 
     public Course(Weekday d1, Weekday d2, Weekday d3, String name){
         setWeekday1(d1);
-        setWeekday2(d1);
-        setWeekday3(d1);
+        setWeekday2(d2);
+        setWeekday3(d3);
         setName(name);
     }
 
