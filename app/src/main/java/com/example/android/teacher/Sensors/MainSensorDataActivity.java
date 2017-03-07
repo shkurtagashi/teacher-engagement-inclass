@@ -989,6 +989,8 @@ public class MainSensorDataActivity extends AppCompatActivity implements EmpaSta
             case R.id.log_out:
 
                 UserData._username = null;
+                UserData._selectedCourses = null;
+
                 startActivity(new Intent(this, HomeActivity.class));
                 finish();
                 return true;

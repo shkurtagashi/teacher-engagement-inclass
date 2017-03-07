@@ -154,7 +154,7 @@ public class AgreementFormActivity extends AppCompatActivity{
 
                     ESM_Radio esmRadio15 = new ESM_Radio();
                     esmRadio15.setInstructions("While teaching I really throw myself into my work.");
-                    esmRadio15.setTitle("General Survey - " + UserData._selectedCourses + " (13/17)");
+                    esmRadio15.setTitle("General Survey - " + UserData._selectedCourses + " (15/21)");
 
 
                     ESM_Radio esmRadio16 = new ESM_Radio();
@@ -476,6 +476,8 @@ public class AgreementFormActivity extends AppCompatActivity{
             case R.id.log_out:
 
                 UserData._username = null;
+                UserData._selectedCourses = null;
+
                 startActivity(new Intent(this, HomeActivity.class));
                 finish();
                 return true;

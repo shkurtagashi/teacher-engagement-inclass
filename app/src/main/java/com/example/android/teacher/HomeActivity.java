@@ -174,8 +174,9 @@ public class HomeActivity extends AppCompatActivity{
             //Start Aware services
 //            Intent startAware = new Intent(this, Aware.class);
 //            startService(startAware);
-            Aware.startESM(this);
+            Aware.startAWARE(this);
             Aware.startScheduler(this);
+            Aware.startESM(this);
 
             triggerSchedulers();
         }
@@ -252,14 +253,14 @@ public class HomeActivity extends AppCompatActivity{
 
 
         //January - 0
-        if(month == 2 && dayOfMonth >=4 && dayOfMonth <= 31){
+        if(month == 2 && (dayOfMonth >=4 && dayOfMonth <= 31)){
             //Trigger PAM and Lecture Surveys
-            if(UserData._username != null && UserData._selectedCourses != null) {
-                scheduler.createFirstPAM(this, UserData._selectedCourses);
-                scheduler.createFirstPostLectureESM(this, UserData._selectedCourses);
-                scheduler.createSecondPAM(this, UserData._selectedCourses);
-                scheduler.createSecondPostLectureESM(this, UserData._selectedCourses);
-                scheduler.createThirdPAM(this, UserData._selectedCourses);
+            if(UserData._username != null) {
+                scheduler.createFirstPAM(getApplicationContext(), UserData._selectedCourses);
+                scheduler.createFirstPostLectureESM(getApplicationContext(), UserData._selectedCourses);
+                scheduler.createSecondPAM(getApplicationContext(), UserData._selectedCourses);
+                scheduler.createSecondPostLectureESM(getApplicationContext(), UserData._selectedCourses);
+                scheduler.createThirdPAM(getApplicationContext(), UserData._selectedCourses);
 
                 uploadDataEveryday();
 
@@ -597,6 +598,7 @@ public class HomeActivity extends AppCompatActivity{
             case R.id.log_out:
 
                 UserData._username = null;
+                UserData._selectedCourses = null;
                 startActivity(new Intent(this, HomeActivity.class));
                 finish();
                 return true;

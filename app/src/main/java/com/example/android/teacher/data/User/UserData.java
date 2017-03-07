@@ -8,11 +8,9 @@ import java.util.ArrayList;
 
 public class UserData {
 
-    public static Boolean RegistrationDone = false;
-    public static Boolean TermsAccepted = false;
-
     public static String _username = null;
     public static String _selectedCourses;
     public static Boolean alarmTriggered = false;
+//    public static Boolean schedulersTriggered = false;
 
 }

@@ -33,12 +33,12 @@ public class MyScheduler {
     Test Case 2 - One course but two different lectures in one day
      */
 
-    private int firstPamTrigger = -15; //Minutes before the lecture -15
+    private int firstPamTrigger = -1; //Minutes before the lecture -15
 
-    private int firstESMTrigger = 40; //Minutes after the lecture starts 40
-    private int secondPamTrigger = 41; //Minutes after the lecture starts 43
-    private int secondESMTrigger = 100; //Minutes after the lecture starts 100
-    private int thirdPamTrigger = 101; //Minutes after the lecture starts 103
+    private int firstESMTrigger = 1; //Minutes after the lecture starts 40
+    private int secondPamTrigger = 2; //Minutes after the lecture starts 43
+    private int secondESMTrigger = 3; //Minutes after the lecture starts 100
+    private int thirdPamTrigger = 4; //Minutes after the lecture starts 103
 
 
     private int firstPamThreshold = 720; //Keep the notification alive x minutes after it fires- UNTIL 7 PM
@@ -50,7 +50,7 @@ public class MyScheduler {
     private int secondESMThreshold = 720; //Minutes after it fires
 
     //Programming Fundamentals 2 - Monday, Wednesday, Friday 10:30 - 12:15
-    private Weekday mondayProgrammingFundamentals2 = new Weekday(10, 30, "Monday");
+    private Weekday mondayProgrammingFundamentals2 = new Weekday(16, 35, "Tuesday");
     private Weekday wednesdayProgrammingFundamentals2 = new Weekday(10, 30, "Wednesday");
     private Weekday fridayProgrammingFundamentals3 = new Weekday(10, 30, "Friday");
     private Course programmingFundamentals = new Course(mondayProgrammingFundamentals2, wednesdayProgrammingFundamentals2, fridayProgrammingFundamentals3, "Programming Fundamentals");
@@ -78,7 +78,7 @@ public class MyScheduler {
     private Course SoftwareArchitecture = new Course(tuesdaySoftwareArchitecture, thursdaySoftwareArchitecture, "Software Architecture and Design");
 
 
-    ////Create first PAM 15 minutes before the lecture starts and remove notification 15 after it starts
+    //Create first PAM 15 minutes before the lecture starts and remove notification 15 after it starts
     //Take the course from the logged in user, the day from the Calendar
     public void createFirstPAM(Context context, String userCourses){
         try {
@@ -104,7 +104,7 @@ public class MyScheduler {
                 first_pam.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 first_pam.addActionExtra(ESM.EXTRA_ESM, factory.build());
 
-                com.aware.utils.Scheduler.saveSchedule(context, first_pam);
+                Scheduler.saveSchedule(context, first_pam);
 
                 Schedule first_pam0 = new Schedule("first_pam0" + UserData._username);
                 first_pam0.addWeekday(linearAlgebra.getWeekday2()._DAY);
@@ -115,7 +115,7 @@ public class MyScheduler {
                 first_pam0.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 first_pam0.addActionExtra(ESM.EXTRA_ESM, factory.build());
 
-                com.aware.utils.Scheduler.saveSchedule(context, first_pam0);
+                Scheduler.saveSchedule(context, first_pam0);
             }
 
 
@@ -393,7 +393,7 @@ public class MyScheduler {
                 Schedule second_pam10 = new Schedule("second_pam10" + UserData._username);
                 second_pam10.addWeekday(programmingFundamentals.getWeekday1()._DAY);
                 second_pam10.addHour(programmingFundamentals.getWeekday1()._HOUR);
-                second_pam10.addMinute(programmingFundamentals.getWeekday1()._MINUTE + 1);
+                second_pam10.addMinute(programmingFundamentals.getWeekday1()._MINUTE + secondPamTrigger);
 
                 second_pam10.setActionType(Scheduler.ACTION_TYPE_BROADCAST);
                 second_pam10.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
@@ -567,7 +567,7 @@ public class MyScheduler {
                 Schedule third_pam10 = new Schedule("third_pam10" + UserData._username);
                 third_pam10.addWeekday(programmingFundamentals.getWeekday1()._DAY);
                 third_pam10.addHour(programmingFundamentals.getWeekday1()._HOUR);
-                third_pam10.addMinute(programmingFundamentals.getWeekday1()._MINUTE + 2);
+                third_pam10.addMinute(programmingFundamentals.getWeekday1()._MINUTE + thirdPamTrigger);
 
                 third_pam10.setActionType(Scheduler.ACTION_TYPE_BROADCAST);
                 third_pam10.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
@@ -578,7 +578,7 @@ public class MyScheduler {
                 Schedule third_pam11 = new Schedule("third_pam11" + UserData._username);
                 third_pam11.addWeekday(programmingFundamentals.getWeekday2()._DAY);
                 third_pam11.addHour(programmingFundamentals.getWeekday2()._HOUR);
-                third_pam11.addMinute(programmingFundamentals.getWeekday2()._MINUTE + secondPamTrigger);
+                third_pam11.addMinute(programmingFundamentals.getWeekday2()._MINUTE + thirdPamTrigger);
 
                 third_pam11.setActionType(Scheduler.ACTION_TYPE_BROADCAST);
                 third_pam11.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
@@ -589,7 +589,7 @@ public class MyScheduler {
                 Schedule third_pam12 = new Schedule("third_pam12" + UserData._username);
                 third_pam12.addWeekday(programmingFundamentals.getWeekday3()._DAY);
                 third_pam12.addHour(programmingFundamentals.getWeekday3()._HOUR);
-                third_pam12.addMinute(programmingFundamentals.getWeekday3()._MINUTE + secondPamTrigger);
+                third_pam12.addMinute(programmingFundamentals.getWeekday3()._MINUTE + thirdPamTrigger);
 
                 third_pam12.setActionType(Scheduler.ACTION_TYPE_BROADCAST);
                 third_pam12.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
@@ -811,7 +811,7 @@ public class MyScheduler {
                 Schedule first_esm10 = new Schedule("first_esm10" + UserData._username);
                 first_esm10.addWeekday(programmingFundamentals.getWeekday1()._DAY);
                 first_esm10.addHour(programmingFundamentals.getWeekday1()._HOUR);
-                first_esm10.addMinute(programmingFundamentals.getWeekday1()._MINUTE + 1);
+                first_esm10.addMinute(programmingFundamentals.getWeekday1()._MINUTE + firstESMTrigger);
                 first_esm10.setActionType(Scheduler.ACTION_TYPE_BROADCAST);
                 first_esm10.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 first_esm10.addActionExtra(ESM.EXTRA_ESM, factory.build());
@@ -1050,7 +1050,7 @@ public class MyScheduler {
                 Schedule second_esm10 = new Schedule("second_esm10" + UserData._username);
                 second_esm10.addWeekday(programmingFundamentals.getWeekday1()._DAY);
                 second_esm10.addHour(programmingFundamentals.getWeekday1()._HOUR);
-                second_esm10.addMinute(programmingFundamentals.getWeekday1()._MINUTE + 2);
+                second_esm10.addMinute(programmingFundamentals.getWeekday1()._MINUTE + secondESMTrigger);
                 second_esm10.setActionType(Scheduler.ACTION_TYPE_BROADCAST);
                 second_esm10.setActionIntentAction(ESM.ACTION_AWARE_QUEUE_ESM);
                 second_esm10.addActionExtra(ESM.EXTRA_ESM, factory.build());
