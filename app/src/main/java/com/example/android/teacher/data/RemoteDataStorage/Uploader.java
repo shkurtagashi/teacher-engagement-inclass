@@ -57,8 +57,8 @@ public class Uploader {
 
         currTable = LocalTables.values()[0];
 
-        //build name of file to upload
-        fileName = buildFileName(currTable);
+        //build name of Users file to upload
+        fileName = buildUsersFileName(currTable);
 
         //get all data currently in the table
         c = getRecords(currTable);
@@ -230,6 +230,21 @@ public class Uploader {
         csv = csv.substring(0, csv.length()-1);
 
         return csv;
+    }
+
+    /**
+     * Build the file name.
+     *
+     * <subjectid>_<date>_<table>_<username>.csv
+     *
+     * @param table
+     * @return
+     */
+    private String buildUsersFileName(LocalTables table) {
+        //get current date
+        String today = buildDate();
+        String fileName = UserData._username + "_" + userId + "_" + LocalDbUtility.getTableName(table) + ".csv";
+        return fileName;
     }
 
     /**

@@ -3,10 +3,10 @@ package com.example.android.teacher.EmpaticaE4;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
+import android.app.Activity;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
 import android.view.Gravity;
 import android.view.Menu;
@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.teacher.HelpActivity;
@@ -23,59 +24,46 @@ import com.example.android.teacher.R;
 import com.example.android.teacher.UserAccount.ChooseAccountActivity;
 import com.example.android.teacher.UserAccount.RegisterFormActivity;
 import com.example.android.teacher.UserAccount.ViewRegistrationFormActivity;
-import com.example.android.teacher.data.LocalDataStorage.DatabaseHelper;
-
 import com.example.android.teacher.data.EmpaticaE4.EmpaticaE4;
+import com.example.android.teacher.data.LocalDataStorage.DatabaseHelper;
 import com.example.android.teacher.data.User.UserData;
 
+import static android.R.attr.apiKey;
 import static com.example.android.teacher.HomeActivity.admin_password;
+import static com.example.android.teacher.R.id.deviceName;
 
-
-public class EmpaticaActivity extends AppCompatActivity {
-
-    private static final String TAG = "EmpaticaActivity";
-    private Button saveEmpaticaSettings;
-    private EditText deviceNameText;
-    private EditText apiKeyText;
-    private String deviceName;
-    private String apiKey;
+public class ViewEmpaticaActivity extends Activity {
     private DatabaseHelper dbHelper;
-    private String password = "";
 
+    private Button editDeviceSettings;
+    private TextView deviceNameText;
+    private TextView apiKeyText;
+
+    private String password = "";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_empatica);
+        setContentView(R.layout.activity_view_empatica);
 
         dbHelper = new DatabaseHelper(this);
 
-        deviceNameText = (EditText) findViewById(R.id.edit_e4_name) ;
-        apiKeyText = (EditText) findViewById(R.id.edit_api_key);
-        saveEmpaticaSettings = (Button)findViewById(R.id.save_e4_data);
-
-//        if(dbHelper.getEmpaticaE4Count() == 0){
-        deviceNameText.setHint("Please enter Empatica E4 name");
-        apiKeyText.setHint("Please enter Empatica API key");
+        editDeviceSettings = (Button) findViewById(R.id.edit_e4_data);
+        deviceNameText = (TextView) findViewById(R.id.e4_name);
+        apiKeyText = (TextView) findViewById(R.id.api_key);
 
 
-        saveEmpaticaSettings.setText("Add");
+        EmpaticaE4 e4 = dbHelper.getEmpaticaE4();
+        deviceNameText.setText(e4.getName());
+        apiKeyText.setText(e4.getApiKey());
 
-        saveEmpaticaSettings.setOnClickListener(new View.OnClickListener() {
+        editDeviceSettings.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                deviceName = deviceNameText.getText() + "";
-                apiKey = apiKeyText.getText() + "";
-
-                EmpaticaE4 e4 = new EmpaticaE4(deviceName, apiKey);
-                dbHelper.addEmpaticaE4Data(e4);
-                Toast.makeText(getApplicationContext(), "Empatica E4 device data added successfully!", Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(getApplicationContext(), ViewEmpaticaActivity.class);
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), EditEmpaticaActivity.class);
                 startActivity(i);
                 finish();
-
-
             }
         });
 
@@ -136,7 +124,7 @@ public class EmpaticaActivity extends AppCompatActivity {
                     startActivity(new Intent(this, RegisterFormActivity.class));
                     finish();
                 }else {
-                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(EmpaticaActivity.this);
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(ViewEmpaticaActivity.this);
                     alertDialog.setTitle("ADMIN PASSWORD");
                     alertDialog.setMessage("Please enter Admin Password to create a new user");
 
@@ -180,7 +168,7 @@ public class EmpaticaActivity extends AppCompatActivity {
 
             //Respond to a click on "Choose Account" menu option
             case R.id.choose_account:
-                AlertDialog.Builder alertDialog = new AlertDialog.Builder(EmpaticaActivity.this);
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(ViewEmpaticaActivity.this);
                 alertDialog.setTitle("ADMIN PASSWORD");
                 alertDialog.setMessage("Please enter Admin Password to choose a user");
 
@@ -229,7 +217,7 @@ public class EmpaticaActivity extends AppCompatActivity {
                 return true;
 
             case R.id.delete_account:
-                AlertDialog.Builder builder = new AlertDialog.Builder(EmpaticaActivity.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(ViewEmpaticaActivity.this);
                 builder.setMessage("Are you sure you want to delete " + UserData._username + " account?")
                         .setPositiveButton(R.string.no, new DialogInterface.OnClickListener() {
                             @Override
@@ -285,4 +273,5 @@ public class EmpaticaActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 }

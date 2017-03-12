@@ -60,12 +60,25 @@ public class UploadAlarmReceiver extends BroadcastReceiver {
                     if(response1 == 200 && response2 == 200 && response3 == 200){
                         timer.cancel();
                         timer.purge();
-                        Log.v("UPLOAD TEST", "DATA UPLOADED, TIMER CACELED");
+                        Log.v("UPLOAD TEST", "DATA UPLOADED, TIMER CANCELED");
                     }else{
                         Log.v("UPLOAD TEST", "DATA NOT UPLOADED, TIMER NOT CANCELED");
                     }
                 }else{
-                    Log.v("UPLOAD TEST", "wifi not connected, TIMER NOT CANCELED");
+                    Log.v("UPLOAD TEST", "wifi not connected, TIMER NOT CANCELED, BUT TRY AGAIN TO UPLOAD");
+                    int response1 = uploader.uploadUsersTable();
+                    //Upload Local Tables - eda, acc, bvp, temp
+                    int response2 = uploader.upload();
+                    //Upload Data from Esms table
+                    int response3 = uploader.uploadAware(arg0);
+
+                    if(response1 == 200 && response2 == 200 && response3 == 200){
+                        timer.cancel();
+                        timer.purge();
+                        Log.v("UPLOAD TEST", "DATA UPLOADED, TIMER CANCELED");
+                    }else{
+                        Log.v("UPLOAD TEST", "DATA NOT UPLOADED, TIMER NOT CANCELED");
+                    }
                 }
             }
         }, 0, 1000*60*MINUTES);

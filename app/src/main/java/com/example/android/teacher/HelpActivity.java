@@ -25,6 +25,8 @@ import android.widget.Toast;
 
 import com.empatica.empalink.EmpaDeviceManager;
 import com.example.android.teacher.EmpaticaE4.EmpaticaActivity;
+import com.example.android.teacher.EmpaticaE4.ViewEmpaticaActivity;
+import com.example.android.teacher.Sensors.MainSensorDataActivity;
 import com.example.android.teacher.Surveys.SurveyDataActivity;
 import com.example.android.teacher.UserAccount.ChooseAccountActivity;
 import com.example.android.teacher.UserAccount.RegisterFormActivity;
@@ -34,7 +36,10 @@ import com.example.android.teacher.data.EmpaticaE4.E4DataContract.E4DataEntry;
 import com.example.android.teacher.data.User.UserData;
 import com.example.android.teacher.data.User.UsersContract;
 
+import java.util.ArrayList;
+
 import static com.example.android.teacher.HomeActivity.admin_password;
+
 
 public class HelpActivity extends AppCompatActivity{
     private static final String TAG = "HelpActivity";
@@ -42,19 +47,16 @@ public class HelpActivity extends AppCompatActivity{
     private String android_id;
 
     private static final int REQUEST_ENABLE_BT = 1;
-    private static final long STREAMING_TIME = 1000000; // Stops streaming 1000000 seconds after connection
 
+//    private static boolean[] selectedCheckboxes = new boolean[7];
 
-    private static final String EMPATICA_API_KEY = "eded959cc2054b3da99abce90a43871f"; // TODO insert your API Key here
-    //private String EMPATICA_API_KEY;
-
-    private EmpaDeviceManager deviceManager;
-
+    private CheckBox step0;
     private CheckBox step1;
+    private CheckBox step2;
     private CheckBox step3;
-    private CheckBox step7;
-
-    private ProgressDialog progressDialog;
+    private CheckBox step4;
+    private CheckBox step5;
+    private CheckBox step6;
 
     String password = "";
     DatabaseHelper dbHelper;
@@ -67,6 +69,18 @@ public class HelpActivity extends AppCompatActivity{
         android_id = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
         dbHelper = new DatabaseHelper(this);
 
+        step0 = (CheckBox) findViewById(R.id.step0CheckBox);
+        step0.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                step0.setClickable(true);
+                Intent i = new Intent(getApplicationContext(), SurveyDataActivity.class);
+                startActivity(i);
+
+            }
+        });
+
         step1 = (CheckBox) findViewById(R.id.step1CheckBox);
         step1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,26 +91,46 @@ public class HelpActivity extends AppCompatActivity{
             }
         });
 
-        step3 = (CheckBox) findViewById(R.id.step3CheckBox);
-        step3.setOnClickListener(new View.OnClickListener() {
+        step2 = (CheckBox) findViewById(R.id.step2CheckBox);
+        step2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(step3.isChecked()) {
+                if(step2.isChecked()) {
                     SharedPreferences settings = getSharedPreferences("prefs_name", 0);
                     settings.edit().putBoolean("check", true).commit();
                 }
-                step3.setClickable(true);
+                step2.setClickable(true);
                 // Request the user to enable Bluetooth
                 Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                 startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
             }
         });
 
-        step7 = (CheckBox) findViewById(R.id.step7CheckBox);
-        step7.setOnClickListener(new View.OnClickListener() {
+        step4 = (CheckBox) findViewById(R.id.step4CheckBox);
+        step4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                step7.setClickable(true);
+                step4.setClickable(true);
+                Intent i = new Intent (getApplicationContext(), MainSensorDataActivity.class);
+                startActivity(i);
+            }
+        });
+
+        step5 = (CheckBox) findViewById(R.id.step5CheckBox);
+        step5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                step5.setClickable(true);
+                Intent i = new Intent (getApplicationContext(), MainSensorDataActivity.class);
+                startActivity(i);
+            }
+        });
+
+        step6 = (CheckBox) findViewById(R.id.step6CheckBox);
+        step6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                step6.setClickable(true);
                 Intent i = new Intent (getApplicationContext(), SurveyDataActivity.class);
                 startActivity(i);
             }
@@ -150,6 +184,11 @@ public class HelpActivity extends AppCompatActivity{
         MenuItem choose_account = menu.findItem(R.id.choose_account);
         MenuItem manage_account = menu.findItem(R.id.manage_account);
         MenuItem log_out = menu.findItem(R.id.log_out);
+        MenuItem delete_account = menu.findItem(R.id.delete_account);
+        MenuItem help = menu.findItem(R.id.action_help);
+        MenuItem deviceSettings = menu.findItem(R.id.action_e4_settings);
+
+
 
         if(dbHelper.getUsersCount() < 2)
         {
@@ -162,14 +201,19 @@ public class HelpActivity extends AppCompatActivity{
             if(UserData._username == null){
                 log_out.setVisible(false);
             }
-
             log_out.setVisible(true);
         }
 
         if(UserData._username != null){
             manage_account.setVisible(true);
+            delete_account.setVisible(true);
+            help.setVisible(true);
+            deviceSettings.setVisible(true);
         }else{
             manage_account.setVisible(false);
+            delete_account.setVisible(false);
+            help.setVisible(false);
+            deviceSettings.setVisible(false);
         }
         return true;
     }
@@ -188,14 +232,14 @@ public class HelpActivity extends AppCompatActivity{
                 }else {
                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(HelpActivity.this);
                     alertDialog.setTitle("ADMIN PASSWORD");
-                    alertDialog.setMessage(" Please enter Admin Password to create a new user");
+                    alertDialog.setMessage("Please enter Admin Password to create a new user");
 
                     final EditText input = new EditText(getApplicationContext());
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                             LinearLayout.LayoutParams.MATCH_PARENT,
                             LinearLayout.LayoutParams.MATCH_PARENT);
                     input.setLayoutParams(lp);
-                    input.setTextColor(Color.BLACK);
+                    input.setTextColor(Color.WHITE);
                     input.setTransformationMethod(PasswordTransformationMethod.getInstance());
                     input.setGravity(Gravity.CENTER);
                     alertDialog.setView(input);
@@ -232,7 +276,7 @@ public class HelpActivity extends AppCompatActivity{
             case R.id.choose_account:
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(HelpActivity.this);
                 alertDialog.setTitle("ADMIN PASSWORD");
-                alertDialog.setMessage(" Please enter Admin Password to choose a user");
+                alertDialog.setMessage("Please enter Admin Password to choose a user");
 
                 final EditText input = new EditText(getApplicationContext());
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
@@ -278,16 +322,43 @@ public class HelpActivity extends AppCompatActivity{
                 finish();
                 return true;
 
-            // Respond to a click on the "E4 settings" menu option
-            case R.id.action_e4_settings:
-                i = new Intent (this, EmpaticaActivity.class);
-                startActivity(i);
+            case R.id.delete_account:
+                AlertDialog.Builder builder = new AlertDialog.Builder(HelpActivity.this);
+                builder.setMessage("Are you sure you want to delete " + UserData._username + " account?")
+                        .setPositiveButton(R.string.no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        })
+                        .setNegativeButton(R.string.yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                                dbHelper.deleteUser(UserData._username);
+                                Toast.makeText(getApplicationContext(), "You have successfully deleted account: " + UserData._username, Toast.LENGTH_LONG).show();
+                                UserData._username = null;
+                            }
+                        });
+                AlertDialog disagreeAlertDialog = builder.create();
+                disagreeAlertDialog.show();
+
                 return true;
 
+                // Respond to a click on the "E4 settings" menu option
+            case R.id.action_e4_settings:
+                if(dbHelper.getEmpaticaE4Count() == 0){
+                    i = new Intent (this, EmpaticaActivity.class);
+                    startActivity(i);
+                }else{
+                    i = new Intent (this, ViewEmpaticaActivity.class);
+                    startActivity(i);
+                }
+
+                return true;
 
             //Respond to a click on the "Log out" menu option
             case R.id.log_out:
-
                 UserData._username = null;
                 UserData._selectedCourses = null;
                 startActivity(new Intent(this, HomeActivity.class));
@@ -308,7 +379,6 @@ public class HelpActivity extends AppCompatActivity{
         }
         return super.onOptionsItemSelected(item);
     }
-
 
 
 }

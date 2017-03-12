@@ -26,6 +26,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -36,6 +37,7 @@ import com.aware.Aware;
 import com.empatica.empalink.EmpaDeviceManager;
 import com.example.android.teacher.Courses.MyScheduler;
 import com.example.android.teacher.EmpaticaE4.EmpaticaActivity;
+import com.example.android.teacher.EmpaticaE4.ViewEmpaticaActivity;
 import com.example.android.teacher.data.RemoteDataStorage.SwitchDriveController;
 import com.example.android.teacher.Sensors.MainSensorDataActivity;
 import com.example.android.teacher.Sensors.SensorDataActivity;
@@ -82,7 +84,6 @@ public class HomeActivity extends AppCompatActivity{
 
     private TextView userTextView;
     public String username;
-
 
     Calendar calendar;
     String weekday;
@@ -174,7 +175,7 @@ public class HomeActivity extends AppCompatActivity{
             //Start Aware services
 //            Intent startAware = new Intent(this, Aware.class);
 //            startService(startAware);
-            Aware.startAWARE(this);
+//            Aware.startAWARE(this);
             Aware.startScheduler(this);
             Aware.startESM(this);
 
@@ -271,14 +272,14 @@ public class HomeActivity extends AppCompatActivity{
 
     public void uploadDataEveryday(){
 
-        if(!UserData.alarmTriggered){
+//        if(!UserData.alarmTriggered){
             // Retrieve a PendingIntent that will perform a broadcast
             Intent alarmIntent = new Intent(getApplicationContext(), UploadAlarmReceiver.class);
             AlarmManager am = (AlarmManager) getApplicationContext().getSystemService(getApplicationContext().ALARM_SERVICE);
 
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.HOUR_OF_DAY, 19);
-            calendar.set(Calendar.MINUTE, 15);
+            calendar.set(Calendar.MINUTE, 5);
 
             if(calendar.getTimeInMillis() > System.currentTimeMillis()){
                 Log.v("Homeee", "Alarm Triggered");
@@ -292,7 +293,7 @@ public class HomeActivity extends AppCompatActivity{
                 UserData.alarmTriggered = true;
             }
 
-        }
+//        }
     }
 
     @Override
@@ -459,6 +460,11 @@ public class HomeActivity extends AppCompatActivity{
         MenuItem choose_account = menu.findItem(R.id.choose_account);
         MenuItem manage_account = menu.findItem(R.id.manage_account);
         MenuItem log_out = menu.findItem(R.id.log_out);
+        MenuItem delete_account = menu.findItem(R.id.delete_account);
+        MenuItem help = menu.findItem(R.id.action_help);
+        MenuItem deviceSettings = menu.findItem(R.id.action_e4_settings);
+
+
 
         if(dbHelper.getUsersCount() < 2)
         {
@@ -471,14 +477,19 @@ public class HomeActivity extends AppCompatActivity{
             if(UserData._username == null){
                 log_out.setVisible(false);
             }
-
             log_out.setVisible(true);
         }
 
         if(UserData._username != null){
             manage_account.setVisible(true);
+            delete_account.setVisible(true);
+            help.setVisible(true);
+            deviceSettings.setVisible(true);
         }else{
             manage_account.setVisible(false);
+            delete_account.setVisible(false);
+            help.setVisible(false);
+            deviceSettings.setVisible(false);
         }
         return true;
     }
@@ -497,14 +508,14 @@ public class HomeActivity extends AppCompatActivity{
                 }else {
                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(HomeActivity.this);
                     alertDialog.setTitle("ADMIN PASSWORD");
-                    alertDialog.setMessage(" Please enter Admin Password to create a new user");
+                    alertDialog.setMessage("Please enter Admin Password to create a new user");
 
                     final EditText input = new EditText(getApplicationContext());
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                             LinearLayout.LayoutParams.MATCH_PARENT,
                             LinearLayout.LayoutParams.MATCH_PARENT);
                     input.setLayoutParams(lp);
-                    input.setTextColor(Color.BLACK);
+                    input.setTextColor(Color.WHITE);
                     input.setTransformationMethod(PasswordTransformationMethod.getInstance());
                     input.setGravity(Gravity.CENTER);
                     alertDialog.setView(input);
@@ -541,7 +552,7 @@ public class HomeActivity extends AppCompatActivity{
             case R.id.choose_account:
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(HomeActivity.this);
                 alertDialog.setTitle("ADMIN PASSWORD");
-                alertDialog.setMessage(" Please enter Admin Password to choose a user");
+                alertDialog.setMessage("Please enter Admin Password to choose a user");
 
                 final EditText input = new EditText(getApplicationContext());
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
@@ -587,16 +598,43 @@ public class HomeActivity extends AppCompatActivity{
                 finish();
                 return true;
 
-            // Respond to a click on the "E4 settings" menu option
-            case R.id.action_e4_settings:
-                i = new Intent (this, EmpaticaActivity.class);
-                startActivity(i);
+            case R.id.delete_account:
+                AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
+                builder.setMessage("Are you sure you want to delete " + UserData._username + " account?")
+                        .setPositiveButton(R.string.no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        })
+                        .setNegativeButton(R.string.yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                                dbHelper.deleteUser(UserData._username);
+                                Toast.makeText(getApplicationContext(), "You have successfully deleted account: " + UserData._username, Toast.LENGTH_LONG).show();
+                                UserData._username = null;
+                            }
+                        });
+                AlertDialog disagreeAlertDialog = builder.create();
+                disagreeAlertDialog.show();
+
                 return true;
 
+            // Respond to a click on the "E4 settings" menu option
+            case R.id.action_e4_settings:
+                if(dbHelper.getEmpaticaE4Count() == 0){
+                    i = new Intent (this, EmpaticaActivity.class);
+                    startActivity(i);
+                }else{
+                    i = new Intent (this, ViewEmpaticaActivity.class);
+                    startActivity(i);
+                }
+
+                return true;
 
             //Respond to a click on the "Log out" menu option
             case R.id.log_out:
-
                 UserData._username = null;
                 UserData._selectedCourses = null;
                 startActivity(new Intent(this, HomeActivity.class));

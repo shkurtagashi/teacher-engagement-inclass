@@ -1,0 +1,57 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.android.teacher.Surveys.SurveysFragments.GeneralSurveys">
+
+    <LinearLayout
+        android:paddingTop="20dp"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/general_survey_title"
+            android:paddingTop="20dp"
+            android:paddingLeft="20dp"
+            android:textSize="25dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="General Survey"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@android:color/darker_gray"
+            android:layout_marginBottom="-10dp"/>
+
+        <LinearLayout
+            android:padding="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:textSize="12dp"
+                android:layout_width="0dp"
+                android:layout_marginBottom="20dp"
+                android:layout_weight="2"
+                android:layout_height="wrap_content"
+                android:text="This survey contains a set of 21 questions regarding your opinions about teaching in general. It should be completed 3-4 times during the study."/>
+
+
+            <Button
+                android:id="@+id/general_survey_button"
+                android:layout_width="0dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/roundedbutton"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Take Survey" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</FrameLayout>

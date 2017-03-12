@@ -47,10 +47,12 @@
         <service android:name=".EmpaticaE4.EmpaticaService" />
 
         <adapter android:name=".SimpleFragmentPagerAdapter" />
-        <receiver android:name=".data.RemoteDataStorage.UploadAlarmReceiver"></receiver>
 
-        <activity android:name=".Sensors.MainSensorDataActivity"
-            android:theme="@style/Theme.AppCompat.Light"/>
+        <receiver android:name=".data.RemoteDataStorage.UploadAlarmReceiver" />
+
+        <activity
+            android:name=".Sensors.MainSensorDataActivity"
+            android:theme="@style/Theme.AppCompat.Light" />
         <activity android:name=".GraphActivity" />
         <activity android:name=".InitialActivity" />
         <activity android:name=".EmpaticaE4.EmpaticaActivity" />
@@ -75,6 +77,12 @@
         <activity android:name=".UserAccount.EditRegistrationActivity" />
         <activity android:name=".UserAccount.ChooseAccountActivity" />
         <activity android:name=".Surveys.StudentSurveyDataActivity" />
+        <activity
+            android:name=".EmpaticaE4.ViewEmpaticaActivity"
+            android:label="@string/title_activity_view_empatica" />
+        <activity
+            android:name=".EmpaticaE4.EditEmpaticaActivity"
+            android:label="@string/title_activity_edit_empatica" />
     </application>
 
 </manifest>

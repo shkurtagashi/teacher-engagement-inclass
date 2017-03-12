@@ -26,16 +26,18 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile project(':empalink-2.0')
+    //    compile "com.github.denzilferreira:aware-client:master-SNAPSHOT"
+    //    compile 'com.awareframework:aware-core:3.9.8@aar'
+    //    compile 'com.google.android.gms:play-services:10.0.1'
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.1'
     compile 'com.android.support:appcompat-v7:25.2.0'
     compile 'com.loopj.android:android-async-http:1.4.6'
     compile 'com.jjoe64:graphview:4.2.1'
     compile 'com.android.support:design:25.2.0'
-    testCompile 'junit:junit:4.12'
     compile 'com.github.denzilferreira:aware-client:development-SNAPSHOT'
-    //    compile "com.github.denzilferreira:aware-client:master-SNAPSHOT"
-    //    compile 'com.awareframework:aware-core:3.9.8@aar'
-    //    compile 'com.google.android.gms:play-services:10.0.1'
     compile 'com.android.support:cardview-v7:25.2.0'
     compile 'com.android.support:gridlayout-v7:25.2.0'
+    compile 'com.android.support:support-v4:25.2.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha9'
+    testCompile 'junit:junit:4.12'
 }

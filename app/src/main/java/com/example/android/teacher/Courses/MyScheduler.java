@@ -50,8 +50,8 @@ public class MyScheduler {
     private int secondESMThreshold = 720; //Minutes after it fires
 
     //Programming Fundamentals 2 - Monday, Wednesday, Friday 10:30 - 12:15
-    private Weekday mondayProgrammingFundamentals2 = new Weekday(16, 35, "Tuesday");
-    private Weekday wednesdayProgrammingFundamentals2 = new Weekday(10, 30, "Wednesday");
+    private Weekday mondayProgrammingFundamentals2 = new Weekday(10, 30, "Tuesday");
+    private Weekday wednesdayProgrammingFundamentals2 = new Weekday(13, 48, "Wednesday");
     private Weekday fridayProgrammingFundamentals3 = new Weekday(10, 30, "Friday");
     private Course programmingFundamentals = new Course(mondayProgrammingFundamentals2, wednesdayProgrammingFundamentals2, fridayProgrammingFundamentals3, "Programming Fundamentals");
 

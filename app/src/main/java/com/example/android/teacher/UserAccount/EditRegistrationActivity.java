@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.teacher.EmpaticaE4.EmpaticaActivity;
+import com.example.android.teacher.EmpaticaE4.ViewEmpaticaActivity;
 import com.example.android.teacher.HelpActivity;
 import com.example.android.teacher.HomeActivity;
 import com.example.android.teacher.R;
@@ -204,10 +205,14 @@ public class EditRegistrationActivity extends AppCompatActivity {
         chooseCourseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final boolean[] checkedCourses = new boolean[6];
+                for(int course: selectedCourses){
+                    checkedCourses[course] = true;
+                }
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(EditRegistrationActivity.this);
                 builder.setTitle("Choose your courses")
-                        .setMultiChoiceItems(R.array.course_choices, null, new DialogInterface.OnMultiChoiceClickListener() {
+                        .setMultiChoiceItems(R.array.course_choices, checkedCourses, new DialogInterface.OnMultiChoiceClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which, boolean isChecked) {
                                 if(isChecked){
@@ -501,6 +506,7 @@ public class EditRegistrationActivity extends AppCompatActivity {
     }
 
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu options from the res/menu/menu_editor.xml file.
@@ -510,6 +516,11 @@ public class EditRegistrationActivity extends AppCompatActivity {
         MenuItem choose_account = menu.findItem(R.id.choose_account);
         MenuItem manage_account = menu.findItem(R.id.manage_account);
         MenuItem log_out = menu.findItem(R.id.log_out);
+        MenuItem delete_account = menu.findItem(R.id.delete_account);
+        MenuItem help = menu.findItem(R.id.action_help);
+        MenuItem deviceSettings = menu.findItem(R.id.action_e4_settings);
+
+
 
         if(dbHelper.getUsersCount() < 2)
         {
@@ -522,14 +533,19 @@ public class EditRegistrationActivity extends AppCompatActivity {
             if(UserData._username == null){
                 log_out.setVisible(false);
             }
-
             log_out.setVisible(true);
         }
 
         if(UserData._username != null){
             manage_account.setVisible(true);
+            delete_account.setVisible(true);
+            help.setVisible(true);
+            deviceSettings.setVisible(true);
         }else{
             manage_account.setVisible(false);
+            delete_account.setVisible(false);
+            help.setVisible(false);
+            deviceSettings.setVisible(false);
         }
         return true;
     }
@@ -548,14 +564,14 @@ public class EditRegistrationActivity extends AppCompatActivity {
                 }else {
                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(EditRegistrationActivity.this);
                     alertDialog.setTitle("ADMIN PASSWORD");
-                    alertDialog.setMessage(" Please enter Admin Password to create a new user");
+                    alertDialog.setMessage("Please enter Admin Password to create a new user");
 
                     final EditText input = new EditText(getApplicationContext());
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                             LinearLayout.LayoutParams.MATCH_PARENT,
                             LinearLayout.LayoutParams.MATCH_PARENT);
                     input.setLayoutParams(lp);
-                    input.setTextColor(Color.BLACK);
+                    input.setTextColor(Color.WHITE);
                     input.setTransformationMethod(PasswordTransformationMethod.getInstance());
                     input.setGravity(Gravity.CENTER);
                     alertDialog.setView(input);
@@ -571,7 +587,7 @@ public class EditRegistrationActivity extends AppCompatActivity {
                                         startActivityForResult(intent, 0);
 
                                     } else {
-                                        Toast.makeText(getApplicationContext(), "Wrong Password! Cannot create new user", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), "Wrong Password! You cannot create new user.", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });
@@ -592,7 +608,7 @@ public class EditRegistrationActivity extends AppCompatActivity {
             case R.id.choose_account:
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(EditRegistrationActivity.this);
                 alertDialog.setTitle("ADMIN PASSWORD");
-                alertDialog.setMessage(" Please enter Admin Password to choose a user");
+                alertDialog.setMessage("Please enter Admin Password to choose a user");
 
                 final EditText input = new EditText(getApplicationContext());
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
@@ -638,16 +654,43 @@ public class EditRegistrationActivity extends AppCompatActivity {
                 finish();
                 return true;
 
-            // Respond to a click on the "E4 settings" menu option
-            case R.id.action_e4_settings:
-                i = new Intent (this, EmpaticaActivity.class);
-                startActivity(i);
+            case R.id.delete_account:
+                AlertDialog.Builder builder = new AlertDialog.Builder(EditRegistrationActivity.this);
+                builder.setMessage("Are you sure you want to delete " + UserData._username + " account?")
+                        .setPositiveButton(R.string.no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        })
+                        .setNegativeButton(R.string.yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                                dbHelper.deleteUser(UserData._username);
+                                Toast.makeText(getApplicationContext(), "You have successfully deleted account: " + UserData._username, Toast.LENGTH_LONG).show();
+                                UserData._username = null;
+                            }
+                        });
+                AlertDialog disagreeAlertDialog = builder.create();
+                disagreeAlertDialog.show();
+
                 return true;
 
+            // Respond to a click on the "E4 settings" menu option
+            case R.id.action_e4_settings:
+                if(dbHelper.getEmpaticaE4Count() == 0){
+                    i = new Intent (this, EmpaticaActivity.class);
+                    startActivity(i);
+                }else{
+                    i = new Intent (this, ViewEmpaticaActivity.class);
+                    startActivity(i);
+                }
+
+                return true;
 
             //Respond to a click on the "Log out" menu option
             case R.id.log_out:
-
                 UserData._username = null;
                 UserData._selectedCourses = null;
                 startActivity(new Intent(this, HomeActivity.class));

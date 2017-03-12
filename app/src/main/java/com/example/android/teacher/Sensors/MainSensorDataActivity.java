@@ -42,7 +42,9 @@ import com.empatica.empalink.config.EmpaSensorType;
 import com.empatica.empalink.config.EmpaStatus;
 import com.empatica.empalink.delegate.EmpaDataDelegate;
 import com.empatica.empalink.delegate.EmpaStatusDelegate;
+import com.example.android.teacher.EmpaticaE4.EditEmpaticaActivity;
 import com.example.android.teacher.EmpaticaE4.EmpaticaActivity;
+import com.example.android.teacher.EmpaticaE4.ViewEmpaticaActivity;
 import com.example.android.teacher.HelpActivity;
 import com.example.android.teacher.HomeActivity;
 import com.example.android.teacher.R;
@@ -62,6 +64,7 @@ import com.jjoe64.graphview.Viewport;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import static android.R.id.input;
 import static com.example.android.teacher.HomeActivity.admin_password;
 
 public class MainSensorDataActivity extends AppCompatActivity implements EmpaStatusDelegate, EmpaDataDelegate{
@@ -377,6 +380,29 @@ public class MainSensorDataActivity extends AppCompatActivity implements EmpaSta
                 // This should happen only if you try to connect when allowed == false.
                 Toast.makeText(MainSensorDataActivity.this, "Sorry, you can't connect to this device", Toast.LENGTH_SHORT).show();
             }
+        }
+        else{
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainSensorDataActivity.this);
+            alertDialog.setTitle("Non-valid API Key");
+            alertDialog.setMessage("The API Key provided is not linked with your Empatica E4 . Please provide a valid API Key! Do you want to continue?");
+
+            alertDialog.setNegativeButton(R.string.yes,
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(getApplicationContext(), EditEmpaticaActivity.class);
+                            startActivity(intent);
+                        }
+                    });
+
+            alertDialog.setPositiveButton(R.string.no,
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                            finish();
+                        }
+                    });
+            alertDialog.show();
+
         }
     }
 
@@ -851,6 +877,11 @@ public class MainSensorDataActivity extends AppCompatActivity implements EmpaSta
         MenuItem choose_account = menu.findItem(R.id.choose_account);
         MenuItem manage_account = menu.findItem(R.id.manage_account);
         MenuItem log_out = menu.findItem(R.id.log_out);
+        MenuItem delete_account = menu.findItem(R.id.delete_account);
+        MenuItem help = menu.findItem(R.id.action_help);
+        MenuItem deviceSettings = menu.findItem(R.id.action_e4_settings);
+
+
 
         if(teacherDbHelper.getUsersCount() < 2)
         {
@@ -863,14 +894,19 @@ public class MainSensorDataActivity extends AppCompatActivity implements EmpaSta
             if(UserData._username == null){
                 log_out.setVisible(false);
             }
-
             log_out.setVisible(true);
         }
 
         if(UserData._username != null){
             manage_account.setVisible(true);
+            delete_account.setVisible(true);
+            help.setVisible(true);
+            deviceSettings.setVisible(true);
         }else{
             manage_account.setVisible(false);
+            delete_account.setVisible(false);
+            help.setVisible(false);
+            deviceSettings.setVisible(false);
         }
         return true;
     }
@@ -889,14 +925,14 @@ public class MainSensorDataActivity extends AppCompatActivity implements EmpaSta
                 }else {
                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainSensorDataActivity.this);
                     alertDialog.setTitle("ADMIN PASSWORD");
-                    alertDialog.setMessage(" Please enter Admin Password to create a new user");
+                    alertDialog.setMessage("Please enter Admin Password to create a new user");
 
                     final EditText input = new EditText(getApplicationContext());
                     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                             LinearLayout.LayoutParams.MATCH_PARENT,
                             LinearLayout.LayoutParams.MATCH_PARENT);
                     input.setLayoutParams(lp);
-                    input.setTextColor(Color.BLACK);
+                    input.setTextColor(Color.WHITE);
                     input.setTransformationMethod(PasswordTransformationMethod.getInstance());
                     input.setGravity(Gravity.CENTER);
                     alertDialog.setView(input);
@@ -912,7 +948,7 @@ public class MainSensorDataActivity extends AppCompatActivity implements EmpaSta
                                         startActivityForResult(intent, 0);
 
                                     } else {
-                                        Toast.makeText(getApplicationContext(), "Wrong Password! Cannot create new user", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), "Wrong Password! You cannot create new user.", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });
@@ -933,7 +969,7 @@ public class MainSensorDataActivity extends AppCompatActivity implements EmpaSta
             case R.id.choose_account:
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainSensorDataActivity.this);
                 alertDialog.setTitle("ADMIN PASSWORD");
-                alertDialog.setMessage(" Please enter Admin Password to choose a user");
+                alertDialog.setMessage("Please enter Admin Password to choose a user");
 
                 final EditText input = new EditText(getApplicationContext());
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
@@ -951,11 +987,12 @@ public class MainSensorDataActivity extends AppCompatActivity implements EmpaSta
                             public void onClick(DialogInterface dialog, int which) {
                                 password = input.getText().toString();
                                 if (admin_password.equals(password)) {
-                                    Toast.makeText(getApplicationContext(), "Password Matched! You cannot create a new account.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "Password Matched", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(getApplicationContext(), ChooseAccountActivity.class);
                                     startActivityForResult(intent, 0);
+
                                 } else {
-                                    Toast.makeText(getApplicationContext(), "Password Incorrect! You cannot choose an account.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "Wrong Password! You cannot choose account.", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
@@ -978,19 +1015,45 @@ public class MainSensorDataActivity extends AppCompatActivity implements EmpaSta
                 finish();
                 return true;
 
-            // Respond to a click on the "E4 settings" menu option
-            case R.id.action_e4_settings:
-                i = new Intent (this, EmpaticaActivity.class);
-                startActivity(i);
+            case R.id.delete_account:
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainSensorDataActivity.this);
+                builder.setMessage("Are you sure you want to delete " + UserData._username + " account?")
+                        .setPositiveButton(R.string.no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        })
+                        .setNegativeButton(R.string.yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                                teacherDbHelper.deleteUser(UserData._username);
+                                Toast.makeText(getApplicationContext(), "You have successfully deleted account: " + UserData._username, Toast.LENGTH_LONG).show();
+                                UserData._username = null;
+                            }
+                        });
+                AlertDialog disagreeAlertDialog = builder.create();
+                disagreeAlertDialog.show();
+
                 return true;
 
+                // Respond to a click on the "E4 settings" menu option
+            case R.id.action_e4_settings:
+                if(teacherDbHelper.getEmpaticaE4Count() == 0){
+                    i = new Intent (this, EmpaticaActivity.class);
+                    startActivity(i);
+                }else{
+                    i = new Intent (this, ViewEmpaticaActivity.class);
+                    startActivity(i);
+                }
+
+                return true;
 
             //Respond to a click on the "Log out" menu option
             case R.id.log_out:
-
                 UserData._username = null;
                 UserData._selectedCourses = null;
-
                 startActivity(new Intent(this, HomeActivity.class));
                 finish();
                 return true;
@@ -1009,24 +1072,6 @@ public class MainSensorDataActivity extends AppCompatActivity implements EmpaSta
         }
         return super.onOptionsItemSelected(item);
     }
-
-
-
-    // TODO implement disagreement after several experiments function
-    public void deleteAllRelatedData(){
-
-    }
-
-//    public void startService(View view) {
-//        startService(new Intent(getBaseContext(), EmpaticaService.class));
-//    }
-//
-//    // Method to stop the service
-//    public void stopService(View view) {
-//        stopService(new Intent(getBaseContext(), EmpaticaService.class));
-//    }
-
-
 
 
 }

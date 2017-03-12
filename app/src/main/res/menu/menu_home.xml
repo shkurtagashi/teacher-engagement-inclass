@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
-tools:context=".CatalogActivity">
+tools:context=".HomeActivity">
 
     <item
         android:id="@+id/add_account"
@@ -20,6 +20,10 @@ tools:context=".CatalogActivity">
         android:title="@string/view_account"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/delete_account"
+        android:title="@string/delete_account"
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/action_e4_settings"
@@ -33,9 +37,6 @@ tools:context=".CatalogActivity">
 
     <item
         android:id="@+id/action_help"
-        android:title="@string/help"
+        android:title="@string/about"
         app:showAsAction="never" />
-
-
-
 </menu>
