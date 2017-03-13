@@ -4,6 +4,7 @@ package com.example.android.teacher.Sensors.Fragments;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.teacher.R;
+import com.example.android.teacher.data.Sensors.EdaSensor;
 import com.example.android.teacher.data.Sensors.TemperatureSensor;
 import com.example.android.teacher.data.LocalDataStorage.DatabaseHelper;
 import com.github.mikephil.charting.charts.LineChart;
@@ -23,7 +25,9 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.components.Description;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -56,7 +60,11 @@ public class TempFragment extends Fragment{
 
 
         teacherDbHelper = new DatabaseHelper(getContext());
-        tempValues = teacherDbHelper.getAllTempSensorValues();
+        if(teacherDbHelper.isLastSession()){
+            tempValues = teacherDbHelper.getAllTempSensorValues();
+        }else{
+            tempValues = teacherDbHelper.getLastTempSensorValues();
+        }
 
         setUpTempChart(tempValues);
         setUpSaveGraphButton();
@@ -84,7 +92,7 @@ public class TempFragment extends Fragment{
                 //Log.v("bitchhhhhh", eda.getValue() + "");
             }
 
-            LineDataSet dataSet = new LineDataSet(entries, "Skin Temperature value through Time for session on: date"); // add entries to dataset
+            LineDataSet dataSet = new LineDataSet(entries, "Skin Temperature value through Time for session on: " + EdaSensor.date); // add entries to dataset
 
             dataSet.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
             dataSet.setDrawFilled(true);
@@ -149,7 +157,9 @@ public class TempFragment extends Fragment{
         saveTempChart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                chart.saveToGallery("temp_chart", 100);
+                String formattedDate = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(Calendar.getInstance().getTime());
+
+                chart.saveToGallery(formattedDate + "_temp", 100);
                 Toast.makeText(getContext(), "The Temperature graph was successfully saved on your phone's Gallery.", Toast.LENGTH_SHORT).show();
             }
         });

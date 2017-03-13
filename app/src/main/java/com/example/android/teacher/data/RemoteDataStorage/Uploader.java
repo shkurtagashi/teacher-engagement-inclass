@@ -116,15 +116,15 @@ public class Uploader {
                 if (response >= 200 && response <= 207) {
                     response = 200;
                     //delete from the db the records where id > startId and id <= endId
-                    if(currTable.name() == "TABLE_NAME_ACC_DATA"){
-                        dbHelper.deleteAllFromTable(AccSensorContract.AccSensorDataEntry.TABLE_NAME_ACC_DATA);
-                    }else if(currTable.name().equals("TABLE_NAME_BVP_DATA")){
-                        dbHelper.deleteAllFromTable(BvpSensorContract.BvpSensorDataEntry.TABLE_NAME_BVP_DATA);
-                    }else if(currTable.name().equals("TABLE_NAME_EDA_DATA")){
-                        dbHelper.deleteAllFromTable(EdaSensorContract.EdaSensorDataEntry.TABLE_NAME_EDA_DATA);
-                    }else if(currTable.name().equals("TABLE_NAME_TEMP_DATA")){
-                        dbHelper.deleteAllFromTable(TempSensorContract.TempSensorDataEntry.TABLE_NAME_TEMP_DATA);
-                    }
+//                    if(currTable.name() == "TABLE_NAME_ACC_DATA"){
+//                        dbHelper.deleteAllFromTable(AccSensorContract.AccSensorDataEntry.TABLE_NAME_ACC_DATA);
+//                    }else if(currTable.name().equals("TABLE_NAME_BVP_DATA")){
+//                        dbHelper.deleteAllFromTable(BvpSensorContract.BvpSensorDataEntry.TABLE_NAME_BVP_DATA);
+//                    }else if(currTable.name().equals("TABLE_NAME_EDA_DATA")){
+//                        dbHelper.deleteAllFromTable(EdaSensorContract.EdaSensorDataEntry.TABLE_NAME_EDA_DATA);
+//                    }else if(currTable.name().equals("TABLE_NAME_TEMP_DATA")){
+//                        dbHelper.deleteAllFromTable(TempSensorContract.TempSensorDataEntry.TABLE_NAME_TEMP_DATA);
+//                    }
                 } else {
                     response=404;
                     Log.d("DATA UPLOAD SERVICE", "Owncould's response: " + Integer.toString(response));

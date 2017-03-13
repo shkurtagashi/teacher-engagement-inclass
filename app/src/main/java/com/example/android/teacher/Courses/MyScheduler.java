@@ -33,12 +33,12 @@ public class MyScheduler {
     Test Case 2 - One course but two different lectures in one day
      */
 
-    private int firstPamTrigger = -1; //Minutes before the lecture -15
+    private int firstPamTrigger = -15; //Minutes before the lecture -15
 
-    private int firstESMTrigger = 1; //Minutes after the lecture starts 40
-    private int secondPamTrigger = 2; //Minutes after the lecture starts 43
-    private int secondESMTrigger = 3; //Minutes after the lecture starts 100
-    private int thirdPamTrigger = 4; //Minutes after the lecture starts 103
+    private int firstESMTrigger = 40; //Minutes after the lecture starts 40
+    private int secondPamTrigger = 43; //Minutes after the lecture starts 43
+    private int secondESMTrigger = 100; //Minutes after the lecture starts 100
+    private int thirdPamTrigger = 1003; //Minutes after the lecture starts 103
 
 
     private int firstPamThreshold = 720; //Keep the notification alive x minutes after it fires- UNTIL 7 PM
@@ -50,8 +50,8 @@ public class MyScheduler {
     private int secondESMThreshold = 720; //Minutes after it fires
 
     //Programming Fundamentals 2 - Monday, Wednesday, Friday 10:30 - 12:15
-    private Weekday mondayProgrammingFundamentals2 = new Weekday(10, 30, "Tuesday");
-    private Weekday wednesdayProgrammingFundamentals2 = new Weekday(13, 48, "Wednesday");
+    private Weekday mondayProgrammingFundamentals2 = new Weekday(10, 30, "Monday");
+    private Weekday wednesdayProgrammingFundamentals2 = new Weekday(10, 30, "Wednesday");
     private Weekday fridayProgrammingFundamentals3 = new Weekday(10, 30, "Friday");
     private Course programmingFundamentals = new Course(mondayProgrammingFundamentals2, wednesdayProgrammingFundamentals2, fridayProgrammingFundamentals3, "Programming Fundamentals");
 

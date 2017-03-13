@@ -18,6 +18,9 @@
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="match_parent"/>-->
 
+
+    <!--Buttons in Real-time Streaming-->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -28,17 +31,30 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:id="@+id/sensorButtons"
-            android:layout_height="60dp"
+            android:layout_height="70dp"
             android:orientation="horizontal"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="-10dp">
 
+            <Button
+                android:id="@+id/homeButton"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:background="@drawable/home4"
+                android:backgroundTint="@color/accent_material_light" />
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/darker_gray"/>
+
 
             <Button
                 android:id="@+id/edaButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="20dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:padding="15dp"
                 android:text="EDA"
                 style="@style/Widget.AppCompat.Button.Borderless.Colored"
                 android:backgroundTint="#9E9E9E" />
@@ -49,11 +65,13 @@
 
             <Button
                 android:id="@+id/tempButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
                 android:text="TEMP"
                 style="@style/Widget.AppCompat.Button.Borderless.Colored"
-                android:backgroundTint="#eeeeee"/>
+                android:backgroundTint="#eeeeee"
+                />
 
 
             <View
@@ -63,9 +81,10 @@
 
             <Button
                 android:id="@+id/bvpButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="20dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:padding="15dp"
                 android:text="BVP"
                 style="@style/Widget.AppCompat.Button.Borderless.Colored"
                 android:backgroundTint="#9E9E9E" />
@@ -76,9 +95,10 @@
                 android:background="@android:color/darker_gray"/>
             <Button
                 android:id="@+id/accButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="20dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:padding="15dp"
                 android:text="ACC"
                 style="@style/Widget.AppCompat.Button.Borderless.Colored"
                 android:backgroundTint="#9E9E9E"/>
@@ -90,12 +110,80 @@
             android:background="@android:color/darker_gray"/>
     </LinearLayout>
 
+<!--Home Page of Real time streaming-->
+    <RelativeLayout
+        android:id="@+id/homeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="60dp"
+        android:paddingBottom="40dp">
+
+        <LinearLayout
+            android:gravity="center"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:paddingTop="20dp">
+
+            <TextView
+                android:id="@+id/homeTitle"
+                android:paddingTop="20dp"
+                android:paddingLeft="20dp"
+                android:textSize="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Real-time Streaming"/>
+
+            <!--<View-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="2dp"-->
+                <!--android:background="@color/primary_dark_material_light"-->
+                <!--android:layout_marginBottom="-10dp"/>-->
+
+            <LinearLayout
+                android:padding="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:textSize="18dp"
+                    android:layout_width="0dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_weight="5"
+                    android:layout_height="wrap_content"
+                    android:text="To start collecting sensor data from Empatica E4 please start session here."/>
+
+                <Button
+                    android:id="@+id/startSessionButton"
+                    android:layout_width="0dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/circled_play"
+                    android:backgroundTint="@color/accent_material_light"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <!--<View-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="2dp"-->
+                <!--android:background="@color/primary_dark_material_light"-->
+                <!--android:layout_marginBottom="-10dp"/>-->
+
+        </LinearLayout>
+
+
+
+
+    </RelativeLayout>
+
 
     <RelativeLayout
         android:id="@+id/edaLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="80dp"
+        android:paddingTop="100dp"
         android:paddingBottom="40dp"
         android:visibility="gone">
 
@@ -106,8 +194,7 @@
             android:text="Electrodermal Activity"
             android:gravity="center"
             android:textSize="25dp"
-            android:layout_marginBottom="25dp"
-            android:textColor="#ff4081"/>
+            android:layout_marginBottom="50dp"/>
 
 
         <com.jjoe64.graphview.GraphView
@@ -146,7 +233,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="The Electrodermal Activity sensor measures the electrical conductance of the skin. It is an indicator of Sympathetic Nervous System arousal."
+                android:text="Electrodermal Activity sensor measures the electrical conductance of the skin. It is an indicator of Sympathetic Nervous System arousal."
                 android:layout_weight="3" />
         </LinearLayout>
 
@@ -156,7 +243,7 @@
         android:id="@+id/tempLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="75dp"
+        android:paddingTop="100dp"
         android:paddingBottom="40dp"
         android:visibility="gone">
 
@@ -166,8 +253,7 @@
             android:layout_height="wrap_content"
             android:text="Temperature"
             android:textSize="25dp"
-            android:gravity="center"
-            android:textColor="#ff4081"/>
+            android:gravity="center"/>
 
 
         <ImageView
@@ -210,7 +296,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="The temperature sensor measures the peripheral skin temperature. It is recorded with an optical interferometer."
+                android:text="Temperature sensor measures the peripheral skin temperature. It is recorded with an optical interferometer."
                 android:layout_weight="0.27" />
         </LinearLayout>
 
@@ -220,7 +306,7 @@
         android:id="@+id/bvpLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="80dp"
+        android:paddingTop="100dp"
         android:paddingBottom="40dp"
         android:visibility="gone">
 
@@ -231,8 +317,7 @@
             android:text="Blood Volume Pressure"
             android:gravity="center"
             android:textSize="25dp"
-            android:layout_marginBottom="25dp"
-            android:textColor="#ff4081"/>
+            android:layout_marginBottom="50dp"/>
 
 
         <com.jjoe64.graphview.GraphView
@@ -254,7 +339,7 @@
         android:id="@+id/accLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="80dp"
+        android:paddingTop="100dp"
         android:paddingBottom="40dp"
         android:visibility="gone">
 
@@ -265,12 +350,17 @@
             android:text="Accelereometer"
             android:textSize="25dp"
             android:gravity="center"
-            android:layout_marginBottom="15dp"
-            android:textColor="#ff4081"/>
+            android:layout_marginBottom="50dp"/>
 
+
+        <com.jjoe64.graphview.GraphView
+            android:layout_width="match_parent"
+            android:layout_height="220dip"
+            android:id="@+id/graphforacc"
+            android:layout_below="@id/acc_title"/>
 
         <LinearLayout
-            android:layout_below="@id/acc_title"
+            android:layout_below="@id/graphforacc"
             android:layout_width="match_parent"
             android:paddingBottom="10dp"
             android:paddingLeft="20dp"
@@ -319,18 +409,12 @@
 
         </LinearLayout>
 
-        <com.jjoe64.graphview.GraphView
-            android:layout_width="match_parent"
-            android:layout_height="220dip"
-            android:id="@+id/graphforacc"
-            android:layout_below="@id/xyz_values"/>
-
         <TextView
             android:paddingTop="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/graphforacc"
-            android:text="The Accelereometer captures motion-based activity. Shows device movement measured by a 3-axis accelereometer." />
+            android:layout_below="@id/xyz_values"
+            android:text="Accelereometer captures motion-based activity. Shows device movement measured by a 3-axis accelereometer." />
 
     </RelativeLayout>
 
@@ -350,28 +434,34 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:id="@+id/controlButtons"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:orientation="horizontal"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="-10dp">
 
             <Button
                 android:id="@+id/bluetoothButton"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="30dp"
+                android:layout_marginLeft="30dp"
                 android:background="@drawable/bluetooth2"
-                android:backgroundTint="@color/aluminum" />
+                android:backgroundTint="@color/accent_material_light"  />
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:background="@android:color/darker_gray"/>
 
             <Button
-                android:id="@+id/startSessionButton"
-                android:layout_width="wrap_content"
+                android:id="@+id/startSessionButton2"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_marginRight="30dp"
+                android:layout_marginLeft="30dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/circled_play"
-                android:backgroundTint="@color/aluminum" />
+                android:backgroundTint="@color/accent_material_light"  />
 
             <View
                 android:layout_width="1dp"
@@ -380,10 +470,13 @@
 
             <Button
                 android:id="@+id/batteryButton"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_marginRight="30dp"
+                android:layout_marginLeft="30dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/ic_battery_full_white_24px"
-                android:backgroundTint="@color/aluminum" />
+                android:backgroundTint="@color/accent_material_light"  />
 
             <View
                 android:layout_width="1dp"
@@ -391,16 +484,13 @@
                 android:background="@android:color/darker_gray"/>
             <Button
                 android:id="@+id/sessionLengthButton"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_marginRight="30dp"
+                android:layout_marginLeft="30dp"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/aluminum"
+                android:backgroundTint="@color/accent_material_light"
                 android:background="@drawable/timer3"/>
         </LinearLayout>
-
-
     </LinearLayout>
-
-
-
-
 </RelativeLayout>

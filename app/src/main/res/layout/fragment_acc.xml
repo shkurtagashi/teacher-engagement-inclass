@@ -13,8 +13,7 @@
        android:text="Accelereometer"
        android:textSize="25dp"
        android:gravity="center"
-       android:layout_marginBottom="15dp"
-       android:textColor="#ff4081"/>
+       android:layout_marginBottom="15dp"/>
 
 
    <com.github.mikephil.charting.charts.LineChart

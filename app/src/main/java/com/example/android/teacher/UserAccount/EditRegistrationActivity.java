@@ -271,6 +271,7 @@ public class EditRegistrationActivity extends AppCompatActivity {
                     }else{
                         selectedCoursesString += " - Linear Algebra";
                     }
+                    break;
                 case 4:
                     if(selectedCoursesString.equals("")){
                         selectedCoursesString += "Programming Fundamentals 2";

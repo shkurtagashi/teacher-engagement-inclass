@@ -4,6 +4,7 @@ package com.example.android.teacher.Sensors.Fragments;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,10 +24,17 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 
 
+import java.security.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
+import static android.R.attr.entries;
+import static com.example.android.teacher.R.id.eda;
+import static com.example.android.teacher.data.Sensors.EdaSensor.date;
 import static java.lang.Integer.parseInt;
 
 /**
@@ -70,11 +78,15 @@ public class EDAFragment extends Fragment {
         saveEdaChart = (Button) rootView.findViewById(R.id.save_eda_chart);
 
         teacherDbHelper = new DatabaseHelper(getContext());
-        edaValues = teacherDbHelper.getAllEdaSensorValues();
+
+        if(teacherDbHelper.isLastSession()){
+            edaValues = teacherDbHelper.getAllEdaSensorValues();
+        }else{
+            edaValues = teacherDbHelper.getLastEdaSensorValues();
+        }
 
         setUpEdaGraph(edaValues);
         setUpSaveEdaButton();
-
 
         minEdaValue.setText(min(edaValues));
         avgEdaValue.setText(calculateAverage(edaValues));
@@ -91,18 +103,13 @@ public class EDAFragment extends Fragment {
 
 
     public void setUpEdaGraph(List<EdaSensor> edaSensorValues){
+
         if(edaSensorValues.size() == 0){
             chart.setNoDataText("No data to be shown");
         }else{
-
             List<Entry> entries = new ArrayList<Entry>();
-            String date = null;
 
             for (EdaSensor eda : edaSensorValues) {
-
-//                date = convertEpochToReadableDate(String.valueOf(eda.getTimestamp()));
-//                date = date.substring(11, 19);
-
                 entries.add(new Entry(Float.parseFloat(String.valueOf(eda.getTimestamp())), eda.getValue()));
             }
 
@@ -117,9 +124,6 @@ public class EDAFragment extends Fragment {
 //            dataSet.setDrawCircleHole(true);
 //            dataSet.setCircleColorHole(dataSet.getColor());
 //
-
-
-
 
 //            dataSet.enableDashedLine(10f, 5f, 0f);
 //            dataSet.enableDashedHighlightLine(10f, 5f, 0f);
@@ -173,7 +177,8 @@ public class EDAFragment extends Fragment {
         saveEdaChart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                chart.saveToGallery("eda_chart", 100);
+                String formattedDate = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(Calendar.getInstance().getTime());
+                chart.saveToGallery(formattedDate + "_eda", 100);
                 Toast.makeText(getContext(), "The EDA graph was successfully saved on your phone's Gallery.", Toast.LENGTH_SHORT).show();
             }
         });

@@ -12,8 +12,7 @@
         android:layout_height="wrap_content"
         android:text="Temperature"
         android:textSize="25dp"
-        android:gravity="center"
-        android:textColor="#ff4081"/>
+        android:gravity="center"/>
 
 
     <!--<ImageView-->

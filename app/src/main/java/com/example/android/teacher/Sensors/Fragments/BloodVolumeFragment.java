@@ -4,6 +4,7 @@ package com.example.android.teacher.Sensors.Fragments;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 import com.example.android.teacher.R;
 import com.example.android.teacher.data.Sensors.BloodVolumePressureSensor;
 import com.example.android.teacher.data.LocalDataStorage.DatabaseHelper;
+import com.example.android.teacher.data.Sensors.EdaSensor;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
@@ -21,7 +23,9 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -53,7 +57,11 @@ public class BloodVolumeFragment extends Fragment {
         saveBvpChart = (Button) rootView.findViewById(R.id.save_bvp_chart);
 
         teacherDbHelper = new DatabaseHelper(getContext());
-        bvpValues = teacherDbHelper.getAllBvpSensorValues();
+        if(teacherDbHelper.isLastSession()){
+            bvpValues = teacherDbHelper.getAllBvpSensorValues();
+        }else{
+            bvpValues = teacherDbHelper.getLastBVPSensorValues();
+        }
 
         setUpBvpGraph(bvpValues);
         setUpSaveButton();
@@ -77,7 +85,7 @@ public class BloodVolumeFragment extends Fragment {
                 entries.add(new Entry(Float.parseFloat(String.valueOf(bvp.getTimestamp())), bvp.getValue()));
             }
 
-            LineDataSet dataSet = new LineDataSet(entries, "BVP through time for session on: dd.mm.yyyy"); // add entries to dataset
+            LineDataSet dataSet = new LineDataSet(entries, "BVP through time for session on: " + EdaSensor.date); // add entries to dataset
 
             dataSet.setColor(Color.RED);
             dataSet.setDrawCircles(false);
@@ -122,7 +130,9 @@ public class BloodVolumeFragment extends Fragment {
         saveBvpChart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                chart.saveToGallery("bvp_chart", 100);
+                String formattedDate = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(Calendar.getInstance().getTime());
+
+                chart.saveToGallery(formattedDate + "_bvp", 100);
                 Toast.makeText(getContext(), "The Blood Volume Pressure graph was successfully saved on your phone's Gallery.", Toast.LENGTH_SHORT).show();
             }
         });

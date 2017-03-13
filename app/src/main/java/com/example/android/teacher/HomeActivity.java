@@ -38,6 +38,7 @@ import com.empatica.empalink.EmpaDeviceManager;
 import com.example.android.teacher.Courses.MyScheduler;
 import com.example.android.teacher.EmpaticaE4.EmpaticaActivity;
 import com.example.android.teacher.EmpaticaE4.ViewEmpaticaActivity;
+import com.example.android.teacher.data.RemoteDataStorage.DeleteAlarmReceiver;
 import com.example.android.teacher.data.RemoteDataStorage.SwitchDriveController;
 import com.example.android.teacher.Sensors.MainSensorDataActivity;
 import com.example.android.teacher.Sensors.SensorDataActivity;
@@ -60,6 +61,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -175,7 +177,7 @@ public class HomeActivity extends AppCompatActivity{
             //Start Aware services
 //            Intent startAware = new Intent(this, Aware.class);
 //            startService(startAware);
-//            Aware.startAWARE(this);
+            Aware.startAWARE(this);
             Aware.startScheduler(this);
             Aware.startESM(this);
 
@@ -264,36 +266,59 @@ public class HomeActivity extends AppCompatActivity{
                 scheduler.createThirdPAM(getApplicationContext(), UserData._selectedCourses);
 
                 uploadDataEveryday();
-
+                deleteSensorDataEveryWeek();
             }
+        }
+    }
 
+    private void deleteSensorDataEveryWeek() {
+        if(!UserData.deleteAlarmTriggered){
+            Intent alarmIntent = new Intent(getApplicationContext(), DeleteAlarmReceiver.class);
+            AlarmManager am = (AlarmManager) getApplicationContext().getSystemService(getApplicationContext().ALARM_SERVICE);
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+            calendar.set(Calendar.HOUR_OF_DAY, 10);
+            calendar.set(Calendar.MINUTE, 5);
+
+            if(calendar.getTimeInMillis() > System.currentTimeMillis()){
+                Log.v("Homeee", "Delete Alarm Triggered");
+                am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY*7, PendingIntent.getBroadcast(this, 1, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT));
+                UserData.deleteAlarmTriggered = true;
+            }
+            else{
+                Log.v("Homeee", "Delete Alarm Triggered for next day");
+                calendar.add(Calendar.DAY_OF_MONTH, 1);
+                am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY*7, PendingIntent.getBroadcast(this, 1, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT));
+                UserData.deleteAlarmTriggered = true;
+            }
         }
     }
 
     public void uploadDataEveryday(){
 
-//        if(!UserData.alarmTriggered){
+        if(!UserData.uploadAlarmTriggered){
             // Retrieve a PendingIntent that will perform a broadcast
             Intent alarmIntent = new Intent(getApplicationContext(), UploadAlarmReceiver.class);
             AlarmManager am = (AlarmManager) getApplicationContext().getSystemService(getApplicationContext().ALARM_SERVICE);
 
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.HOUR_OF_DAY, 19);
-            calendar.set(Calendar.MINUTE, 5);
+            calendar.set(Calendar.MINUTE, 20);
 
             if(calendar.getTimeInMillis() > System.currentTimeMillis()){
                 Log.v("Homeee", "Alarm Triggered");
                 am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, PendingIntent.getBroadcast(this, 1, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT));
-                UserData.alarmTriggered = true;
+                UserData.uploadAlarmTriggered = true;
             }
             else{
                 Log.v("Homeee", "Alarm Triggered 2");
                 calendar.add(Calendar.DAY_OF_MONTH, 1);
                 am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, PendingIntent.getBroadcast(this, 1, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT));
-                UserData.alarmTriggered = true;
+                UserData.uploadAlarmTriggered = true;
             }
 
-//        }
+        }
     }
 
     @Override

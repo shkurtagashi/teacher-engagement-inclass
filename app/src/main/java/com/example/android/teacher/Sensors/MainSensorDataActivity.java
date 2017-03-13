@@ -2,6 +2,7 @@ package com.example.android.teacher.Sensors;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
@@ -11,6 +12,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -44,6 +46,7 @@ import com.empatica.empalink.delegate.EmpaDataDelegate;
 import com.empatica.empalink.delegate.EmpaStatusDelegate;
 import com.example.android.teacher.EmpaticaE4.EditEmpaticaActivity;
 import com.example.android.teacher.EmpaticaE4.EmpaticaActivity;
+import com.example.android.teacher.EmpaticaE4.EmpaticaService;
 import com.example.android.teacher.EmpaticaE4.ViewEmpaticaActivity;
 import com.example.android.teacher.HelpActivity;
 import com.example.android.teacher.HomeActivity;
@@ -64,10 +67,12 @@ import com.jjoe64.graphview.Viewport;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import static android.R.attr.label;
 import static android.R.id.input;
 import static com.example.android.teacher.HomeActivity.admin_password;
 
 public class MainSensorDataActivity extends AppCompatActivity implements EmpaStatusDelegate, EmpaDataDelegate{
+
     private static final String TAG = "MainSensorDataActivity";
 
 
@@ -88,6 +93,7 @@ public class MainSensorDataActivity extends AppCompatActivity implements EmpaSta
     private static String EMPATICA_API_KEY = null; // "eded959cc2054b3da99abce90a43871f"; // TODO insert your API Key here
 
 
+    private Button homeButton;
     private Button edaButton;
     private Button tempButton;
     private Button bvpButton;
@@ -95,6 +101,7 @@ public class MainSensorDataActivity extends AppCompatActivity implements EmpaSta
 
 
     //private RelativeLayout allSensorsLayout;
+    private RelativeLayout homeLayout;
     private RelativeLayout edaLayout;
     private RelativeLayout tempLayout;
     private RelativeLayout bvpLayout;
@@ -104,6 +111,7 @@ public class MainSensorDataActivity extends AppCompatActivity implements EmpaSta
     //private Button allSensorsButton;
     private Button bluetoothButton;
     private Button startSessionButton;
+    private Button startSessionButton2;
     private Button batteryStatusButton;
     private Button sessionLengthButton;
 
@@ -145,22 +153,15 @@ public class MainSensorDataActivity extends AppCompatActivity implements EmpaSta
         teacherDbHelper = new DatabaseHelper(this);
         db = teacherDbHelper.getWritableDatabase();
 
-        if(getE4ApiKey() != null){
-            EMPATICA_API_KEY = getE4ApiKey();
-//            getDeviceManager();
-            initEmpaticaDeviceManager();
-        }else{
-            setUpE4Data();
-        }
-
-
         //allSensorsButton = (Button) findViewById(R.id.allButton);
+        homeButton = (Button) findViewById(R.id.homeButton);
         edaButton = (Button) findViewById(R.id.edaButton);
         tempButton = (Button) findViewById(R.id.tempButton);
         bvpButton = (Button) findViewById(R.id.bvpButton);
         accButton = (Button) findViewById(R.id.accButton);
 
         //allSensorsLayout = (RelativeLayout) findViewById(allSensorsLayout);
+        homeLayout = (RelativeLayout) findViewById(R.id.homeLayout);
         edaLayout = (RelativeLayout) findViewById(R.id.edaLayout);
         tempLayout = (RelativeLayout) findViewById(R.id.tempLayout);
         bvpLayout = (RelativeLayout) findViewById(R.id.bvpLayout);
@@ -175,14 +176,22 @@ public class MainSensorDataActivity extends AppCompatActivity implements EmpaSta
 
         bluetoothButton = (Button) findViewById(R.id.bluetoothButton);
         startSessionButton = (Button) findViewById(R.id.startSessionButton);
+        startSessionButton2 = (Button) findViewById(R.id.startSessionButton2);
         batteryStatusButton = (Button) findViewById(R.id.batteryButton);
         sessionLengthButton = (Button) findViewById(R.id.sessionLengthButton);
 
+        if(getE4ApiKey() != null){
+            EMPATICA_API_KEY = getE4ApiKey();
+            initEmpaticaDeviceManager();
+        }else{
+            setUpE4Data();
+        }
 
         setUpEDAGraph();
         setUpBVPGraph();
         setUpACCGraph();
 
+        setUpHomeButton();
         setUpEdaButton();
         setUpTempButton();
         setUpBvpButton();
@@ -191,19 +200,35 @@ public class MainSensorDataActivity extends AppCompatActivity implements EmpaSta
         setUpBluetoothButton();
         setUpStartSessionButton();
         setUpSessionLengthButton();
+        setUpBatteryButton();
     }
 
-    public EmpaDeviceManager getDeviceManager(){
-        if (deviceManager == null){
-            //initialize it
-            // Create a new EmpaDeviceManager. MainActivity is both its data and status delegate.
-            deviceManager = new EmpaDeviceManager(getApplicationContext(), this, this);
-            deviceManager.authenticateWithAPIKey(EMPATICA_API_KEY);
-
-        }
-        return deviceManager;
-
+    private void setUpBatteryButton() {
+        batteryStatusButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(deviceStatus == EmpaStatus.READY || deviceStatus == EmpaStatus.DISCONNECTED || deviceStatus == EmpaStatus.DISCONNECTING || deviceStatus == EmpaStatus.CONNECTING || deviceStatus == EmpaStatus.DISCOVERING){
+                    Toast.makeText(MainSensorDataActivity.this, "No Empatica E4 is connected to show battery %", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
+
+    private void setUpHomeButton() {
+        homeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                accLayout.setVisibility(View.GONE);
+                tempLayout.setVisibility(View.GONE);
+                edaLayout.setVisibility(View.GONE);
+                bvpLayout.setVisibility(View.GONE);
+                homeLayout.setVisibility(View.VISIBLE);
+
+
+            }
+        });
+    }
+
 
     /**
      * Handles resolution callbacks.
@@ -307,7 +332,7 @@ public class MainSensorDataActivity extends AppCompatActivity implements EmpaSta
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // Permission was granted, yay!
-                    initEmpaticaDeviceManager();
+                    //initEmpaticaDeviceManager();
                 } else {
                     // Permission denied, boo!
                     final boolean needRationale = ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_COARSE_LOCATION);
@@ -319,7 +344,7 @@ public class MainSensorDataActivity extends AppCompatActivity implements EmpaSta
                                     // try again
                                     if (needRationale) {
                                         // the "never ask again" flash is not set, try again with permission request
-                                        initEmpaticaDeviceManager();
+                                        //initEmpaticaDeviceManager();
                                     } else {
                                         // the "never ask again" flag is set so the permission requests is disabled, try open app settings to enable the permission
                                         Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
@@ -445,33 +470,108 @@ public class MainSensorDataActivity extends AppCompatActivity implements EmpaSta
 
     @Override
     public void didUpdateStatus(final EmpaStatus status) {
+
         // Update the UI
         updateLabel(status.name());
 
         // The device manager is ready for use
         if (status == EmpaStatus.READY) {
             deviceStatus = EmpaStatus.READY;
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    startSessionButton.setBackgroundResource(R.drawable.circled_play);
+                    startSessionButton2.setBackgroundResource(R.drawable.circled_play);
+                }
+            });
         } else if (status == EmpaStatus.CONNECTED) {
             deviceStatus = EmpaStatus.CONNECTED;
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    startSessionButton.setBackgroundResource(R.drawable.stop4);
+                    startSessionButton2.setBackgroundResource(R.drawable.stop4);
+                }
+            });
         } else if (status == EmpaStatus.DISCONNECTED) {
             deviceStatus = EmpaStatus.DISCONNECTED;
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    startSessionButton.setBackgroundResource(R.drawable.circled_play);
+                    startSessionButton2.setBackgroundResource(R.drawable.circled_play);
+                }
+            });
+
             updateLabel("DISCONNECTED");
+        }else if(status == EmpaStatus.DISCONNECTING){
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    startSessionButton.setBackgroundResource(R.drawable.circled_play);
+                    startSessionButton2.setBackgroundResource(R.drawable.circled_play);
+                }
+            });
+        }else if(status == EmpaStatus.CONNECTING){
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    startSessionButton.setBackgroundResource(R.drawable.stop4);
+                    startSessionButton2.setBackgroundResource(R.drawable.stop4);
+                }
+            });
+        }else{
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    startSessionButton.setBackgroundResource(R.drawable.circled_play);
+                    startSessionButton2.setBackgroundResource(R.drawable.circled_play);
+                }
+            });
         }
     }
 
+//    public boolean isMyServiceRunning(Class<?> serviceClass) {
+//        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+//        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+//            if (serviceClass.getName().equals(service.service.getClassName())) {
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
+
     public void setUpStartSessionButton(){
-//        //Set a click listener on disagree button view
+//        final boolean isServiceRunning = isMyServiceRunning(EmpaticaService.class);
+//        startSessionButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent i = new Intent(getApplicationContext(), EmpaticaService.class);
+//
+//                if(isServiceRunning){
+//                    stopService(i);
+//                }else{
+//                    startService(i);
+//
+//                }
+//            }
+//        });
+
+
         startSessionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(deviceStatus == EmpaStatus.READY){
                     //START SERVICE
-                    updateLabel(deviceStatus.name() + " - Turn on your device");
-                    // Start scanning
+                    updateLabel(deviceStatus.name() + " - Switch ON your device");
                     deviceManager.startScanning();
+
 //                    startService(startSessionButton);
                 }else if(deviceStatus == EmpaStatus.CONNECTED){
                     updateLabel(deviceStatus.name());
+
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(MainSensorDataActivity.this);
                     builder.setMessage("Are you sure you want to stop session?")
@@ -495,6 +595,44 @@ public class MainSensorDataActivity extends AppCompatActivity implements EmpaSta
                     disagreeAlertDialog.show();
                 }
 
+
+            }});
+
+        startSessionButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(deviceStatus == EmpaStatus.READY){
+                    //START SERVICE
+                    updateLabel(deviceStatus.name() + " - Please Switch ON your device");
+                    // Start scanning
+                    deviceManager.startScanning();
+
+                }else if(deviceStatus == EmpaStatus.CONNECTED){
+                    updateLabel(deviceStatus.name());
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainSensorDataActivity.this);
+                    builder.setMessage("Are you sure you want to stop session?")
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    //STOP SERVICE
+                                    //stopService(startSessionButton);
+                                    deviceManager.disconnect();
+                                    dialog.cancel();
+
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                }
+                            });
+                    AlertDialog disagreeAlertDialog = builder.create();
+                    disagreeAlertDialog.show();
+
+                }
+
             }});
     }
 
@@ -510,7 +648,6 @@ public class MainSensorDataActivity extends AppCompatActivity implements EmpaSta
                 teacherDbHelper.addAccSensorValues(new AccelereometerSensor(x, y, z, timestamp), db);
 
                 runOnUiThread(new Runnable() {
-
                     @Override
                     public void run() {
 
@@ -585,6 +722,7 @@ public class MainSensorDataActivity extends AppCompatActivity implements EmpaSta
         tempButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                homeLayout.setVisibility(View.GONE);
                 edaLayout.setVisibility(View.GONE);
                 bvpLayout.setVisibility(View.GONE);
                 accLayout.setVisibility(View.GONE);
@@ -603,12 +741,9 @@ public class MainSensorDataActivity extends AppCompatActivity implements EmpaSta
             @Override
             public void run() {
                 teacherDbHelper.addEdaSensorValues(new EdaSensor(gsr, timestamp), db);
-
                 runOnUiThread(new Runnable() {
-
                     @Override
                     public void run() {
-
                         edaSeries.appendData(new DataPoint(lastXeda++, gsr), false, 10);
                         updateLabel(edaValue, "" + gsr);
                     }
@@ -623,6 +758,7 @@ public class MainSensorDataActivity extends AppCompatActivity implements EmpaSta
         edaButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                homeLayout.setVisibility(View.GONE);
                 tempLayout.setVisibility(View.GONE);
                 bvpLayout.setVisibility(View.GONE);
                 accLayout.setVisibility(View.GONE);
@@ -664,7 +800,6 @@ public class MainSensorDataActivity extends AppCompatActivity implements EmpaSta
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-
                         bvpSeries.appendData(new DataPoint(lastXbvp++, bvp), false, 100);
                     }
                 });
@@ -696,6 +831,7 @@ public class MainSensorDataActivity extends AppCompatActivity implements EmpaSta
         bvpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                homeLayout.setVisibility(View.GONE);
                 tempLayout.setVisibility(View.GONE);
                 edaLayout.setVisibility(View.GONE);
                 accLayout.setVisibility(View.GONE);
@@ -751,6 +887,7 @@ public class MainSensorDataActivity extends AppCompatActivity implements EmpaSta
         accButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                homeLayout.setVisibility(View.GONE);
                 tempLayout.setVisibility(View.GONE);
                 edaLayout.setVisibility(View.GONE);
                 bvpLayout.setVisibility(View.GONE);

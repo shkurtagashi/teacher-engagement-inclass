@@ -10,7 +10,9 @@ public class UserData {
 
     public static String _username = null;
     public static String _selectedCourses;
-    public static Boolean alarmTriggered = false;
+    public static Boolean uploadAlarmTriggered = false;
+    public static Boolean deleteAlarmTriggered = false;
+
 //    public static Boolean schedulersTriggered = false;
 
 }

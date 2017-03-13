@@ -52,7 +52,7 @@
 
         <activity
             android:name=".Sensors.MainSensorDataActivity"
-            android:theme="@style/Theme.AppCompat.Light" />
+            android:theme="@style/Theme.AppCompat" />
         <activity android:name=".GraphActivity" />
         <activity android:name=".InitialActivity" />
         <activity android:name=".EmpaticaE4.EmpaticaActivity" />

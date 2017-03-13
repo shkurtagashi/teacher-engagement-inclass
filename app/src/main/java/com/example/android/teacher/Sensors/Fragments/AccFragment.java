@@ -4,6 +4,7 @@ package com.example.android.teacher.Sensors.Fragments;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +25,9 @@ import com.github.mikephil.charting.components.YAxis.AxisDependency;
 
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -60,8 +63,11 @@ public class AccFragment extends Fragment {
         saveAccChart = (Button) rootView.findViewById(R.id.save_acc_chart);
 
         teacherDbHelper = new DatabaseHelper(getContext());
-        accValues = teacherDbHelper.getAllAccSensorValues();
-
+        if(teacherDbHelper.isLastSession()){
+            accValues = teacherDbHelper.getAllAccSensorValues();
+        }else{
+            accValues = teacherDbHelper.getLastAccSensorValues();
+        }
         setUpAccGraph(accValues);
         setUpSaveButton();
 
@@ -159,7 +165,9 @@ public class AccFragment extends Fragment {
         saveAccChart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                chart.saveToGallery("acc_chart", 100);
+                String formattedDate = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(Calendar.getInstance().getTime());
+
+                chart.saveToGallery(formattedDate + "_acc", 100);
                 Toast.makeText(getContext(), "The Accelereometer graph was successfully saved on your phone's Gallery.", Toast.LENGTH_SHORT).show();
             }
         });

@@ -23,19 +23,24 @@ import com.example.android.teacher.data.Surveys.PostLectureSurveyContract.PostLe
 import com.example.android.teacher.data.Surveys.GeneralSurveyContract.GeneralSurveyDataEntry;
 import com.example.android.teacher.data.UploaderUtilityTable;
 import com.example.android.teacher.data.User.User;
+import com.example.android.teacher.data.User.UserData;
 import com.example.android.teacher.data.User.UsersContract.UserEntry;
 import com.example.android.teacher.data.Sensors.EdaSensorContract.EdaSensorDataEntry;
 import com.example.android.teacher.data.Sensors.TempSensorContract.TempSensorDataEntry;
 import com.example.android.teacher.data.Sensors.AccSensorContract.AccSensorDataEntry;
 import com.example.android.teacher.data.Sensors.BvpSensorContract.BvpSensorDataEntry;
 
+import java.security.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static com.example.android.teacher.R.id.username;
 import static com.example.android.teacher.data.PamDatabase.PAMContract.PAMDataEntry.TABLE_NAME_PAM_DATA;
 import static com.example.android.teacher.data.Surveys.GeneralSurveyContract.GeneralSurveyDataEntry.TABLE_GENERAL_SURVEY;
 import static com.example.android.teacher.data.Surveys.PostLectureSurveyContract.PostLectureSurveyDataEntry.TABLE_POST_LECTURE_SURVEY;
+import static java.lang.Double.parseDouble;
 
 
 /**
@@ -551,8 +556,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         long newRowId = db.insert(AccSensorDataEntry.TABLE_NAME_ACC_DATA, null, values);
         if (newRowId == -1) {
             Log.v("WHATEVERRRR", "Error saving ACC data");
-        } else {
-            Log.v("WHATEVERRRR", " Acc data: x: " + acc.getXvalue() + ", y:  " + acc.getYvalue() + ", z: " + acc.getZvalue() + " saved for timestamp: " + acc.getTimestamp());
         }
 
         //db.close(); // Closing database connection
@@ -599,6 +602,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Getting All EdaSensorValues
     public List<EdaSensor> getAllEdaSensorValues() {
         List<EdaSensor> edaSensorList = new ArrayList<EdaSensor>();
+        double firstTimestamp = 0.0;
+
 
         // Select All Query
         String selectQuery = "SELECT * FROM " + EdaSensorDataEntry.TABLE_NAME_EDA_DATA;
@@ -608,10 +613,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
+            cursor.moveToLast();
+            firstTimestamp = cursor.getDouble(cursor.getColumnIndex(EdaSensorDataEntry.COLUMN_EDA_TIMESTAMP));
+            EdaSensor.date  = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(new java.util.Date ((long)firstTimestamp *1000));
+
             do {
                 EdaSensor edaRow = new EdaSensor();
                 edaRow.setID(Integer.parseInt(cursor.getString(0)));
-                edaRow.setTimestamp(Double.parseDouble(cursor.getString(1)));
+                edaRow.setTimestamp(parseDouble(cursor.getString(1)));
                 edaRow.setValue(Float.parseFloat(cursor.getString(2)));
 
 
@@ -623,6 +632,54 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         return edaSensorList;
     }
+
+    public List<EdaSensor> getLastEdaSensorValues() {
+        double lastTimestamp;
+
+        List<EdaSensor> edaSensorList = new ArrayList<EdaSensor>();
+
+        // Select All Query
+        String selectQuery = "SELECT * FROM " + EdaSensorDataEntry.TABLE_NAME_EDA_DATA;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            cursor.moveToLast();
+            lastTimestamp = cursor.getDouble(cursor.getColumnIndex(EdaSensorDataEntry.COLUMN_EDA_TIMESTAMP));
+            EdaSensor.date  = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(new java.util.Date ((long)lastTimestamp *1000));
+
+            cursor.moveToFirst();
+
+            long lastTimestamp1 = (long)(lastTimestamp * 1000);
+            Date lastTimestampDate = new Date(lastTimestamp1);
+
+
+            do {
+
+                Double edaTimestamp = Double.parseDouble(cursor.getString(1));
+                long edaTimestampConverted = (long) (edaTimestamp * 1000);
+                Date edaRowDate = new Date(edaTimestampConverted);
+
+                if(lastTimestampDate.getDay() == edaRowDate.getDay()){
+                    EdaSensor edaRow = new EdaSensor();
+                    edaRow.setID(Integer.parseInt(cursor.getString(0)));
+                    edaRow.setTimestamp(parseDouble(cursor.getString(1)));
+                    edaRow.setValue(Float.parseFloat(cursor.getString(2)));
+
+                    // Adding Eda row to list
+                    edaSensorList.add(edaRow);
+                }
+
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return edaSensorList;
+    }
+
+
 
     // Getting All TempSensorValues
     public List<TemperatureSensor> getAllTempSensorValues() {
@@ -639,7 +696,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             do {
                 TemperatureSensor tempRow = new TemperatureSensor();
                 tempRow.setID(Integer.parseInt(cursor.getString(0)));
-                tempRow.setTimestamp(Double.parseDouble(cursor.getString(1)));
+                tempRow.setTimestamp(parseDouble(cursor.getString(1)));
                 tempRow.setValue(Float.parseFloat(cursor.getString(2)));
 
                 // Adding temperature row to list
@@ -648,6 +705,50 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         // return contact list
+        cursor.close();
+        return tempSensorList;
+    }
+
+    public List<TemperatureSensor> getLastTempSensorValues() {
+        double lastTimestamp;
+
+        List<TemperatureSensor> tempSensorList = new ArrayList<TemperatureSensor>();
+
+        // Select All Query
+        String selectQuery = "SELECT * FROM " + TempSensorDataEntry.TABLE_NAME_TEMP_DATA;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            cursor.moveToLast();
+            lastTimestamp = cursor.getDouble(cursor.getColumnIndex(TempSensorDataEntry.COLUMN_TEMP_TIMESTAMP));
+
+            cursor.moveToFirst();
+
+            long lastTimestamp1 = (long)(lastTimestamp * 1000);
+            Date lastTimestampDate = new Date(lastTimestamp1);
+
+
+            do {
+                Double edaTimestamp = Double.parseDouble(cursor.getString(1));
+                long edaTimestampConverted = (long) (edaTimestamp * 1000);
+                Date edaRowDate = new Date(edaTimestampConverted);
+
+                if(lastTimestampDate.getDay() == edaRowDate.getDay()){
+                    TemperatureSensor edaRow = new TemperatureSensor();
+                    edaRow.setID(Integer.parseInt(cursor.getString(0)));
+                    edaRow.setTimestamp(parseDouble(cursor.getString(1)));
+                    edaRow.setValue(Float.parseFloat(cursor.getString(2)));
+
+                    // Adding Eda row to list
+                    tempSensorList.add(edaRow);
+                }
+
+            } while (cursor.moveToNext());
+        }
+
         cursor.close();
         return tempSensorList;
     }
@@ -667,11 +768,55 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             do {
                 BloodVolumePressureSensor bvpRow = new BloodVolumePressureSensor();
                 bvpRow.setID(Integer.parseInt(cursor.getString(0)));
-                bvpRow.setTimestamp(Double.parseDouble(cursor.getString(1)));
+                bvpRow.setTimestamp(parseDouble(cursor.getString(1)));
                 bvpRow.setValue(Float.parseFloat(cursor.getString(2)));
 
                 // Adding Eda row to list
                 bvpSensorList.add(bvpRow);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return bvpSensorList;
+    }
+
+    public List<BloodVolumePressureSensor> getLastBVPSensorValues() {
+        double lastTimestamp;
+
+        List<BloodVolumePressureSensor> bvpSensorList = new ArrayList<BloodVolumePressureSensor>();
+
+        // Select All Query
+        String selectQuery = "SELECT * FROM " + BvpSensorDataEntry.TABLE_NAME_BVP_DATA;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            cursor.moveToLast();
+            lastTimestamp = cursor.getDouble(cursor.getColumnIndex(BvpSensorDataEntry.COLUMN_BVP_TIMESTAMP));
+
+            cursor.moveToFirst();
+
+            long lastTimestamp1 = (long)(lastTimestamp * 1000);
+            Date lastTimestampDate = new Date(lastTimestamp1);
+
+
+            do {
+                Double edaTimestamp = Double.parseDouble(cursor.getString(1));
+                long edaTimestampConverted = (long) (edaTimestamp * 1000);
+                Date edaRowDate = new Date(edaTimestampConverted);
+
+                if(lastTimestampDate.getDay() == edaRowDate.getDay()){
+                    BloodVolumePressureSensor edaRow = new BloodVolumePressureSensor();
+                    edaRow.setID(Integer.parseInt(cursor.getString(0)));
+                    edaRow.setTimestamp(parseDouble(cursor.getString(1)));
+                    edaRow.setValue(Float.parseFloat(cursor.getString(2)));
+
+                    // Adding Eda row to list
+                    bvpSensorList.add(edaRow);
+                }
+
             } while (cursor.moveToNext());
         }
 
@@ -697,7 +842,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             do {
                 AccelereometerSensor accRow = new AccelereometerSensor();
                 accRow.setID(Integer.parseInt(cursor.getString(0)));
-                accRow.setTimestamp(Double.parseDouble(cursor.getString(1)));
+                accRow.setTimestamp(parseDouble(cursor.getString(1)));
                 accRow.setXvalue(Integer.parseInt(cursor.getString(2)));
                 accRow.setYvalue(Integer.parseInt(cursor.getString(3)));
                 accRow.setZvalue(Integer.parseInt(cursor.getString(4)));
@@ -709,6 +854,105 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         return accSensorList;
     }
+
+    public List<AccelereometerSensor> getLastAccSensorValues() {
+        double lastTimestamp;
+
+        List<AccelereometerSensor> accSensorList = new ArrayList<AccelereometerSensor>();
+
+        // Select All Query
+        String selectQuery = "SELECT * FROM " + AccSensorDataEntry.TABLE_NAME_ACC_DATA;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            cursor.moveToLast();
+            lastTimestamp = cursor.getDouble(cursor.getColumnIndex(AccSensorDataEntry.COLUMN_ACC_TIMESTAMP));
+
+            cursor.moveToFirst();
+
+            long lastTimestamp1 = (long)(lastTimestamp * 1000);
+            Date lastTimestampDate = new Date(lastTimestamp1);
+
+            do {
+
+                Double edaTimestamp = Double.parseDouble(cursor.getString(1));
+                long edaTimestampConverted = (long) (edaTimestamp * 1000);
+                Date edaRowDate = new Date(edaTimestampConverted);
+
+                if(lastTimestampDate.getDay() == edaRowDate.getDay()){
+                    AccelereometerSensor edaRow = new AccelereometerSensor();
+                    edaRow.setID(Integer.parseInt(cursor.getString(0)));
+                    edaRow.setTimestamp(parseDouble(cursor.getString(1)));
+                    edaRow.setXvalue(Integer.parseInt(cursor.getString(2)));
+                    edaRow.setYvalue(Integer.parseInt(cursor.getString(3)));
+                    edaRow.setZvalue(Integer.parseInt(cursor.getString(4)));
+
+
+                    // Adding Eda row to list
+                    accSensorList.add(edaRow);
+                }
+
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return accSensorList;
+    }
+
+
+    //Check if we have more than one session of data in the database
+    public boolean isLastSession(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Double firstTimestamp = null;
+        Double lastTimestamp = null;
+
+        String[] projection = {
+                EdaSensorDataEntry.COLUMN_EDA_TIMESTAMP
+        };
+
+        Cursor cursor = db.query(
+                EdaSensorDataEntry.TABLE_NAME_EDA_DATA,                     // The table to query
+                projection,                               // The columns to return
+                null,                                // The columns for the WHERE clause
+                null,                            // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                null                                 // The sort order
+        );
+
+
+        //Get the first and last timestamp from this EDA sensor data
+        if (cursor.moveToFirst()) { // if Cursor is not empty
+            firstTimestamp = cursor.getDouble(cursor.getColumnIndex(EdaSensorDataEntry.COLUMN_EDA_TIMESTAMP));
+
+            cursor.moveToLast();
+            lastTimestamp = cursor.getDouble(cursor.getColumnIndex(EdaSensorDataEntry.COLUMN_EDA_TIMESTAMP));
+
+            //Get only the date of the first and last timestamp
+            long firstTimestamp1 = (long)(firstTimestamp * 1000);
+            Date firstTimestampDate = new Date(firstTimestamp1);
+            Log.v("DatabaseHelper", firstTimestampDate + "");
+
+            long lastTimestamp1 = (long)(lastTimestamp * 1000);
+            Date lastTimestampDate = new Date(lastTimestamp1);
+            Log.v("DatabaseHelper", lastTimestampDate + "");
+
+            //If the date of the firstTimestamp
+            if(firstTimestampDate.getDay() != lastTimestampDate.getDay()){
+                return false;
+            }
+
+        }
+
+        cursor.close();
+
+        return true;
+    }
+
+
 
     public EmpaticaE4 getEmpaticaE4() {
         EmpaticaE4 e4 = new EmpaticaE4();

@@ -1,5 +1,7 @@
 package com.example.android.teacher.data.Sensors;
 
+import java.util.Date;
+
 /**
  * Created by shkurtagashi on 17.01.17.
  */
@@ -9,6 +11,8 @@ public class EdaSensor {
     int _id;
     float _value;
     double _timestamp;
+
+    public static String date;
 
     public EdaSensor(){
 

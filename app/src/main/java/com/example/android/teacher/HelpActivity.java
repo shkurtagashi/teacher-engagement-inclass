@@ -2,6 +2,7 @@ package com.example.android.teacher;
 
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -48,12 +49,9 @@ public class HelpActivity extends AppCompatActivity{
 
     private static final int REQUEST_ENABLE_BT = 1;
 
-//    private static boolean[] selectedCheckboxes = new boolean[7];
-
     private CheckBox step0;
     private CheckBox step1;
     private CheckBox step2;
-    private CheckBox step3;
     private CheckBox step4;
     private CheckBox step5;
     private CheckBox step6;
@@ -69,15 +67,19 @@ public class HelpActivity extends AppCompatActivity{
         android_id = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
         dbHelper = new DatabaseHelper(this);
 
+//        SharedPreferences prefs = getSharedPreferences("private preference", Context.MODE_PRIVATE);
+
+//        boolean isChecked = prefs.getBoolean("step0",false);
+//        if(isChecked)
+//            step0.setChecked(true);
+
         step0 = (CheckBox) findViewById(R.id.step0CheckBox);
         step0.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                step0.setClickable(true);
-                Intent i = new Intent(getApplicationContext(), SurveyDataActivity.class);
-                startActivity(i);
-
+                if(step0.isChecked()){
+                    startActivity(new Intent(getApplicationContext(), SurveyDataActivity.class));
+                }
             }
         });
 
@@ -85,9 +87,16 @@ public class HelpActivity extends AppCompatActivity{
         step1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                step1.setClickable(true);
-                Intent i = new Intent (getApplicationContext(), EmpaticaActivity.class);
-                startActivity(i);
+                int countEmpatica = dbHelper.getEmpaticaE4Count();
+                if(step1.isChecked()){
+                    if(countEmpatica == 0){
+                        startActivity(new Intent (getApplicationContext(), EmpaticaActivity.class));
+                    }else{
+                        startActivity(new Intent (getApplicationContext(), ViewEmpaticaActivity.class));
+                    }
+                }
+
+
             }
         });
 
@@ -96,13 +105,16 @@ public class HelpActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 if(step2.isChecked()) {
-                    SharedPreferences settings = getSharedPreferences("prefs_name", 0);
-                    settings.edit().putBoolean("check", true).commit();
+//                    SharedPreferences settings = getSharedPreferences("prefs_name", 0);
+//                    settings.edit().putBoolean("check", true).commit();
+                    BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+                    if(mBluetoothAdapter.isEnabled())
+                        Toast.makeText(getApplicationContext(), "Bluetooth is already ON!", Toast.LENGTH_SHORT).show();
+                    else
+                        // Request the user to enable Bluetooth
+                        startActivityForResult(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE), REQUEST_ENABLE_BT);
+
                 }
-                step2.setClickable(true);
-                // Request the user to enable Bluetooth
-                Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
             }
         });
 
@@ -110,9 +122,10 @@ public class HelpActivity extends AppCompatActivity{
         step4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                step4.setClickable(true);
-                Intent i = new Intent (getApplicationContext(), MainSensorDataActivity.class);
-                startActivity(i);
+                if(step4.isChecked())
+                    startActivity(new Intent (getApplicationContext(), MainSensorDataActivity.class));
+
+
             }
         });
 
@@ -120,9 +133,10 @@ public class HelpActivity extends AppCompatActivity{
         step5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                step5.setClickable(true);
-                Intent i = new Intent (getApplicationContext(), MainSensorDataActivity.class);
-                startActivity(i);
+                if(step5.isChecked())
+                    startActivity(new Intent (getApplicationContext(), MainSensorDataActivity.class));
+
+
             }
         });
 
@@ -130,11 +144,23 @@ public class HelpActivity extends AppCompatActivity{
         step6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                step6.setClickable(true);
-                Intent i = new Intent (getApplicationContext(), SurveyDataActivity.class);
-                startActivity(i);
+                if(step6.isChecked())
+                    startActivity(new Intent (getApplicationContext(), SurveyDataActivity.class));
             }
         });
+
+    }
+
+    @Override
+    public void onDestroy() {
+
+//        if(step0.isChecked()){
+//            SharedPreferences prefs = getSharedPreferences("private preference", Context.MODE_PRIVATE);
+//            prefs.edit()
+//                    .putBoolean("step0",true)
+//                    .apply();
+//        }
+        super. onDestroy();
 
     }
 

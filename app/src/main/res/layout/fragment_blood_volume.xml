@@ -14,8 +14,7 @@
         android:text="Blood Volume Pressure"
         android:gravity="center"
         android:textSize="25dp"
-        android:layout_marginBottom="25dp"
-        android:textColor="#ff4081"/>
+        android:layout_marginBottom="25dp"/>
 
 
     <com.github.mikephil.charting.charts.LineChart
