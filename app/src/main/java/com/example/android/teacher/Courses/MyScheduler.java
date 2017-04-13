@@ -1,6 +1,12 @@
 package com.example.android.teacher.Courses;
 
+import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
+import android.os.SystemClock;
+import android.util.Log;
 
 import com.aware.Aware;
 import com.aware.ESM;
@@ -11,6 +17,9 @@ import com.aware.ui.esms.ESM_QuickAnswer;
 import com.aware.ui.esms.ESM_Radio;
 import com.aware.utils.Scheduler;
 import com.aware.utils.Scheduler.Schedule;
+import com.example.android.teacher.R;
+import com.example.android.teacher.Surveys.SurveyDataActivity;
+import com.example.android.teacher.data.RemoteDataStorage.DeleteAlarmReceiver;
 import com.example.android.teacher.data.User.UserData;
 
 import org.json.JSONException;
@@ -20,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 
+import static android.R.attr.delay;
 import static com.example.android.teacher.R.id.course;
 
 /**
@@ -33,12 +43,12 @@ public class MyScheduler {
     Test Case 2 - One course but two different lectures in one day
      */
 
-    private int firstPamTrigger = -15; //Minutes before the lecture -15
+    private int firstPamTrigger = -1; //Minutes before the lecture -15
 
-    private int firstESMTrigger = 40; //Minutes after the lecture starts 40
-    private int secondPamTrigger = 43; //Minutes after the lecture starts 43
-    private int secondESMTrigger = 100; //Minutes after the lecture starts 100
-    private int thirdPamTrigger = 1003; //Minutes after the lecture starts 103
+    private int firstESMTrigger = 1; //Minutes after the lecture starts 40
+    private int secondPamTrigger = 2; //Minutes after the lecture starts 43
+    private int secondESMTrigger = 3; //Minutes after the lecture starts 100
+    private int thirdPamTrigger = 4; //Minutes after the lecture starts 103
 
 
     private int firstPamThreshold = 720; //Keep the notification alive x minutes after it fires- UNTIL 7 PM
@@ -50,11 +60,10 @@ public class MyScheduler {
     private int secondESMThreshold = 720; //Minutes after it fires
 
     //Programming Fundamentals 2 - Monday, Wednesday, Friday 10:30 - 12:15
-    private Weekday mondayProgrammingFundamentals2 = new Weekday(10, 30, "Monday");
-    private Weekday wednesdayProgrammingFundamentals2 = new Weekday(10, 30, "Wednesday");
+    private Weekday mondayProgrammingFundamentals2 = new Weekday(9, 24, "Monday");
+    private Weekday wednesdayProgrammingFundamentals2 = new Weekday(13, 29, "Wednesday");
     private Weekday fridayProgrammingFundamentals3 = new Weekday(10, 30, "Friday");
     private Course programmingFundamentals = new Course(mondayProgrammingFundamentals2, wednesdayProgrammingFundamentals2, fridayProgrammingFundamentals3, "Programming Fundamentals");
-
 
     //Linear Algebra - Monday, Wednesday 8:30 - 10:15
     private Weekday mondayLinearAlgebra = new Weekday(8, 30, "Monday");
@@ -78,6 +87,41 @@ public class MyScheduler {
     private Course SoftwareArchitecture = new Course(tuesdaySoftwareArchitecture, thursdaySoftwareArchitecture, "Software Architecture and Design");
 
 
+//    private void scheduleNotification(Context context, Notification notification, int day, int hour, int minute) {
+//
+//        Intent notificationIntent = new Intent(context, NotificationAlarmReceiver.class);
+//        notificationIntent.putExtra(NotificationAlarmReceiver.NOTIFICATION_ID, 1);
+//        notificationIntent.putExtra(NotificationAlarmReceiver.NOTIFICATION, notification);
+//        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+//
+//        AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.set(Calendar.DAY_OF_WEEK, day);
+//        calendar.set(Calendar.HOUR_OF_DAY, hour);
+//        calendar.set(Calendar.MINUTE, minute);
+////        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY*7, pendingIntent);
+//        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+//
+//    }
+//
+//    private Notification getNotification(Context context, String content) {
+//        Intent myIntent = new Intent(context, SurveyDataActivity.class);
+//        PendingIntent pendingIntent = PendingIntent.getActivity(
+//                context,
+//                0,
+//                myIntent,
+//                0);
+//
+//        Notification.Builder builder = new Notification.Builder(context);
+//        builder.setContentTitle("Scheduled Notification");
+//        builder.setContentText(content);
+//        builder.setDefaults(Notification.DEFAULT_SOUND);
+////        builder.setAutoCancel(true);
+//        builder.setContentIntent(pendingIntent);
+//        builder.setSmallIcon(R.drawable.survey);
+//        return builder.build();
+//    }
+
     //Create first PAM 15 minutes before the lecture starts and remove notification 15 after it starts
     //Take the course from the logged in user, the day from the Calendar
     public void createFirstPAM(Context context, String userCourses){
@@ -94,6 +138,8 @@ public class MyScheduler {
 
             if(userCourses.contains(linearAlgebra.getName())){
                 q1.setInstructions("Pick the closest to how you feel now before the " + linearAlgebra.getName() + " lecture!");
+
+//                scheduleNotification(context, getNotification(context, "Survey before the " + linearAlgebra.getName() + " lecture!"), 5, 12, 37);
 
                 Schedule first_pam = new Schedule("first_pam" + UserData._username);
                 first_pam.addWeekday(linearAlgebra.getWeekday1()._DAY);

@@ -1,4 +1,4 @@
-package com.example.android.teacher.Sensors;
+package com.example.android.teacher.Sensors.Fragments;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,7 +22,6 @@ import com.example.android.teacher.EmpaticaE4.ViewEmpaticaActivity;
 import com.example.android.teacher.HelpActivity;
 import com.example.android.teacher.HomeActivity;
 import com.example.android.teacher.R;
-import com.example.android.teacher.Sensors.SimpleFragmentPagerAdapter;
 import com.example.android.teacher.UserAccount.ChooseAccountActivity;
 import com.example.android.teacher.UserAccount.RegisterFormActivity;
 import com.example.android.teacher.UserAccount.ViewRegistrationFormActivity;
@@ -41,7 +40,6 @@ public class SensorDataActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sensor_data);
 
         dbHelper = new DatabaseHelper(this);
-
 
         // Find the view pager that will allow the user to swipe between fragments
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);

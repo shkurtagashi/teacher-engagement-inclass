@@ -8,13 +8,18 @@ public class Weekday {
     public int _HOUR;
     public int _MINUTE;
     public String _DAY;
+    public int day;
 
     public Weekday(int h, int m, String d){
         setHour(h);
         setMinute(m);
         setDay(d);
+    }
 
-
+    public Weekday(int h, int m, int d){
+        setHour(h);
+        setMinute(m);
+        setDay2(d);
     }
 
     public void setHour(int hour) {
@@ -39,6 +44,14 @@ public class Weekday {
 
     public String getDay(){
         return this._DAY;
+    }
+
+    public int getDay2(){
+        return this.day;
+    }
+
+    public void setDay2(int day) {
+        this.day = day;
     }
 
 }

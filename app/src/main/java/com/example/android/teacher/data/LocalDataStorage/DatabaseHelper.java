@@ -514,51 +514,72 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void addEdaSensorValues(EdaSensor eda, SQLiteDatabase db) {
 
-        ContentValues values = new ContentValues();
-        values.put(EdaSensorDataEntry.COLUMN_EDA_VALUE, eda.getValue());
-        values.put(EdaSensorDataEntry.COLUMN_EDA_TIMESTAMP, eda.getTimestamp());
-        db.insert(EdaSensorContract.EdaSensorDataEntry.TABLE_NAME_EDA_DATA, null, values);
+        db.beginTransaction();
 
-        //db.close(); // Closing database connection
+        try{
+            ContentValues values = new ContentValues();
+            values.put(EdaSensorDataEntry.COLUMN_EDA_VALUE, eda.getValue());
+            values.put(EdaSensorDataEntry.COLUMN_EDA_TIMESTAMP, eda.getTimestamp());
+            db.insert(EdaSensorContract.EdaSensorDataEntry.TABLE_NAME_EDA_DATA, null, values);
+//            Log.v("DB", eda.getValue()+" added in DB");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Log.d(LOG_TAG, "Error while trying to add Eda Value to database");
+        } finally {
+            db.endTransaction();
+        }
     }
 
     public void addTempSensorValues(TemperatureSensor temp, SQLiteDatabase db) {
 
-        ContentValues values = new ContentValues();
-        values.put(TempSensorDataEntry.COLUMN_TEMP_VALUE, temp.getValue());
-        values.put(TempSensorDataEntry.COLUMN_TEMP_TIMESTAMP, temp.getTimestamp());
+        db.beginTransaction();
 
-        db.insert(TempSensorDataEntry.TABLE_NAME_TEMP_DATA, null, values);
-        //db.close(); // Closing database connection
+        try{
+            ContentValues values = new ContentValues();
+            values.put(TempSensorDataEntry.COLUMN_TEMP_VALUE, temp.getValue());
+            values.put(TempSensorDataEntry.COLUMN_TEMP_TIMESTAMP, temp.getTimestamp());
+            db.insert(TempSensorDataEntry.TABLE_NAME_TEMP_DATA, null, values);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Log.d(LOG_TAG, "Error while trying to add Temp Value to database");
+        } finally {
+            db.endTransaction();
+        }
     }
 
 
     public void addBvpSensorValues(BloodVolumePressureSensor bvp, SQLiteDatabase db) {
+        db.beginTransaction();
+        try{
+            ContentValues values = new ContentValues();
+            values.put(BvpSensorDataEntry.COLUMN_BVP_VALUE, bvp.getValue());
+            values.put(BvpSensorDataEntry.COLUMN_BVP_TIMESTAMP, bvp.getTimestamp());
 
-        ContentValues values = new ContentValues();
-        values.put(BvpSensorDataEntry.COLUMN_BVP_VALUE, bvp.getValue());
-        values.put(BvpSensorDataEntry.COLUMN_BVP_TIMESTAMP, bvp.getTimestamp());
-
-        db.insert(BvpSensorDataEntry.TABLE_NAME_BVP_DATA, null, values);
-
-        //db.close(); // Closing database connection
+            db.insert(BvpSensorDataEntry.TABLE_NAME_BVP_DATA, null, values);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Log.d(LOG_TAG, "Error while trying to add bVP Value to database");
+        } finally {
+            db.endTransaction();
+        }
     }
 
     public void addAccSensorValues(AccelereometerSensor acc, SQLiteDatabase db) {
+        db.beginTransaction();
 
-        ContentValues values = new ContentValues();
-        values.put(AccSensorDataEntry.COLUMN_ACC_X_VALUE, acc.getXvalue());
-        values.put(AccSensorDataEntry.COLUMN_ACC_Y_VALUE, acc.getYvalue());
-        values.put(AccSensorDataEntry.COLUMN_ACC_Z_VALUE, acc.getZvalue());
-        values.put(AccSensorDataEntry.COLUMN_ACC_TIMESTAMP, acc.getTimestamp());
-
-
-        long newRowId = db.insert(AccSensorDataEntry.TABLE_NAME_ACC_DATA, null, values);
-        if (newRowId == -1) {
-            Log.v("WHATEVERRRR", "Error saving ACC data");
+        try{
+            ContentValues values = new ContentValues();
+            values.put(AccSensorDataEntry.COLUMN_ACC_X_VALUE, acc.getXvalue());
+            values.put(AccSensorDataEntry.COLUMN_ACC_Y_VALUE, acc.getYvalue());
+            values.put(AccSensorDataEntry.COLUMN_ACC_Z_VALUE, acc.getZvalue());
+            values.put(AccSensorDataEntry.COLUMN_ACC_TIMESTAMP, acc.getTimestamp());
+            db.insert(AccSensorDataEntry.TABLE_NAME_ACC_DATA, null, values);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Log.d(LOG_TAG, "Error while trying to add Eda Value to database");
+        } finally {
+            db.endTransaction();
         }
-
-        //db.close(); // Closing database connection
     }
 
     /*
@@ -613,9 +634,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
-            cursor.moveToLast();
-            firstTimestamp = cursor.getDouble(cursor.getColumnIndex(EdaSensorDataEntry.COLUMN_EDA_TIMESTAMP));
-            EdaSensor.date  = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(new java.util.Date ((long)firstTimestamp *1000));
 
             do {
                 EdaSensor edaRow = new EdaSensor();
@@ -623,16 +641,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 edaRow.setTimestamp(parseDouble(cursor.getString(1)));
                 edaRow.setValue(Float.parseFloat(cursor.getString(2)));
 
-
                 // Adding Eda row to list
                 edaSensorList.add(edaRow);
             } while (cursor.moveToNext());
+
+            cursor.moveToLast();
+            firstTimestamp = cursor.getDouble(cursor.getColumnIndex(EdaSensorDataEntry.COLUMN_EDA_TIMESTAMP));
+            EdaSensor.date  = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(new java.util.Date ((long)firstTimestamp *1000));
+
         }
+
 
         cursor.close();
         return edaSensorList;
     }
 
+    //Getting latest session
     public List<EdaSensor> getLastEdaSensorValues() {
         double lastTimestamp;
 
@@ -1048,6 +1072,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
              db.beginTransaction();
              db.execSQL("DELETE FROM " + tableName + ";");
              db.setTransactionSuccessful();
+             Log.d("Database Helper", "Deleted" + tableName);
+
          }catch (SQLException e){
              Log.d("Database Helper", "Error while deleting table records" + tableName);
          }finally {
@@ -1069,10 +1095,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.endTransaction();
         }
     }
-
-
-
-
 
     //Method for inserting registration details in the database
     public void addPAM(PAMClass pam) {

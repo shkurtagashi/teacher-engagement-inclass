@@ -3,14 +3,10 @@ package com.example.android.teacher;
 import android.Manifest;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Color;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -26,7 +22,6 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -34,14 +29,13 @@ import android.widget.Toast;
 
 
 import com.aware.Aware;
-import com.empatica.empalink.EmpaDeviceManager;
 import com.example.android.teacher.Courses.MyScheduler;
+import com.example.android.teacher.Courses.NewScheduler;
 import com.example.android.teacher.EmpaticaE4.EmpaticaActivity;
 import com.example.android.teacher.EmpaticaE4.ViewEmpaticaActivity;
 import com.example.android.teacher.data.RemoteDataStorage.DeleteAlarmReceiver;
-import com.example.android.teacher.data.RemoteDataStorage.SwitchDriveController;
-import com.example.android.teacher.Sensors.MainSensorDataActivity;
-import com.example.android.teacher.Sensors.SensorDataActivity;
+import com.example.android.teacher.Sensors.RealtimeFragments.MainSensorDataActivity;
+import com.example.android.teacher.Sensors.Fragments.SensorDataActivity;
 import com.example.android.teacher.Surveys.StudentSurveyDataActivity;
 import com.example.android.teacher.Surveys.SurveyDataActivity;
 import com.example.android.teacher.UserAccount.AgreementFormActivity;
@@ -49,19 +43,12 @@ import com.example.android.teacher.UserAccount.ChooseAccountActivity;
 import com.example.android.teacher.UserAccount.RegisterFormActivity;
 import com.example.android.teacher.UserAccount.ViewRegistrationFormActivity;
 import com.example.android.teacher.data.LocalDataStorage.DatabaseHelper;
-import com.example.android.teacher.data.LocalDataStorage.LocalDbUtility;
-import com.example.android.teacher.data.LocalDataStorage.LocalTables;
-import com.example.android.teacher.data.LocalDataStorage.SQLiteController;
 import com.example.android.teacher.data.RemoteDataStorage.UploadAlarmReceiver;
-import com.example.android.teacher.data.RemoteDataStorage.Uploader;
 import com.example.android.teacher.data.User.User;
 import com.example.android.teacher.data.User.UserData;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -93,7 +80,9 @@ public class HomeActivity extends AppCompatActivity{
     int month;
     int dayOfMonth;
 
-    MyScheduler scheduler;
+    NewScheduler scheduler;
+    MyScheduler scheduler2;
+
     public static String androidID;
 
 //    SwitchDriveController switchDriveController;
@@ -175,10 +164,8 @@ public class HomeActivity extends AppCompatActivity{
                 ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
 
             //Start Aware services
-//            Intent startAware = new Intent(this, Aware.class);
-//            startService(startAware);
-            Aware.startAWARE(this);
-            Aware.startScheduler(this);
+//            Aware.startAWARE(this);
+//            Aware.startScheduler(this);
             Aware.startESM(this);
 
             triggerSchedulers();
@@ -250,20 +237,28 @@ public class HomeActivity extends AppCompatActivity{
         dayFormat = new SimpleDateFormat("EEEE", Locale.US);
         calendar = Calendar.getInstance();
         weekday = dayFormat.format(calendar.getTime());
-        scheduler = new MyScheduler();
+        scheduler = new NewScheduler();
         month = calendar.get(Calendar.MONTH);
+
         dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+
+        scheduler2 = new MyScheduler();
 
 
         //January - 0
         if(month == 2 && (dayOfMonth >=4 && dayOfMonth <= 31)){
-            //Trigger PAM and Lecture Surveys
+            //Trigger notifications for PAM and Lecture Surveys
             if(UserData._username != null) {
-                scheduler.createFirstPAM(getApplicationContext(), UserData._selectedCourses);
-                scheduler.createFirstPostLectureESM(getApplicationContext(), UserData._selectedCourses);
-                scheduler.createSecondPAM(getApplicationContext(), UserData._selectedCourses);
-                scheduler.createSecondPostLectureESM(getApplicationContext(), UserData._selectedCourses);
-                scheduler.createThirdPAM(getApplicationContext(), UserData._selectedCourses);
+                scheduler.createFirstNoification(getApplicationContext(), UserData._selectedCourses);
+//                scheduler2.createFirstPAM(getApplicationContext(), UserData._selectedCourses);
+//                scheduler2.createFirstPostLectureESM(getApplicationContext(), UserData._selectedCourses);
+//                scheduler2.createSecondPAM(getApplicationContext(), UserData._selectedCourses);
+//                scheduler2.createSecondPostLectureESM(getApplicationContext(), UserData._selectedCourses);
+//                scheduler2.createThirdPAM(getApplicationContext(), UserData._selectedCourses);
+
+
+//                scheduler.createSecondNotification(getApplicationContext(), UserData._selectedCourses);
+//                scheduler.createThirdNotification(getApplicationContext(), UserData._selectedCourses);
 
                 uploadDataEveryday();
                 deleteSensorDataEveryWeek();
@@ -288,7 +283,7 @@ public class HomeActivity extends AppCompatActivity{
             }
             else{
                 Log.v("Homeee", "Delete Alarm Triggered for next day");
-                calendar.add(Calendar.DAY_OF_MONTH, 1);
+                calendar.add(Calendar.WEEK_OF_MONTH, 1);
                 am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY*7, PendingIntent.getBroadcast(this, 1, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT));
                 UserData.deleteAlarmTriggered = true;
             }
@@ -320,6 +315,7 @@ public class HomeActivity extends AppCompatActivity{
 
         }
     }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

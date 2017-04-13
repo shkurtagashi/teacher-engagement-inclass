@@ -41,17 +41,22 @@
             </intent-filter>
         </activity>
         <activity android:name=".Surveys.SurveyDataActivity" />
-        <activity android:name=".Sensors.SensorDataActivity" />
+        <activity android:name=".Sensors.Fragments.SensorDataActivity" />
         <activity android:name=".Sensors.RealTimeStreamingActivity" />
 
-        <service android:name=".EmpaticaE4.EmpaticaService" />
+        <service
+            android:name=".EmpaticaE4.EmpaticaService"
+            android:enabled="true" />
 
         <adapter android:name=".SimpleFragmentPagerAdapter" />
 
         <receiver android:name=".data.RemoteDataStorage.UploadAlarmReceiver" />
+        <receiver android:name=".data.RemoteDataStorage.DeleteAlarmReceiver" />
+        <receiver android:name=".Courses.NotificationAlarmReceiver" />
+
 
         <activity
-            android:name=".Sensors.MainSensorDataActivity"
+            android:name=".Sensors.RealtimeFragments.MainSensorDataActivity"
             android:theme="@style/Theme.AppCompat" />
         <activity android:name=".GraphActivity" />
         <activity android:name=".InitialActivity" />

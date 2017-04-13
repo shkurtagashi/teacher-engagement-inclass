@@ -34,7 +34,7 @@ dependencies {
     compile 'com.loopj.android:android-async-http:1.4.6'
     compile 'com.jjoe64:graphview:4.2.1'
     compile 'com.android.support:design:25.2.0'
-    compile 'com.github.denzilferreira:aware-client:development-SNAPSHOT'
+    compile 'com.github.denzilferreira:aware-client:master-SNAPSHOT'
     compile 'com.android.support:cardview-v7:25.2.0'
     compile 'com.android.support:gridlayout-v7:25.2.0'
     compile 'com.android.support:support-v4:25.2.0'

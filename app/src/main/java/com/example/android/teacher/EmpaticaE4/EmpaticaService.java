@@ -1,27 +1,25 @@
 package com.example.android.teacher.EmpaticaE4;
 
-import android.Manifest;
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Handler;
 import android.os.IBinder;
-import android.provider.Settings;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.empatica.empalink.ConnectionNotAllowedException;
@@ -32,20 +30,40 @@ import com.empatica.empalink.config.EmpaStatus;
 import com.empatica.empalink.delegate.EmpaDataDelegate;
 import com.empatica.empalink.delegate.EmpaStatusDelegate;
 import com.example.android.teacher.R;
-import com.example.android.teacher.Sensors.MainSensorDataActivity;
+import com.example.android.teacher.Sensors.RealtimeFragments.EdaFragment;
+import com.example.android.teacher.Sensors.RealtimeFragments.MainSensorDataActivity;
 import com.example.android.teacher.data.LocalDataStorage.DatabaseHelper;
 import com.example.android.teacher.data.EmpaticaE4.E4DataContract;
 import com.example.android.teacher.data.Sensors.AccelereometerSensor;
 import com.example.android.teacher.data.Sensors.BloodVolumePressureSensor;
 import com.example.android.teacher.data.Sensors.EdaSensor;
 import com.example.android.teacher.data.Sensors.TemperatureSensor;
+import com.jjoe64.graphview.series.DataPoint;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+import static android.R.id.message;
+import static com.example.android.teacher.R.drawable.timer;
+import static com.example.android.teacher.R.id.deviceName;
+import static com.example.android.teacher.R.id.eda;
+import static com.example.android.teacher.R.id.startSessionButton;
+import static com.example.android.teacher.R.id.startSessionButton2;
 
 /**
  * Created by shkurtagashi on 31.01.17.
  */
 
 public class EmpaticaService extends Service implements EmpaDataDelegate, EmpaStatusDelegate{
-    int mStartMode;
+    //private boolean mRunning;
 
     DatabaseHelper teacherDbHelper;
     SQLiteDatabase db;
@@ -56,6 +74,58 @@ public class EmpaticaService extends Service implements EmpaDataDelegate, EmpaSt
     private EmpaStatus deviceStatus;
     private static String EMPATICA_API_KEY = null; // "eded959cc2054b3da99abce90a43871f"; // TODO insert your API Key here
 
+    LocalBroadcastManager edaBroadcaster;
+    LocalBroadcastManager tempBroadcaster;
+    LocalBroadcastManager bvpBroadcaster;
+    LocalBroadcastManager accXBroadcaster;
+    LocalBroadcastManager accYBroadcaster;
+    LocalBroadcastManager accZBroadcaster;
+    LocalBroadcastManager batteryBroadcaster;
+    LocalBroadcastManager statusBroadcaster;
+
+
+    static final public String EDA_RESULT = "com.controlj.copame.backend.EmpaticaService.REQUEST_PROCESSED";
+    static final public String TEMP_RESULT = "com.controlj.copame.backend.EmpaticaService.REQUEST_PROCESSED2";
+    static final public String BVP_RESULT = "com.controlj.copame.backend.EmpaticaService.REQUEST_PROCESSED3";
+    static final public String ACCX_RESULT = "com.controlj.copame.backend.EmpaticaService.REQUEST_PROCESSED4";
+    static final public String ACCY_RESULT = "com.controlj.copame.backend.EmpaticaService.REQUEST_PROCESSED5";
+    static final public String ACCZ_RESULT = "com.controlj.copame.backend.EmpaticaService.REQUEST_PROCESSED6";
+    static final public String BATTERY_RESULT = "com.controlj.copame.backend.EmpaticaService.REQUEST_PROCESSED7";
+    static final public String STATUS_RESULT = "com.controlj.copame.backend.EmpaticaService.REQUEST_PROCESSED8";
+
+    static final public String EDA = "com.controlj.copame.backend.EmpaticaService.EDA";
+    static final public String TEMP = "com.controlj.copame.backend.EmpaticaService.TEMP";
+    static final public String BVP = "com.controlj.copame.backend.EmpaticaService.BVP";
+    static final public String ACC_X = "com.controlj.copame.backend.EmpaticaService.ACC_X";
+    static final public String ACC_Y = "com.controlj.copame.backend.EmpaticaService.ACC_Y";
+    static final public String ACC_Z = "com.controlj.copame.backend.EmpaticaService.ACC_Z";
+    static final public String BATTERY = "com.controlj.copame.backend.EmpaticaService.BATTERY";
+    static final public String DEVICE_STATUS = "com.controlj.copame.backend.EmpaticaService.DEVICE_STATUS";
+
+    static final public int ACC_BUFFER_CAPACITY = 32;
+    static final public int BVP_BUFFER_CAPACITY = 64;
+    static final public int EDA_BUFFER_CAPACITY = 8;
+    static final public int TEMP_BUFFER_CAPACITY = 32;
+
+    private List<String> accXBuffer;
+    private List<String> accYBuffer;
+    private List<String> accZBuffer;
+    private List<String> bvpBuffer;
+    private List<String> edaBuffer;
+    private List<String> tempBuffer;
+
+    private Handler edaHandler;
+    private Runnable edaTimer;
+
+    private Handler tempHandler;
+    private Runnable tempTimer;
+
+    private Handler bvpHandler;
+    private Runnable bvpTimer;
+
+
+
+
     Handler handler;
 //
     @Override
@@ -63,6 +133,30 @@ public class EmpaticaService extends Service implements EmpaDataDelegate, EmpaSt
         // Handler will get associated with the current thread,
         // which is the main thread.
         handler = new Handler();
+        edaHandler = new Handler();
+        tempHandler = new Handler();
+        bvpHandler = new Handler();
+
+
+        teacherDbHelper = new DatabaseHelper(getApplicationContext());
+        db = teacherDbHelper.getWritableDatabase();
+
+        accXBuffer = new ArrayList<String>(ACC_BUFFER_CAPACITY);
+        accYBuffer = new ArrayList<String>(ACC_BUFFER_CAPACITY);
+        accZBuffer = new ArrayList<String>(ACC_BUFFER_CAPACITY);
+        bvpBuffer = new ArrayList<String>(BVP_BUFFER_CAPACITY);
+        edaBuffer = new ArrayList<String>(EDA_BUFFER_CAPACITY);
+        tempBuffer = new ArrayList<String>(TEMP_BUFFER_CAPACITY);
+
+        edaBroadcaster = LocalBroadcastManager.getInstance(getApplicationContext());
+        bvpBroadcaster = LocalBroadcastManager.getInstance(getApplicationContext());
+        tempBroadcaster = LocalBroadcastManager.getInstance(getApplicationContext());
+        accXBroadcaster = LocalBroadcastManager.getInstance(getApplicationContext());
+        accYBroadcaster = LocalBroadcastManager.getInstance(getApplicationContext());
+        accZBroadcaster = LocalBroadcastManager.getInstance(getApplicationContext());
+        batteryBroadcaster = LocalBroadcastManager.getInstance(getApplicationContext());
+        statusBroadcaster = LocalBroadcastManager.getInstance(getApplicationContext());
+
         super.onCreate();
     }
 
@@ -81,37 +175,45 @@ public class EmpaticaService extends Service implements EmpaDataDelegate, EmpaSt
         EMPATICA_API_KEY = getE4ApiKey();
         initEmpaticaDeviceManager();
 
-        return mStartMode;
+        Intent notificationIntent = new Intent(this, EmpaticaService.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+
+        Notification notification = new Notification.Builder(this)
+                .setSmallIcon(R.drawable.empa)
+                .setContentIntent(pendingIntent)
+                .setTicker("BLLA BLLA")
+                .setContentTitle("Realtime streaming")
+                .setContentText("The realtime streaming of sensor data from Empatica E4 is running.")
+                .build();
+
+        startForeground(717038, notification);
+
+        return START_STICKY;
     }
 
-        private void initEmpaticaDeviceManager() {
-        // Android 6 (API level 23) now require ACCESS_COARSE_LOCATION permission to use BLE
-//        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//            ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.ACCESS_COARSE_LOCATION }, REQUEST_PERMISSION_ACCESS_COARSE_LOCATION);
-//        } else {
-            // Create a new EmpaDeviceManager. MainActivity is both its data and status delegate.
-            deviceManager = new EmpaDeviceManager(getApplicationContext(), this, this);
+    private void initEmpaticaDeviceManager() {
+        // Create a new EmpaDeviceManager. MainActivity is both its data and status delegate.
+        deviceManager = new EmpaDeviceManager(getApplicationContext(), this, this);
 
-            ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
-            if (mWifi.isConnected()) {
-                // Initialize the Device Manager using your API key. You need to have Internet access at this point.
-                deviceManager.authenticateWithAPIKey(EMPATICA_API_KEY);
-            }else{
-                Toast.makeText(EmpaticaService.this, "Sorry, you need WiFi connection to connect to Empatica E4!", Toast.LENGTH_SHORT).show();
-            }
-//        }
+        if (mWifi.isConnected()) {
+            // Initialize the Device Manager using your API key. You need to have Internet access at this point.
+            deviceManager.authenticateWithAPIKey(EMPATICA_API_KEY);
+        }else{
+            Toast.makeText(EmpaticaService.this, "Sorry, you need WiFi connection to connect to Empatica E4!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         //DEVICE MANAGER DISCONNECT
         deviceManager.cleanUp();
-        Toast.makeText(this, "Empatica Service Destroyed", Toast.LENGTH_LONG).show();
-
-
+        deviceManager.disconnect();
+        stopForeground(true);
+        stopSelf();
+        Toast.makeText(EmpaticaService.this, "Empatica Service stopped successfully!", Toast.LENGTH_SHORT).show();
     }
 
     @Nullable
@@ -124,14 +226,18 @@ public class EmpaticaService extends Service implements EmpaDataDelegate, EmpaSt
     @Override
     public void didReceiveGSR(final float gsr, final double timestamp) {
         new Thread(new Runnable() {
-
             @Override
             public void run() {
                 teacherDbHelper.addEdaSensorValues(new EdaSensor(gsr, timestamp), db);
-                Log.v("EMPATICA SERVICE", gsr + " EDA value added in DB");
+//                sendEdaResult(gsr+"");
+                 if (edaBuffer.size() < EDA_BUFFER_CAPACITY) {
+                        edaBuffer.add(gsr + "");
+                    } else {
+                        sendEdaResult(edaBuffer);
+                        edaBuffer.clear();
+                    }
             }
         }).start();
-
     }
 
     @Override
@@ -140,7 +246,7 @@ public class EmpaticaService extends Service implements EmpaDataDelegate, EmpaSt
             @Override
             public void run() {
                 teacherDbHelper.addBvpSensorValues(new BloodVolumePressureSensor(bvp, timestamp), db);
-
+//                sendBvpResult(bvp + "");
             }
         }).start();
     }
@@ -156,48 +262,53 @@ public class EmpaticaService extends Service implements EmpaDataDelegate, EmpaSt
             @Override
             public void run() {
                 teacherDbHelper.addTempSensorValues(new TemperatureSensor(temp, timestamp), db);
+//                sendTempResult(temp+"");
             }
         }).start();
 
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                sendTempResult(temp + "");
+//                try{
+//                    Thread.sleep(10000);
+//                }catch (Exception e) {
+//                    // TODO: handle exception
+//                }
+//            }
+//        }).start();
     }
 
     @Override
     public void didReceiveAcceleration(final int x, final int y, final int z, final double timestamp) {
         new Thread(new Runnable() {
-
             @Override
             public void run() {
                 teacherDbHelper.addAccSensorValues(new AccelereometerSensor(x, y, z, timestamp), db);
-
+//                sendAccXResult(x+"");
+//                sendAccYResult(y+"");
+//                sendAccZResult(z+"");
             }
         }).start();
-
     }
 
     @Override
     public void didReceiveBatteryLevel(float v, double v1) {
-
+        //sendBatteryResult(v * 100 + "%");
+        //Log.v("BATTERYYYYY", v * 100 + "%");
     }
 
     @Override
     public void didUpdateStatus(EmpaStatus status) {
+
         // Update the UI
         updateLabel(status.name());
+        sendStatusResult(status.name());
 
-        // The device manager is ready for use
-//        if (status == EmpaStatus.READY) {
-//            deviceStatus = EmpaStatus.READY;
-//            Toast.makeText(this, "READY - Please turn on your Device", Toast.LENGTH_LONG).show();
-//
-//        } else if (status == EmpaStatus.CONNECTED) {
-//            deviceStatus = EmpaStatus.CONNECTED;
-//            Toast.makeText(this, "CONNECTED", Toast.LENGTH_SHORT).show();
-//
-//        } else if (status == EmpaStatus.DISCONNECTED) {
-//            deviceStatus = EmpaStatus.DISCONNECTED;
-//            //updateLabel("DISCONNECTED");
-//            Toast.makeText(this, "DISCONNECTED", Toast.LENGTH_SHORT).show();
-//        }
+        if (deviceManager != null && status == EmpaStatus.READY) {
+            deviceManager.startScanning();
+        }
+
     }
 
     @Override
@@ -242,7 +353,7 @@ public class EmpaticaService extends Service implements EmpaDataDelegate, EmpaSt
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.cancel();
-                            stopSelf();
+//                            stopSelf();
                         }
                     });
             alertDialog.show();
@@ -259,23 +370,89 @@ public class EmpaticaService extends Service implements EmpaDataDelegate, EmpaSt
 
     }
 
-    public EmpaDeviceManager getDeviceManager(){
-        if (deviceManager == null){
-            deviceManager = new EmpaDeviceManager(getApplicationContext(), this, this);
+    //    public void sendMessage(String result, String extra, String message, LocalBroadcastManager broadcaster) {
+//        Intent intent = new Intent(result);
+//        if(message != null)
+//            intent.putExtra(extra, message);
+//        broadcaster.sendBroadcast(intent);
+//    }
 
-            ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+//    public void sendEdaResult(final String message) {
+//        final Intent intent = new Intent(EDA_RESULT);
+//        if(message != null) {
+//            intent.putExtra(EDA, message);
+//            edaBroadcaster.sendBroadcastSync(intent);
+//        }
+//    }
 
-            if (mWifi.isConnected()) {
-                // Initialize the Device Manager using your API key. You need to have Internet access at this point.
-                deviceManager.authenticateWithAPIKey(EMPATICA_API_KEY);
-            }else{
-                Toast.makeText(EmpaticaService.this, "Sorry, you need WiFi connection to connect to Empatica E4!", Toast.LENGTH_SHORT).show();
-            }
+    public void sendEdaResult(final List<String> message) {
+        final Intent intent = new Intent(EDA_RESULT);
+        if(message != null) {
+            intent.putStringArrayListExtra(EDA, (ArrayList<String>) message);
+            edaBroadcaster.sendBroadcastSync(intent);
+            Log.v("EmpaticaService", "Eda buffer BROADCASTED" + message);
         }
-        return deviceManager;
+    }
+
+    public void sendBvpResult(final String message) {
+        final Intent intent = new Intent(BVP_RESULT);
+        if(message != null) {
+            intent.putExtra(BVP, message);
+            bvpBroadcaster.sendBroadcast(intent);
+//            Log.v("EmpaticaService", "BVP buffer BROADCASTED" + message);
+        }
+    }
+
+    public void sendTempResult(final String message) {
+        final Intent intent = new Intent(TEMP_RESULT);
+        if(message != null) {
+            intent.putExtra(TEMP, message);
+            tempBroadcaster.sendBroadcast(intent);
+//            Log.v("EmpaticaService", "TEMP buffer BROADCASTED" + message);
+        }
+    }
+
+    public void sendAccXResult(final String message) {
+        final Intent intent = new Intent(ACCX_RESULT);
+        if(message != null) {
+            intent.putExtra(ACC_X, message);
+            accXBroadcaster.sendBroadcast(intent);
+        }
+    }
+
+    public void sendAccYResult(final String message) {
+        final Intent intent = new Intent(ACCY_RESULT);
+        if(message != null) {
+            intent.putExtra(ACC_Y, message);
+            accYBroadcaster.sendBroadcast(intent);
+        }
+    }
+    public void sendAccZResult(final String message) {
+        final Intent intent = new Intent(ACCZ_RESULT);
+        if(message != null) {
+            intent.putExtra(ACC_Z, message);
+            accZBroadcaster.sendBroadcast(intent);
+        }
+    }
+
+    public void sendBatteryResult(String message) {
+        final Intent intent = new Intent(BATTERY_RESULT);
+        if (message != null) {
+            intent.putExtra(BATTERY_RESULT, message);
+            batteryBroadcaster.sendBroadcast(intent);
+        }
+    }
+
+
+    public void sendStatusResult(String message) {
+        Intent intent = new Intent(STATUS_RESULT);
+        if(message != null){
+            intent.putExtra(DEVICE_STATUS, message);
+            statusBroadcaster.sendBroadcast(intent);
+        }
 
     }
+
 
     public String getE4Name(){
         String name;
@@ -321,7 +498,6 @@ public class EmpaticaService extends Service implements EmpaDataDelegate, EmpaSt
         // you will actually use after this query.
         String[] projection = {
                 E4DataContract.E4DataEntry.COLUMN_API_KEY
-
         };
 
         Cursor cursor = db.query(
@@ -343,26 +519,6 @@ public class EmpaticaService extends Service implements EmpaDataDelegate, EmpaSt
         return apiKey;
     }
 
-    public void setUpE4Data(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(R.string.enterE4Data)
-                .setNegativeButton(R.string.yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent enterE4data = new Intent(getApplicationContext(), EmpaticaActivity.class);
-                        startActivity(enterE4data);
-                    }
-                })
-                .setPositiveButton(R.string.no, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-
-        AlertDialog disagreeAlertDialog = builder.create();
-        disagreeAlertDialog.show();
-    }
 
     // Update a message, making sure this is run in the UI thread
     private void updateLabel(final String text) {
@@ -372,6 +528,4 @@ public class EmpaticaService extends Service implements EmpaDataDelegate, EmpaSt
                 Toast.makeText(EmpaticaService.this, text, Toast.LENGTH_SHORT).show();            }
         });
     }
-
-
 }

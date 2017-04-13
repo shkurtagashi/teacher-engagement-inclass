@@ -3,7 +3,6 @@ package com.example.android.teacher.Surveys;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Color;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.NavUtils;
@@ -12,40 +11,23 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.aware.Aware;
-import com.aware.ESM;
-import com.aware.providers.ESM_Provider;
-import com.aware.ui.ESM_Queue;
-import com.aware.ui.esms.ESMFactory;
-import com.aware.ui.esms.ESM_Freetext;
-import com.aware.ui.esms.ESM_PAM;
-import com.aware.ui.esms.ESM_QuickAnswer;
-import com.aware.ui.esms.ESM_Radio;
 import com.example.android.teacher.EmpaticaE4.EmpaticaActivity;
 import com.example.android.teacher.EmpaticaE4.ViewEmpaticaActivity;
 import com.example.android.teacher.HelpActivity;
 import com.example.android.teacher.HomeActivity;
 import com.example.android.teacher.R;
-import com.example.android.teacher.Sensors.SimpleFragmentPagerAdapter;
 import com.example.android.teacher.UserAccount.ChooseAccountActivity;
 import com.example.android.teacher.UserAccount.RegisterFormActivity;
 import com.example.android.teacher.UserAccount.ViewRegistrationFormActivity;
 import com.example.android.teacher.data.LocalDataStorage.DatabaseHelper;
 import com.example.android.teacher.data.User.UserData;
-
-import org.json.JSONException;
-
-import java.util.ArrayList;
 
 import static com.example.android.teacher.HomeActivity.admin_password;
 

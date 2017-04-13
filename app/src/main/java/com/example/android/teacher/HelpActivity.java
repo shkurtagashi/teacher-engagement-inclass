@@ -1,11 +1,8 @@
 package com.example.android.teacher;
 
-import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -24,10 +21,9 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.empatica.empalink.EmpaDeviceManager;
 import com.example.android.teacher.EmpaticaE4.EmpaticaActivity;
 import com.example.android.teacher.EmpaticaE4.ViewEmpaticaActivity;
-import com.example.android.teacher.Sensors.MainSensorDataActivity;
+import com.example.android.teacher.Sensors.RealtimeFragments.MainSensorDataActivity;
 import com.example.android.teacher.Surveys.SurveyDataActivity;
 import com.example.android.teacher.UserAccount.ChooseAccountActivity;
 import com.example.android.teacher.UserAccount.RegisterFormActivity;
@@ -36,8 +32,6 @@ import com.example.android.teacher.data.LocalDataStorage.DatabaseHelper;
 import com.example.android.teacher.data.EmpaticaE4.E4DataContract.E4DataEntry;
 import com.example.android.teacher.data.User.UserData;
 import com.example.android.teacher.data.User.UsersContract;
-
-import java.util.ArrayList;
 
 import static com.example.android.teacher.HomeActivity.admin_password;
 

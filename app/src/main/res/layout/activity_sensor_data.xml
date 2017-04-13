@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    tools:context="com.example.android.teacher.Sensors.SensorDataActivity">
+    tools:context="com.example.android.teacher.Sensors.Fragments.SensorDataActivity">
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"

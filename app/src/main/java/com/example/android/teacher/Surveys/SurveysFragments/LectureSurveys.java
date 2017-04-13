@@ -103,7 +103,7 @@ public class LectureSurveys extends Fragment {
 
                     ESM_Radio esmRadio1 = new ESM_Radio();
                     esmRadio1.setInstructions("I loved teaching this lecture.");
-                    esmRadio1.setTitle("Post Lecture Survey - " + UserData._selectedCourses + " (2/6)");
+                    esmRadio1.setTitle("Break - " + UserData._selectedCourses + " (2/6)");
 
 
                     ESM_Radio esmRadio2 = new ESM_Radio();
@@ -113,7 +113,7 @@ public class LectureSurveys extends Fragment {
 
                     ESM_Radio esmRadio3 = new ESM_Radio();
                     esmRadio3.setInstructions("I felt happy while teaching this lecture.");
-                    esmRadio3.setTitle("Post Lecture Survey - " + UserData._selectedCourses + " (4/6)");
+                    esmRadio3.setTitle("Break - " + UserData._selectedCourses + " (4/6)");
 
                     ESM_Radio esmRadio4 = new ESM_Radio();
                     esmRadio4.setInstructions("I found teaching this lecture fun.");

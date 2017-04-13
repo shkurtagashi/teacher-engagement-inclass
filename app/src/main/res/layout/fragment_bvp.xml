@@ -1,0 +1,39 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.android.teacher.Sensors.RealtimeFragments.BvpFragment">
+
+    <RelativeLayout
+        android:id="@+id/bvpLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="70dp"
+        android:paddingBottom="40dp">
+
+        <TextView
+            android:id="@+id/bvp_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Blood Volume Pressure"
+            android:gravity="center"
+            android:textSize="25dp"
+            android:layout_marginBottom="50dp"/>
+
+
+        <com.jjoe64.graphview.GraphView
+            android:id="@+id/graphforbvp"
+            android:layout_width="match_parent"
+            android:layout_height="200dip"
+            android:layout_below="@id/bvp_title"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Photoplethysmography Sensor - Measures Blood Volume Pulse (BVP), from which heart rate, heart rate variability (HRV), and other cardiovascular features may be derived"
+            android:layout_below="@id/graphforbvp"/>
+
+    </RelativeLayout>
+
+</FrameLayout>

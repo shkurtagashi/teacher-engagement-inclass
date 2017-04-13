@@ -1,4 +1,4 @@
-package com.example.android.teacher.Sensors;
+package com.example.android.teacher.Sensors.Fragments;
 
 import android.support.v4.app.FragmentPagerAdapter;
 

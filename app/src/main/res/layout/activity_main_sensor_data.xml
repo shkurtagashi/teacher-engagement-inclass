@@ -1,496 +1,506 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main_sensor_data"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    tools:context="com.example.android.teacher.Sensors.MainSensorDataActivity">
+    tools:context="com.example.android.teacher.Sensors.RealtimeFragments.MainSensorDataActivity">
 
-    <!--<android.support.design.widget.TabLayout-->
-        <!--android:id="@+id/sensor_data_tab_layout"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"/>-->
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <!--<android.support.v4.view.ViewPager-->
-        <!--android:id="@+id/viewpager"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"/>-->
+        <android.support.design.widget.TabLayout
+            android:id="@+id/sensor_realtime_data_tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+
 
 
     <!--Buttons in Real-time Streaming-->
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="top"
-        android:orientation="vertical"
-        android:layout_alignParentTop="true">
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:gravity="top"-->
+        <!--android:orientation="vertical"-->
+        <!--android:layout_alignParentTop="true">-->
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:id="@+id/sensorButtons"
-            android:layout_height="70dp"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="-10dp">
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:id="@+id/sensorButtons"-->
+            <!--android:layout_height="70dp"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:layout_marginBottom="-10dp">-->
 
-            <Button
-                android:id="@+id/homeButton"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:background="@drawable/home4"
-                android:backgroundTint="@color/accent_material_light" />
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="@android:color/darker_gray"/>
-
-
-            <Button
-                android:id="@+id/edaButton"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:padding="15dp"
-                android:text="EDA"
-                style="@style/Widget.AppCompat.Button.Borderless.Colored"
-                android:backgroundTint="#9E9E9E" />
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="@android:color/darker_gray"/>
-
-            <Button
-                android:id="@+id/tempButton"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:text="TEMP"
-                style="@style/Widget.AppCompat.Button.Borderless.Colored"
-                android:backgroundTint="#eeeeee"
-                />
+            <!--<Button-->
+                <!--android:id="@+id/homeButton"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:background="@drawable/home4"-->
+                <!--android:backgroundTint="@color/accent_material_light" />-->
+            <!--<View-->
+                <!--android:layout_width="1dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:background="@android:color/darker_gray"/>-->
 
 
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="@android:color/darker_gray"/>
+            <!--<Button-->
+                <!--android:id="@+id/edaButton"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:padding="15dp"-->
+                <!--android:text="EDA"-->
+                <!--style="@style/Widget.AppCompat.Button.Borderless.Colored"-->
+                <!--android:backgroundTint="#9E9E9E" />-->
+            <!--<View-->
+                <!--android:layout_width="1dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:background="@android:color/darker_gray"/>-->
 
-            <Button
-                android:id="@+id/bvpButton"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:padding="15dp"
-                android:text="BVP"
-                style="@style/Widget.AppCompat.Button.Borderless.Colored"
-                android:backgroundTint="#9E9E9E" />
+            <!--<Button-->
+                <!--android:id="@+id/tempButton"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:text="TEMP"-->
+                <!--style="@style/Widget.AppCompat.Button.Borderless.Colored"-->
+                <!--android:backgroundTint="#eeeeee"-->
+                <!--/>-->
 
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="@android:color/darker_gray"/>
-            <Button
-                android:id="@+id/accButton"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:padding="15dp"
-                android:text="ACC"
-                style="@style/Widget.AppCompat.Button.Borderless.Colored"
-                android:backgroundTint="#9E9E9E"/>
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray"/>
-    </LinearLayout>
-
-<!--Home Page of Real time streaming-->
-    <RelativeLayout
-        android:id="@+id/homeLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="60dp"
-        android:paddingBottom="40dp">
-
-        <LinearLayout
-            android:gravity="center"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:paddingTop="20dp">
-
-            <TextView
-                android:id="@+id/homeTitle"
-                android:paddingTop="20dp"
-                android:paddingLeft="20dp"
-                android:textSize="30dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Real-time Streaming"/>
 
             <!--<View-->
+                <!--android:layout_width="1dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:background="@android:color/darker_gray"/>-->
+
+            <!--<Button-->
+                <!--android:id="@+id/bvpButton"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:padding="15dp"-->
+                <!--android:text="BVP"-->
+                <!--style="@style/Widget.AppCompat.Button.Borderless.Colored"-->
+                <!--android:backgroundTint="#9E9E9E" />-->
+
+            <!--<View-->
+                <!--android:layout_width="1dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:background="@android:color/darker_gray"/>-->
+            <!--<Button-->
+                <!--android:id="@+id/accButton"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:padding="15dp"-->
+                <!--android:text="ACC"-->
+                <!--style="@style/Widget.AppCompat.Button.Borderless.Colored"-->
+                <!--android:backgroundTint="#9E9E9E"/>-->
+        <!--</LinearLayout>-->
+
+        <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:background="@android:color/darker_gray"/>-->
+    <!--</LinearLayout>-->
+
+<!--&lt;!&ndash;Home Page of Real time streaming&ndash;&gt;-->
+    <!--<RelativeLayout-->
+        <!--android:id="@+id/homeLayout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:paddingTop="60dp"-->
+        <!--android:paddingBottom="40dp">-->
+
+        <!--<LinearLayout-->
+            <!--android:gravity="center"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:orientation="vertical"-->
+            <!--android:paddingTop="20dp">-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/homeTitle"-->
+                <!--android:paddingTop="20dp"-->
+                <!--android:paddingLeft="20dp"-->
+                <!--android:textSize="30dp"-->
                 <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="2dp"-->
-                <!--android:background="@color/primary_dark_material_light"-->
-                <!--android:layout_marginBottom="-10dp"/>-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="Real-time Streaming"/>-->
+
+            <!--&lt;!&ndash;<View&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_height="2dp"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:background="@color/primary_dark_material_light"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_marginBottom="-10dp"/>&ndash;&gt;-->
+
+            <!--<LinearLayout-->
+                <!--android:padding="20dp"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="horizontal">-->
+
+                <!--<TextView-->
+                    <!--android:textSize="18dp"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_marginBottom="20dp"-->
+                    <!--android:layout_weight="5"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="To start collecting sensor data from Empatica E4 please start session here."/>-->
+
+                <!--<Button-->
+                    <!--android:id="@+id/startSessionButton"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_marginTop="15dp"-->
+                    <!--android:background="@drawable/circled_play"-->
+                    <!--android:backgroundTint="@color/accent_material_light"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:layout_height="wrap_content" />-->
+
+            <!--</LinearLayout>-->
+
+            <!--&lt;!&ndash;<View&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_height="2dp"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:background="@color/primary_dark_material_light"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_marginBottom="-10dp"/>&ndash;&gt;-->
+
+        <!--</LinearLayout>-->
+
+
+
+
+    <!--</RelativeLayout>-->
+
+
+    <!--<RelativeLayout-->
+        <!--android:id="@+id/edaLayout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:paddingTop="100dp"-->
+        <!--android:paddingBottom="40dp"-->
+        <!--android:visibility="gone">-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/eda_title"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Electrodermal Activity"-->
+            <!--android:gravity="center"-->
+            <!--android:textSize="25dp"-->
+            <!--android:layout_marginBottom="50dp"/>-->
+
+
+        <!--<com.jjoe64.graphview.GraphView-->
+            <!--android:id="@+id/graphforeda"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="200dip"-->
+            <!--android:layout_below="@id/eda_title"/>-->
+
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="vertical"-->
+            <!--android:layout_marginTop="20dp"-->
+            <!--android:layout_below="@id/graphforeda">-->
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="horizontal">-->
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="Value: "-->
+                    <!--android:textSize="20dp"-->
+                    <!--/>-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/eda_value"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:textSize="20dp"-->
+                    <!--android:layout_height="wrap_content"/>-->
+
+            <!--</LinearLayout>-->
+
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="20dp"-->
+                <!--android:text="Electrodermal Activity sensor measures the electrical conductance of the skin. It is an indicator of Sympathetic Nervous System arousal."-->
+                <!--android:layout_weight="3" />-->
+        <!--</LinearLayout>-->
+
+    <!--</RelativeLayout>-->
+
+    <!--<RelativeLayout-->
+        <!--android:id="@+id/tempLayout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:paddingTop="100dp"-->
+        <!--android:paddingBottom="40dp"-->
+        <!--android:visibility="gone">-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/temp_title"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Temperature"-->
+            <!--android:textSize="25dp"-->
+            <!--android:gravity="center"/>-->
+
+
+        <!--<ImageView-->
+            <!--android:id="@+id/temp_photo"-->
+            <!--android:layout_below="@id/temp_title"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_width="100dp"-->
+            <!--android:contentDescription="@string/temp_label"-->
+            <!--android:src="@drawable/temp2"-->
+            <!--/>-->
+
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:orientation="vertical"-->
+            <!--android:layout_toRightOf="@id/temp_photo"-->
+            <!--android:layout_marginTop="100dp"-->
+            <!--android:paddingLeft="20dp">-->
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="horizontal">-->
+                <!--<TextView-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="Value"-->
+                    <!--android:textSize="25dp"-->
+                    <!--android:layout_marginBottom="20dp"/>-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/temperature_value"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_weight="2"-->
+                    <!--android:textSize="25dp"-->
+                    <!--android:layout_height="wrap_content"/>-->
+            <!--</LinearLayout>-->
+
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="Temperature sensor measures the peripheral skin temperature. It is recorded with an optical interferometer."-->
+                <!--android:layout_weight="0.27" />-->
+        <!--</LinearLayout>-->
+
+    <!--</RelativeLayout>-->
+
+    <!--<RelativeLayout-->
+        <!--android:id="@+id/bvpLayout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:paddingTop="100dp"-->
+        <!--android:paddingBottom="40dp"-->
+        <!--android:visibility="gone">-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/bvp_title"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Blood Volume Pressure"-->
+            <!--android:gravity="center"-->
+            <!--android:textSize="25dp"-->
+            <!--android:layout_marginBottom="50dp"/>-->
+
+
+        <!--<com.jjoe64.graphview.GraphView-->
+            <!--android:id="@+id/graphforbvp"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="200dip"-->
+            <!--android:layout_below="@id/bvp_title"/>-->
+
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="20dp"-->
+            <!--android:text="Photoplethysmography Sensor - Measures Blood Volume Pulse (BVP), from which heart rate, heart rate variability (HRV), and other cardiovascular features may be derived"-->
+            <!--android:layout_below="@id/graphforbvp"/>-->
+
+    <!--</RelativeLayout>-->
+
+    <!--<RelativeLayout-->
+        <!--android:id="@+id/accLayout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:paddingTop="100dp"-->
+        <!--android:paddingBottom="40dp"-->
+        <!--android:visibility="gone">-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/acc_title"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Accelereometer"-->
+            <!--android:textSize="25dp"-->
+            <!--android:gravity="center"-->
+            <!--android:layout_marginBottom="50dp"/>-->
+
+
+        <!--<com.jjoe64.graphview.GraphView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="220dip"-->
+            <!--android:id="@+id/graphforacc"-->
+            <!--android:layout_below="@id/acc_title"/>-->
+
+        <!--<LinearLayout-->
+            <!--android:layout_below="@id/graphforacc"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:paddingBottom="10dp"-->
+            <!--android:paddingLeft="20dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:id="@+id/xyz_values">-->
+
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="X: "-->
+                <!--android:textSize="35dp"/>-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/x_value"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:textSize="35dp"/>-->
+
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="Y: "-->
+                <!--android:textSize="35dp"/>-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/y_value"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:textSize="35dp"/>-->
+
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="Z: "-->
+                <!--android:textSize="35dp"/>-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/z_value"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:textSize="35dp"/>-->
+
+        <!--</LinearLayout>-->
+
+        <!--<TextView-->
+            <!--android:paddingTop="5dp"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@id/xyz_values"-->
+            <!--android:text="Accelereometer captures motion-based activity. Shows device movement measured by a 3-axis accelereometer." />-->
+
+    <!--</RelativeLayout>-->
+
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:layout_gravity="bottom"
+            android:orientation="vertical"
+            android:layout_alignParentBottom="true">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                android:layout_marginBottom="-10dp"/>
 
             <LinearLayout
-                android:padding="20dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:textSize="18dp"
-                    android:layout_width="0dp"
-                    android:layout_marginBottom="20dp"
-                    android:layout_weight="5"
-                    android:layout_height="wrap_content"
-                    android:text="To start collecting sensor data from Empatica E4 please start session here."/>
+                android:id="@+id/controlButtons"
+                android:layout_height="30dp"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="-10dp">
 
                 <Button
-                    android:id="@+id/startSessionButton"
+                    android:id="@+id/bluetoothButton"
                     android:layout_width="0dp"
-                    android:layout_marginTop="15dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="30dp"
+                    android:layout_marginLeft="30dp"
+                    android:background="@drawable/bluetooth2"
+                    android:backgroundTint="@color/accent_material_light"  />
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/darker_gray"/>
+
+                <Button
+                    android:id="@+id/startSessionButton2"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_marginRight="30dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_height="wrap_content"
                     android:background="@drawable/circled_play"
+                    android:backgroundTint="@color/accent_material_light"  />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/darker_gray"/>
+
+                <Button
+                    android:id="@+id/batteryButton"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_marginRight="30dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_battery_full_white_24px"
+                    android:backgroundTint="@color/accent_material_light"  />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/darker_gray"/>
+                <Button
+                    android:id="@+id/sessionLengthButton"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_marginRight="30dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_height="wrap_content"
                     android:backgroundTint="@color/accent_material_light"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content" />
-
+                    android:background="@drawable/timer3"/>
             </LinearLayout>
-
-            <!--<View-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="2dp"-->
-                <!--android:background="@color/primary_dark_material_light"-->
-                <!--android:layout_marginBottom="-10dp"/>-->
-
         </LinearLayout>
-
-
-
-
-    </RelativeLayout>
-
-
-    <RelativeLayout
-        android:id="@+id/edaLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="100dp"
-        android:paddingBottom="40dp"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/eda_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Electrodermal Activity"
-            android:gravity="center"
-            android:textSize="25dp"
-            android:layout_marginBottom="50dp"/>
-
-
-        <com.jjoe64.graphview.GraphView
-            android:id="@+id/graphforeda"
-            android:layout_width="match_parent"
-            android:layout_height="200dip"
-            android:layout_below="@id/eda_title"/>
-
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="20dp"
-            android:layout_below="@id/graphforeda">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Value: "
-                    android:textSize="20dp"
-                    />
-
-                <TextView
-                    android:id="@+id/eda_value"
-                    android:layout_width="wrap_content"
-                    android:textSize="20dp"
-                    android:layout_height="wrap_content"/>
-
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="Electrodermal Activity sensor measures the electrical conductance of the skin. It is an indicator of Sympathetic Nervous System arousal."
-                android:layout_weight="3" />
-        </LinearLayout>
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/tempLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="100dp"
-        android:paddingBottom="40dp"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/temp_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Temperature"
-            android:textSize="25dp"
-            android:gravity="center"/>
-
-
-        <ImageView
-            android:id="@+id/temp_photo"
-            android:layout_below="@id/temp_title"
-            android:layout_height="match_parent"
-            android:layout_width="100dp"
-            android:contentDescription="@string/temp_label"
-            android:src="@drawable/temp2"
-            />
-
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_toRightOf="@id/temp_photo"
-            android:layout_marginTop="100dp"
-            android:paddingLeft="20dp">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="Value"
-                    android:textSize="25dp"
-                    android:layout_marginBottom="20dp"/>
-
-                <TextView
-                    android:id="@+id/temperature_value"
-                    android:layout_width="0dp"
-                    android:layout_weight="2"
-                    android:textSize="25dp"
-                    android:layout_height="wrap_content"/>
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Temperature sensor measures the peripheral skin temperature. It is recorded with an optical interferometer."
-                android:layout_weight="0.27" />
-        </LinearLayout>
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/bvpLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="100dp"
-        android:paddingBottom="40dp"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/bvp_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Blood Volume Pressure"
-            android:gravity="center"
-            android:textSize="25dp"
-            android:layout_marginBottom="50dp"/>
-
-
-        <com.jjoe64.graphview.GraphView
-            android:id="@+id/graphforbvp"
-            android:layout_width="match_parent"
-            android:layout_height="200dip"
-            android:layout_below="@id/bvp_title"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Photoplethysmography Sensor - Measures Blood Volume Pulse (BVP), from which heart rate, heart rate variability (HRV), and other cardiovascular features may be derived"
-            android:layout_below="@id/graphforbvp"/>
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/accLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="100dp"
-        android:paddingBottom="40dp"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/acc_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Accelereometer"
-            android:textSize="25dp"
-            android:gravity="center"
-            android:layout_marginBottom="50dp"/>
-
-
-        <com.jjoe64.graphview.GraphView
-            android:layout_width="match_parent"
-            android:layout_height="220dip"
-            android:id="@+id/graphforacc"
-            android:layout_below="@id/acc_title"/>
-
-        <LinearLayout
-            android:layout_below="@id/graphforacc"
-            android:layout_width="match_parent"
-            android:paddingBottom="10dp"
-            android:paddingLeft="20dp"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/xyz_values">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="X: "
-                android:textSize="35dp"/>
-
-            <TextView
-                android:id="@+id/x_value"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="35dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Y: "
-                android:textSize="35dp"/>
-
-            <TextView
-                android:id="@+id/y_value"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="35dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Z: "
-                android:textSize="35dp"/>
-
-            <TextView
-                android:id="@+id/z_value"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="35dp"/>
-
-        </LinearLayout>
-
-        <TextView
-            android:paddingTop="5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/xyz_values"
-            android:text="Accelereometer captures motion-based activity. Shows device movement measured by a 3-axis accelereometer." />
-
-    </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="bottom"
-        android:orientation="vertical"
-        android:layout_alignParentBottom="true">
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray"
-            android:layout_marginBottom="-10dp"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:id="@+id/controlButtons"
-            android:layout_height="30dp"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="-10dp">
-
-            <Button
-                android:id="@+id/bluetoothButton"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="30dp"
-                android:layout_marginLeft="30dp"
-                android:background="@drawable/bluetooth2"
-                android:backgroundTint="@color/accent_material_light"  />
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="@android:color/darker_gray"/>
-
-            <Button
-                android:id="@+id/startSessionButton2"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_marginRight="30dp"
-                android:layout_marginLeft="30dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/circled_play"
-                android:backgroundTint="@color/accent_material_light"  />
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="@android:color/darker_gray"/>
-
-            <Button
-                android:id="@+id/batteryButton"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_marginRight="30dp"
-                android:layout_marginLeft="30dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ic_battery_full_white_24px"
-                android:backgroundTint="@color/accent_material_light"  />
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="@android:color/darker_gray"/>
-            <Button
-                android:id="@+id/sessionLengthButton"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_marginRight="30dp"
-                android:layout_marginLeft="30dp"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/accent_material_light"
-                android:background="@drawable/timer3"/>
-        </LinearLayout>
-    </LinearLayout>
-</RelativeLayout>
+</FrameLayout>

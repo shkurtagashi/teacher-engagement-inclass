@@ -243,7 +243,7 @@ public class Uploader {
     private String buildUsersFileName(LocalTables table) {
         //get current date
         String today = buildDate();
-        String fileName = UserData._username + "_" + userId + "_" + LocalDbUtility.getTableName(table) + ".csv";
+        String fileName = today + "_" + UserData._username + "_" + userId + "_" + LocalDbUtility.getTableName(table) + ".csv";
         return fileName;
     }
 

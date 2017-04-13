@@ -1,0 +1,72 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.android.teacher.Sensors.RealtimeFragments.TemperatureFragment">
+
+    <RelativeLayout
+        android:id="@+id/tempLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="70dp"
+        android:paddingBottom="40dp">
+
+        <TextView
+            android:id="@+id/temp_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Temperature"
+            android:textSize="25dp"
+            android:gravity="center"/>
+
+
+        <!--android:layout_toRightOf="@id/temp_photo"-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="80dp"
+            android:paddingLeft="20dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/temperature_value"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:textSize="25dp"
+                    android:gravity="center"
+                    android:layout_height="match_parent"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="match_parent"
+                    android:text=" \u2103"
+                    android:gravity="center"
+                    android:textSize="25dp"/>
+
+                <ImageView
+                    android:id="@+id/temp_photo"
+                    android:layout_weight="2"
+                    android:layout_gravity="center"
+                    android:layout_height="match_parent"
+                    android:layout_width="0dp"
+                    android:src="@drawable/thermometer" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_marginTop="30dp"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Temperature sensor measures the peripheral skin temperature. It is recorded with an optical interferometer." />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</FrameLayout>

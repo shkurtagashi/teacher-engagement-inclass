@@ -79,11 +79,13 @@ public class EDAFragment extends Fragment {
 
         teacherDbHelper = new DatabaseHelper(getContext());
 
-        if(teacherDbHelper.isLastSession()){
-            edaValues = teacherDbHelper.getAllEdaSensorValues();
-        }else{
+        edaValues = teacherDbHelper.getAllEdaSensorValues();
+
+        if(!teacherDbHelper.isLastSession()){
             edaValues = teacherDbHelper.getLastEdaSensorValues();
+            Log.v("EDA FRAGGG", "FALSEE");
         }
+
 
         setUpEdaGraph(edaValues);
         setUpSaveEdaButton();
