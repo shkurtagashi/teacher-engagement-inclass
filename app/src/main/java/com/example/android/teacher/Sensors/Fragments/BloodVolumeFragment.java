@@ -57,11 +57,14 @@ public class BloodVolumeFragment extends Fragment {
         saveBvpChart = (Button) rootView.findViewById(R.id.save_bvp_chart);
 
         teacherDbHelper = new DatabaseHelper(getContext());
-        if(teacherDbHelper.isLastSession()){
-            bvpValues = teacherDbHelper.getAllBvpSensorValues();
-        }else{
-            bvpValues = teacherDbHelper.getLastBVPSensorValues();
-        }
+        bvpValues = teacherDbHelper.getAllBvpSensorValues();
+
+
+//        if(teacherDbHelper.isLastSession()){
+//            bvpValues = teacherDbHelper.getAllBvpSensorValues();
+//        }else{
+//            bvpValues = teacherDbHelper.getLastBVPSensorValues();
+//        }
 
         setUpBvpGraph(bvpValues);
         setUpSaveButton();

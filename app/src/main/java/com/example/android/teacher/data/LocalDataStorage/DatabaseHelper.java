@@ -326,6 +326,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+
+
     public void addEmpaticaE4Data(EmpaticaE4 e4) {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -512,6 +514,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
 
+
     public void addEdaSensorValues(EdaSensor eda, SQLiteDatabase db) {
 
         db.beginTransaction();
@@ -520,7 +523,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             ContentValues values = new ContentValues();
             values.put(EdaSensorDataEntry.COLUMN_EDA_VALUE, eda.getValue());
             values.put(EdaSensorDataEntry.COLUMN_EDA_TIMESTAMP, eda.getTimestamp());
-            db.insert(EdaSensorContract.EdaSensorDataEntry.TABLE_NAME_EDA_DATA, null, values);
+//            db.insert(EdaSensorContract.EdaSensorDataEntry.TABLE_NAME_EDA_DATA, null, values);
+
+            db.insertOrThrow(EdaSensorContract.EdaSensorDataEntry.TABLE_NAME_EDA_DATA, null, values);
+            db.setTransactionSuccessful();
 //            Log.v("DB", eda.getValue()+" added in DB");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -538,7 +544,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             ContentValues values = new ContentValues();
             values.put(TempSensorDataEntry.COLUMN_TEMP_VALUE, temp.getValue());
             values.put(TempSensorDataEntry.COLUMN_TEMP_TIMESTAMP, temp.getTimestamp());
-            db.insert(TempSensorDataEntry.TABLE_NAME_TEMP_DATA, null, values);
+            db.insertOrThrow(TempSensorDataEntry.TABLE_NAME_TEMP_DATA, null, values);
+            db.setTransactionSuccessful();
+
         } catch (SQLException e) {
             e.printStackTrace();
             Log.d(LOG_TAG, "Error while trying to add Temp Value to database");
@@ -554,8 +562,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             ContentValues values = new ContentValues();
             values.put(BvpSensorDataEntry.COLUMN_BVP_VALUE, bvp.getValue());
             values.put(BvpSensorDataEntry.COLUMN_BVP_TIMESTAMP, bvp.getTimestamp());
+            db.insertOrThrow(BvpSensorDataEntry.TABLE_NAME_BVP_DATA, null, values);
+            db.setTransactionSuccessful();
 
-            db.insert(BvpSensorDataEntry.TABLE_NAME_BVP_DATA, null, values);
         } catch (SQLException e) {
             e.printStackTrace();
             Log.d(LOG_TAG, "Error while trying to add bVP Value to database");
@@ -573,7 +582,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             values.put(AccSensorDataEntry.COLUMN_ACC_Y_VALUE, acc.getYvalue());
             values.put(AccSensorDataEntry.COLUMN_ACC_Z_VALUE, acc.getZvalue());
             values.put(AccSensorDataEntry.COLUMN_ACC_TIMESTAMP, acc.getTimestamp());
-            db.insert(AccSensorDataEntry.TABLE_NAME_ACC_DATA, null, values);
+            db.insertOrThrow(AccSensorDataEntry.TABLE_NAME_ACC_DATA, null, values);
+            db.setTransactionSuccessful();
+
         } catch (SQLException e) {
             e.printStackTrace();
             Log.d(LOG_TAG, "Error while trying to add Eda Value to database");
@@ -634,25 +645,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
-
             do {
                 EdaSensor edaRow = new EdaSensor();
-                edaRow.setID(Integer.parseInt(cursor.getString(0)));
-                edaRow.setTimestamp(parseDouble(cursor.getString(1)));
-                edaRow.setValue(Float.parseFloat(cursor.getString(2)));
+                edaRow.setID(Integer.parseInt(cursor.getString(cursor.getColumnIndex(EdaSensorDataEntry._EDA_ID))));
+                edaRow.setTimestamp(parseDouble(cursor.getString(cursor.getColumnIndex(EdaSensorDataEntry.COLUMN_EDA_TIMESTAMP))));
+                edaRow.setValue(Float.parseFloat(cursor.getString(cursor.getColumnIndex(EdaSensorDataEntry.COLUMN_EDA_VALUE))));
 
                 // Adding Eda row to list
                 edaSensorList.add(edaRow);
             } while (cursor.moveToNext());
 
-            cursor.moveToLast();
-            firstTimestamp = cursor.getDouble(cursor.getColumnIndex(EdaSensorDataEntry.COLUMN_EDA_TIMESTAMP));
-            EdaSensor.date  = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(new java.util.Date ((long)firstTimestamp *1000));
+//            cursor.moveToLast();
+//            firstTimestamp = cursor.getDouble(cursor.getColumnIndex(EdaSensorDataEntry.COLUMN_EDA_TIMESTAMP));
+//            EdaSensor.date  = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(new java.util.Date ((long)firstTimestamp *1000));
 
         }
 
 
         cursor.close();
+        Log.v("DATABASEhELPER", edaSensorList.size() + "SIZEE");
         return edaSensorList;
     }
 
@@ -719,9 +730,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 TemperatureSensor tempRow = new TemperatureSensor();
-                tempRow.setID(Integer.parseInt(cursor.getString(0)));
-                tempRow.setTimestamp(parseDouble(cursor.getString(1)));
-                tempRow.setValue(Float.parseFloat(cursor.getString(2)));
+                tempRow.setID(Integer.parseInt(cursor.getString(cursor.getColumnIndex(TempSensorDataEntry._TEMP_ID))));
+                tempRow.setTimestamp(parseDouble(cursor.getString(cursor.getColumnIndex(TempSensorDataEntry.COLUMN_TEMP_TIMESTAMP))));
+                tempRow.setValue(Float.parseFloat(cursor.getString(cursor.getColumnIndex(TempSensorDataEntry.COLUMN_TEMP_VALUE))));
 
                 // Adding temperature row to list
                 tempSensorList.add(tempRow);
@@ -791,9 +802,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 BloodVolumePressureSensor bvpRow = new BloodVolumePressureSensor();
-                bvpRow.setID(Integer.parseInt(cursor.getString(0)));
-                bvpRow.setTimestamp(parseDouble(cursor.getString(1)));
-                bvpRow.setValue(Float.parseFloat(cursor.getString(2)));
+                bvpRow.setID(Integer.parseInt(cursor.getString(cursor.getColumnIndex(BvpSensorDataEntry._BVP_ID))));
+                bvpRow.setTimestamp(parseDouble(cursor.getString(cursor.getColumnIndex(BvpSensorDataEntry.COLUMN_BVP_TIMESTAMP))));
+                bvpRow.setValue(Float.parseFloat(cursor.getString(cursor.getColumnIndex(BvpSensorDataEntry.COLUMN_BVP_VALUE))));
 
                 // Adding Eda row to list
                 bvpSensorList.add(bvpRow);
@@ -865,11 +876,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 AccelereometerSensor accRow = new AccelereometerSensor();
-                accRow.setID(Integer.parseInt(cursor.getString(0)));
-                accRow.setTimestamp(parseDouble(cursor.getString(1)));
-                accRow.setXvalue(Integer.parseInt(cursor.getString(2)));
-                accRow.setYvalue(Integer.parseInt(cursor.getString(3)));
-                accRow.setZvalue(Integer.parseInt(cursor.getString(4)));
+                accRow.setID(Integer.parseInt(cursor.getString(cursor.getColumnIndex(AccSensorDataEntry._ACC_ID))));
+                accRow.setTimestamp(parseDouble(cursor.getString(cursor.getColumnIndex(AccSensorDataEntry.COLUMN_ACC_TIMESTAMP))));
+                accRow.setXvalue(Integer.parseInt(cursor.getString(cursor.getColumnIndex(AccSensorDataEntry.COLUMN_ACC_X_VALUE))));
+                accRow.setYvalue(Integer.parseInt(cursor.getString(cursor.getColumnIndex(AccSensorDataEntry.COLUMN_ACC_Y_VALUE))));
+                accRow.setZvalue(Integer.parseInt(cursor.getString(cursor.getColumnIndex(AccSensorDataEntry.COLUMN_ACC_Z_VALUE))));
 
                 accSensorList.add(accRow);
             } while (cursor.moveToNext());

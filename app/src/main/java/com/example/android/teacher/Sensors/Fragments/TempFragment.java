@@ -60,11 +60,13 @@ public class TempFragment extends Fragment{
 
 
         teacherDbHelper = new DatabaseHelper(getContext());
-        if(teacherDbHelper.isLastSession()){
-            tempValues = teacherDbHelper.getAllTempSensorValues();
-        }else{
-            tempValues = teacherDbHelper.getLastTempSensorValues();
-        }
+        tempValues = teacherDbHelper.getAllTempSensorValues();
+
+//        if(teacherDbHelper.isLastSession()){
+//            tempValues = teacherDbHelper.getAllTempSensorValues();
+//        }else{
+//            tempValues = teacherDbHelper.getLastTempSensorValues();
+//        }
 
         setUpTempChart(tempValues);
         setUpSaveGraphButton();

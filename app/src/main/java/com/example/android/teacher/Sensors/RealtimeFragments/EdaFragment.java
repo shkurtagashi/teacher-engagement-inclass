@@ -46,12 +46,8 @@ import static com.example.android.teacher.R.id.eda;
  */
 public class EdaFragment extends Fragment {
 
-    public  static boolean active = false;
     Calendar calendar;
 
-
-    private final Handler mHandler = new Handler();
-    private Runnable mTimer1;
     DatabaseHelper teacherDbHelper;
 
 
@@ -60,7 +56,7 @@ public class EdaFragment extends Fragment {
 
     //TextView show data
 //    private TextView edaValue;
-    BroadcastReceiver edaReceiver;
+//    BroadcastReceiver edaReceiver;
     BroadcastReceiver statusReceiver;
 
 //    String statusOfDevice;
@@ -76,8 +72,10 @@ public class EdaFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        active = true;
         calendar = Calendar.getInstance();
+
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver((edaReceiver), new IntentFilter(EmpaticaService.EDA_RESULT));
+
 
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_eda, container, false);
@@ -94,41 +92,27 @@ public class EdaFragment extends Fragment {
         return rootView;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-//        LocalBroadcastManager.getInstance(getContext()).registerReceiver((edaReceiver), new IntentFilter(EmpaticaService.EDA_RESULT));
-        active = true;
+    BroadcastReceiver edaReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
 
+            ArrayList<String> edaList = intent.getStringArrayListExtra(EmpaticaService.EDA);
 
-    }
+            Log.v("EDA FRAGMENT", edaList.size() + "");
 
-    @Override
-    public void onPause() {
-        mHandler.removeCallbacks(mTimer1);
-        super.onPause();
-        active = false;
-
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        edaReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-
-                ArrayList<String> edaList = intent.getStringArrayListExtra(EmpaticaService.EDA);
-
-                Log.v("EDA FRAGMENT", edaList.size() + "");
-
-                for (int i = 0; i < edaList.size(); i++) {
-                    edaSeries.appendData(new DataPoint(lastXeda++, Double.parseDouble(edaList.get(i))), false, 10);
-                }
+            for (int i = 0; i < edaList.size(); i++) {
+                edaSeries.appendData(new DataPoint(lastXeda++, Double.parseDouble(edaList.get(i))), false, 10);
             }
-         };
+        }
+    };
 
-         LocalBroadcastManager.getInstance(getContext()).registerReceiver((edaReceiver), new IntentFilter(EmpaticaService.EDA_RESULT));
+
+
+    @Override
+    public void onDestroy() {
+        // Unregister since the activity is about to be closed.
+        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(edaReceiver);
+        super.onDestroy();
     }
 
 
@@ -207,13 +191,7 @@ public class EdaFragment extends Fragment {
 //        }
 
 
-    @Override
-    public void onStop(){
-        active = false;
-        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(statusReceiver);
-        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(edaReceiver);
-        super.onStop();
-    }
+
 
 
     public void setUpEDAGraph(View rootView) {

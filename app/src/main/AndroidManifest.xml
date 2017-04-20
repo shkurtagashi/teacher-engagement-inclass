@@ -53,6 +53,8 @@
         <receiver android:name=".data.RemoteDataStorage.UploadAlarmReceiver" />
         <receiver android:name=".data.RemoteDataStorage.DeleteAlarmReceiver" />
         <receiver android:name=".Courses.NotificationAlarmReceiver" />
+        <receiver android:name=".Courses.AlarmNotificationReceiver" />
+
 
 
         <activity
@@ -62,26 +64,28 @@
         <activity android:name=".InitialActivity" />
         <activity android:name=".EmpaticaE4.EmpaticaActivity" />
         <activity android:name=".HelpActivity" />
-        <activity
-            android:name="com.dropbox.client2.android.AuthActivity"
-            android:configChanges="orientation|keyboard"
-            android:launchMode="singleTask"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar">
-            <intent-filter>
+        <!--<activity-->
+            <!--android:name="com.dropbox.client2.android.AuthActivity"-->
+            <!--android:configChanges="orientation|keyboard"-->
+            <!--android:launchMode="singleTask"-->
+            <!--android:theme="@android:style/Theme.Translucent.NoTitleBar">-->
+            <!--<intent-filter>-->
 
-                <!-- Change this to be db- followed by your app key -->
-                <data android:scheme="db-43f759ui6587zrc" />
+                <!--&lt;!&ndash; Change this to be db- followed by your app key &ndash;&gt;-->
+                <!--<data android:scheme="db-43f759ui6587zrc" />-->
 
-                <action android:name="android.intent.action.VIEW" />
+                <!--<action android:name="android.intent.action.VIEW" />-->
 
-                <category android:name="android.intent.category.BROWSABLE" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
+                <!--<category android:name="android.intent.category.BROWSABLE" />-->
+                <!--<category android:name="android.intent.category.DEFAULT" />-->
+            <!--</intent-filter>-->
+        <!--</activity>-->
         <activity android:name=".UserAccount.ViewRegistrationFormActivity" />
         <activity android:name=".UserAccount.EditRegistrationActivity" />
         <activity android:name=".UserAccount.ChooseAccountActivity" />
         <activity android:name=".Surveys.StudentSurveyDataActivity" />
+        <activity android:name=".Courses.QuestionnaireActivity"></activity>
+
         <activity
             android:name=".EmpaticaE4.ViewEmpaticaActivity"
             android:label="@string/title_activity_view_empatica" />

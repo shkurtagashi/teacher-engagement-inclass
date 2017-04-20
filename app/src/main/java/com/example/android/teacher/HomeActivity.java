@@ -3,6 +3,7 @@ package com.example.android.teacher;
 import android.Manifest;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -29,6 +30,7 @@ import android.widget.Toast;
 
 
 import com.aware.Aware;
+import com.example.android.teacher.Courses.FinalScheduler;
 import com.example.android.teacher.Courses.MyScheduler;
 import com.example.android.teacher.Courses.NewScheduler;
 import com.example.android.teacher.EmpaticaE4.EmpaticaActivity;
@@ -49,6 +51,7 @@ import com.example.android.teacher.data.User.UserData;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -80,8 +83,9 @@ public class HomeActivity extends AppCompatActivity{
     int month;
     int dayOfMonth;
 
-    NewScheduler scheduler;
-    MyScheduler scheduler2;
+//    NewScheduler scheduler;
+//    MyScheduler scheduler2;
+    FinalScheduler scheduler3;
 
     public static String androidID;
 
@@ -167,8 +171,9 @@ public class HomeActivity extends AppCompatActivity{
 //            Aware.startAWARE(this);
 //            Aware.startScheduler(this);
             Aware.startESM(this);
-
             triggerSchedulers();
+            uploadDataEveryday();
+            deleteSensorDataEveryWeek();
         }
 
 
@@ -237,54 +242,51 @@ public class HomeActivity extends AppCompatActivity{
         dayFormat = new SimpleDateFormat("EEEE", Locale.US);
         calendar = Calendar.getInstance();
         weekday = dayFormat.format(calendar.getTime());
-        scheduler = new NewScheduler();
+//        scheduler = new NewScheduler()
+//        scheduler2 = new MyScheduler();
+        scheduler3 = new FinalScheduler();
         month = calendar.get(Calendar.MONTH);
-
         dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-
-        scheduler2 = new MyScheduler();
 
 
         //January - 0
-        if(month == 2 && (dayOfMonth >=4 && dayOfMonth <= 31)){
+        if((month == Calendar.APRIL && dayOfMonth >= 10 && dayOfMonth <= 30) || (month == Calendar.MAY && dayOfMonth >= 1 && dayOfMonth <= 20)){
             //Trigger notifications for PAM and Lecture Surveys
             if(UserData._username != null) {
-                scheduler.createFirstNoification(getApplicationContext(), UserData._selectedCourses);
-//                scheduler2.createFirstPAM(getApplicationContext(), UserData._selectedCourses);
-//                scheduler2.createFirstPostLectureESM(getApplicationContext(), UserData._selectedCourses);
-//                scheduler2.createSecondPAM(getApplicationContext(), UserData._selectedCourses);
-//                scheduler2.createSecondPostLectureESM(getApplicationContext(), UserData._selectedCourses);
-//                scheduler2.createThirdPAM(getApplicationContext(), UserData._selectedCourses);
-
-
-//                scheduler.createSecondNotification(getApplicationContext(), UserData._selectedCourses);
-//                scheduler.createThirdNotification(getApplicationContext(), UserData._selectedCourses);
-
-                uploadDataEveryday();
-                deleteSensorDataEveryWeek();
+                Log.v("Homeee", "Alarms Triggered");
+                scheduler3.createFirstPAM(getApplicationContext(), UserData._selectedCourses);
+//                scheduler3.createSecondPAM(getApplicationContext(), UserData._selectedCourses);
+                scheduler3.createFirstPostlecture(getApplicationContext(), UserData._selectedCourses);
+//                scheduler3.createThirdPAM(getApplicationContext(), UserData._selectedCourses);
+                scheduler3.createSecondPostlecture(getApplicationContext(), UserData._selectedCourses);
             }
         }
     }
 
     private void deleteSensorDataEveryWeek() {
         if(!UserData.deleteAlarmTriggered){
-            Intent alarmIntent = new Intent(getApplicationContext(), DeleteAlarmReceiver.class);
-            AlarmManager am = (AlarmManager) getApplicationContext().getSystemService(getApplicationContext().ALARM_SERVICE);
+            Intent intent = new Intent(getApplicationContext(), DeleteAlarmReceiver.class);
+            AlarmManager am = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
 
-            Calendar calendar = Calendar.getInstance();
+            Calendar cal = Calendar.getInstance();
             calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
             calendar.set(Calendar.HOUR_OF_DAY, 10);
             calendar.set(Calendar.MINUTE, 5);
 
-            if(calendar.getTimeInMillis() > System.currentTimeMillis()){
-                Log.v("Homeee", "Delete Alarm Triggered");
-                am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY*7, PendingIntent.getBroadcast(this, 1, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT));
+            if (cal.getTimeInMillis() > System.currentTimeMillis()) { //if it is more than 19:00 o'clock, trigger it tomorrow
+                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+                String time = sdf.format(new Date());
+                System.out.println(time + ": Alarm in the future");
+
+                am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), PendingIntent.getBroadcast(this, 1, intent, PendingIntent.FLAG_ONE_SHOT));
                 UserData.deleteAlarmTriggered = true;
-            }
-            else{
-                Log.v("Homeee", "Delete Alarm Triggered for next day");
-                calendar.add(Calendar.WEEK_OF_MONTH, 1);
-                am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY*7, PendingIntent.getBroadcast(this, 1, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT));
+            } else {
+                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+                String time = sdf.format(new Date());
+                System.out.println(time + ": Alarm in the past");
+                cal.add(Calendar.WEEK_OF_MONTH, 1); //trigger alarm next week
+
+                am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), PendingIntent.getBroadcast(this, 1, intent, PendingIntent.FLAG_ONE_SHOT));
                 UserData.deleteAlarmTriggered = true;
             }
         }
@@ -294,22 +296,27 @@ public class HomeActivity extends AppCompatActivity{
 
         if(!UserData.uploadAlarmTriggered){
             // Retrieve a PendingIntent that will perform a broadcast
-            Intent alarmIntent = new Intent(getApplicationContext(), UploadAlarmReceiver.class);
-            AlarmManager am = (AlarmManager) getApplicationContext().getSystemService(getApplicationContext().ALARM_SERVICE);
+            Intent intent = new Intent(getApplicationContext(), UploadAlarmReceiver.class);
+            AlarmManager am = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
 
-            Calendar calendar = Calendar.getInstance();
+            Calendar cal = Calendar.getInstance();
             calendar.set(Calendar.HOUR_OF_DAY, 19);
             calendar.set(Calendar.MINUTE, 20);
 
-            if(calendar.getTimeInMillis() > System.currentTimeMillis()){
-                Log.v("Homeee", "Alarm Triggered");
-                am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, PendingIntent.getBroadcast(this, 1, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT));
+            if (cal.getTimeInMillis() > System.currentTimeMillis()) { //if it is more than 19:00 o'clock, trigger it tomorrow
+                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+                String time = sdf.format(new Date());
+                System.out.println(time + ": Alarm should fire in the future");
+
+                am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), PendingIntent.getBroadcast(this, 1, intent, PendingIntent.FLAG_ONE_SHOT));
                 UserData.uploadAlarmTriggered = true;
-            }
-            else{
-                Log.v("Homeee", "Alarm Triggered 2");
-                calendar.add(Calendar.DAY_OF_MONTH, 1);
-                am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, PendingIntent.getBroadcast(this, 1, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT));
+            } else {
+                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+                String time = sdf.format(new Date());
+                System.out.println(time + ": Alarm in the past");
+                cal.add(Calendar.DAY_OF_MONTH, 1); //trigger alarm tomorrow
+
+                am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), PendingIntent.getBroadcast(this, 1, intent, PendingIntent.FLAG_ONE_SHOT));
                 UserData.uploadAlarmTriggered = true;
             }
 

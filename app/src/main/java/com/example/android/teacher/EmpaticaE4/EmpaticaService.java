@@ -12,6 +12,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
@@ -53,6 +54,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import static android.R.id.message;
 import static com.example.android.teacher.R.drawable.timer;
+import static com.example.android.teacher.R.id.bvp;
 import static com.example.android.teacher.R.id.deviceName;
 import static com.example.android.teacher.R.id.eda;
 import static com.example.android.teacher.R.id.startSessionButton;
@@ -114,17 +116,6 @@ public class EmpaticaService extends Service implements EmpaDataDelegate, EmpaSt
     private List<String> edaBuffer;
     private List<String> tempBuffer;
 
-    private Handler edaHandler;
-    private Runnable edaTimer;
-
-    private Handler tempHandler;
-    private Runnable tempTimer;
-
-    private Handler bvpHandler;
-    private Runnable bvpTimer;
-
-
-
 
     Handler handler;
 //
@@ -133,13 +124,10 @@ public class EmpaticaService extends Service implements EmpaDataDelegate, EmpaSt
         // Handler will get associated with the current thread,
         // which is the main thread.
         handler = new Handler();
-        edaHandler = new Handler();
-        tempHandler = new Handler();
-        bvpHandler = new Handler();
-
 
         teacherDbHelper = new DatabaseHelper(getApplicationContext());
         db = teacherDbHelper.getWritableDatabase();
+        EMPATICA_API_KEY = getE4ApiKey();
 
         accXBuffer = new ArrayList<String>(ACC_BUFFER_CAPACITY);
         accYBuffer = new ArrayList<String>(ACC_BUFFER_CAPACITY);
@@ -169,10 +157,9 @@ public class EmpaticaService extends Service implements EmpaDataDelegate, EmpaSt
     public int onStartCommand(Intent intent, int flags, int startId) {
         Toast.makeText(this, "Empatica Service Started", Toast.LENGTH_LONG).show();
 
-        teacherDbHelper = new DatabaseHelper(this);
-        db = teacherDbHelper.getWritableDatabase();
+//        teacherDbHelper = new DatabaseHelper(this);
+//        db = teacherDbHelper.getWritableDatabase();
 
-        EMPATICA_API_KEY = getE4ApiKey();
         initEmpaticaDeviceManager();
 
         Intent notificationIntent = new Intent(this, EmpaticaService.class);
@@ -209,10 +196,10 @@ public class EmpaticaService extends Service implements EmpaDataDelegate, EmpaSt
     @Override
     public void onDestroy() {
         //DEVICE MANAGER DISCONNECT
-        deviceManager.cleanUp();
-        deviceManager.disconnect();
-        stopForeground(true);
-        stopSelf();
+//        deviceManager.cleanUp();
+//        deviceManager.disconnect();
+//        stopForeground(true);
+//        stopSelf();
         Toast.makeText(EmpaticaService.this, "Empatica Service stopped successfully!", Toast.LENGTH_SHORT).show();
     }
 
@@ -222,6 +209,41 @@ public class EmpaticaService extends Service implements EmpaDataDelegate, EmpaSt
         return null;
     }
 
+//    public class LocalBinder extends Binder {
+//        EmpaticaService getService() {
+//            return EmpaticaService.this;
+//        }
+//    }
+//
+//    @Override
+//    public IBinder onBind(Intent intent) {
+//        return mBinder;
+//    }
+//
+//    @Override
+//    public boolean onUnbind(Intent intent) {
+//        // After using a given device, you should make sure that BluetoothGatt.close() is called
+//        // such that resources are cleaned up properly.  In this particular example, close() is
+//        // invoked when the UI is disconnected from the Service.
+//        close();
+//        return super.onUnbind(intent);
+//    }
+//
+//    private final IBinder mBinder = new LocalBinder();
+//
+
+
+    /**
+     * After using a given BLE device, the app must call this method to ensure resources are
+     * released properly.
+     */
+    public void close() {
+        if (deviceManager == null) {
+            return;
+        }
+        deviceManager.disconnect();
+        deviceManager = null;
+    }
 
     @Override
     public void didReceiveGSR(final float gsr, final double timestamp) {
@@ -231,11 +253,11 @@ public class EmpaticaService extends Service implements EmpaDataDelegate, EmpaSt
                 teacherDbHelper.addEdaSensorValues(new EdaSensor(gsr, timestamp), db);
 //                sendEdaResult(gsr+"");
                  if (edaBuffer.size() < EDA_BUFFER_CAPACITY) {
-                        edaBuffer.add(gsr + "");
-                    } else {
-                        sendEdaResult(edaBuffer);
-                        edaBuffer.clear();
-                    }
+                     edaBuffer.add(gsr + "");
+                 } else {
+                    sendEdaResult(edaBuffer);
+                    edaBuffer.clear();
+                 }
             }
         }).start();
     }
@@ -266,17 +288,7 @@ public class EmpaticaService extends Service implements EmpaDataDelegate, EmpaSt
             }
         }).start();
 
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                sendTempResult(temp + "");
-//                try{
-//                    Thread.sleep(10000);
-//                }catch (Exception e) {
-//                    // TODO: handle exception
-//                }
-//            }
-//        }).start();
+
     }
 
     @Override

@@ -63,11 +63,15 @@ public class AccFragment extends Fragment {
         saveAccChart = (Button) rootView.findViewById(R.id.save_acc_chart);
 
         teacherDbHelper = new DatabaseHelper(getContext());
-        if(teacherDbHelper.isLastSession()){
-            accValues = teacherDbHelper.getAllAccSensorValues();
-        }else{
-            accValues = teacherDbHelper.getLastAccSensorValues();
-        }
+        accValues = teacherDbHelper.getAllAccSensorValues();
+
+
+//        if(teacherDbHelper.isLastSession()){
+//            accValues = teacherDbHelper.getAllAccSensorValues();
+//        }else{
+//            accValues = teacherDbHelper.getLastAccSensorValues();
+//        }
+
         setUpAccGraph(accValues);
         setUpSaveButton();
 
