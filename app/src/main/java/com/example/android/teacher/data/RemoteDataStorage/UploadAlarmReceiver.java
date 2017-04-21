@@ -1,5 +1,7 @@
 package com.example.android.teacher.data.RemoteDataStorage;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -23,64 +25,21 @@ import static com.example.android.teacher.R.drawable.timer;
  */
 
 public class UploadAlarmReceiver extends BroadcastReceiver {
-    Timer timer;
-
-    SwitchDriveController switchDriveController;
-    SQLiteController localController;
-    DatabaseHelper dbHelper;
 
     @Override
-    public void onReceive(final Context arg0, Intent arg1) {
-        // For our recurring task, we'll just display a message
-        int MINUTES = 30; //The delay in minutes
+    public void onReceive(Context context, Intent intent) {
+        System.out.println("I am in UPLOAD ALARM receiver.");
+        setAlarm(context, 141414);
+        //Start UploadService
+        Intent intent1 = new Intent(context, AlarmService.class);
+        context.startService(intent1);
+    }
+    public void setAlarm(Context context, int requestCode){
 
+        Intent intent = new Intent(context, UploadAlarmReceiver.class);
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(context.ALARM_SERVICE);
 
-        dbHelper = new DatabaseHelper(arg0);
-        switchDriveController = new SwitchDriveController(arg0.getString(R.string.server_address), arg0.getString(R.string.token), arg0.getString(R.string.password));
-        localController = new SQLiteController(arg0);
-        final Uploader uploader = new Uploader(androidID, switchDriveController, localController, dbHelper);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+86400000, PendingIntent.getBroadcast(context, requestCode, intent, PendingIntent.FLAG_ONE_SHOT)); //86 400 000 (1 day)
 
-        timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-
-                ConnectivityManager connectivityManager = (ConnectivityManager) arg0.getSystemService(Context.CONNECTIVITY_SERVICE);
-                NetworkInfo wifi = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-
-                //If there is WiFi connection when Alarm is triggered then UPLOAD data
-                if (wifi.isConnected()) {
-                    Log.v("Blla blla", "WIFI CONNECTED");
-                    int response1 = uploader.uploadUsersTable();
-                    //Upload Local Tables - eda, acc, bvp, temp
-                    int response2 = uploader.upload();
-                    //Upload Data from Esms table
-                    int response3 = uploader.uploadAware(arg0);
-
-                    if(response1 == 200 && response2 == 200 && response3 == 200){
-                        timer.cancel();
-                        timer.purge();
-                        Log.v("UPLOAD TEST", "DATA UPLOADED, TIMER CANCELED");
-                    }else{
-                        Log.v("UPLOAD TEST", "DATA NOT UPLOADED, TIMER NOT CANCELED");
-                    }
-                }else{
-                    Log.v("UPLOAD TEST", "wifi not connected, TIMER NOT CANCELED, BUT TRY AGAIN TO UPLOAD");
-                    int response1 = uploader.uploadUsersTable();
-                    //Upload Local Tables - eda, acc, bvp, temp
-                    int response2 = uploader.upload();
-                    //Upload Data from Esms table
-                    int response3 = uploader.uploadAware(arg0);
-
-                    if(response1 == 200 && response2 == 200 && response3 == 200){
-                        timer.cancel();
-                        timer.purge();
-                        Log.v("UPLOAD TEST", "DATA UPLOADED, TIMER CANCELED");
-                    }else{
-                        Log.v("UPLOAD TEST", "DATA NOT UPLOADED, TIMER NOT CANCELED");
-                    }
-                }
-            }
-        }, 0, 1000*60*MINUTES);
     }
 }

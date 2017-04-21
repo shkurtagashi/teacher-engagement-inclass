@@ -1,10 +1,13 @@
 package com.example.android.teacher.Courses;
 
+import android.annotation.TargetApi;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.icu.util.Calendar;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 
 
 /**
@@ -224,6 +227,7 @@ public class FinalScheduler {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public Calendar createCalendar(int day, int hour, int minute){
 
         Calendar calendar = Calendar.getInstance();
@@ -235,6 +239,7 @@ public class FinalScheduler {
         return calendar;
     }
 
+    @TargetApi(Build.VERSION_CODES.N)
     public void setAlarm(Context context, String course, String questionnaire, int requestCode, Weekday weekday, int hourAddition, int minuteAddition){
         Intent myIntent = new Intent(context, AlarmNotificationReceiver.class);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
