@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.aware.ESM;
 import com.aware.ui.esms.ESMFactory;
+import com.aware.ui.esms.ESM_QuickAnswer;
 import com.aware.ui.esms.ESM_Radio;
 import com.example.android.teacher.EmpaticaE4.EmpaticaActivity;
 import com.example.android.teacher.EmpaticaE4.ViewEmpaticaActivity;
@@ -186,6 +187,9 @@ public class AgreementFormActivity extends AppCompatActivity{
                     esmRadio21.setTitle("General Survey - " + UserData._selectedCourses + " (21/21)")
                             .setInstructions("In class, I show warmth to my students.");
 
+                    ESM_QuickAnswer esm22 = new ESM_QuickAnswer();
+                    esm22.setTitle("Thank you message");
+                    esm22.setInstructions("Your participation is really important for this study, thank you very much!");
 
                     ArrayList<ESM_Radio> esms = new ArrayList<>();
                     esms.add(esmRadio1);
@@ -210,6 +214,7 @@ public class AgreementFormActivity extends AppCompatActivity{
                     esms.add(esmRadio20);
                     esms.add(esmRadio21);
 
+
                     for (ESM_Radio esmRadio : esms) {
                         esmRadio.addRadio("Always")
                                 .addRadio("Very Often")
@@ -220,7 +225,6 @@ public class AgreementFormActivity extends AppCompatActivity{
                                 .addRadio("Never")
                                 .setSubmitButton("Next");
                     }
-                    esmRadio21.setSubmitButton("Finish");
 
                     factory.addESM(esmRadio1);
                     factory.addESM(esmRadio2);
@@ -243,7 +247,7 @@ public class AgreementFormActivity extends AppCompatActivity{
                     factory.addESM(esmRadio19);
                     factory.addESM(esmRadio20);
                     factory.addESM(esmRadio21);
-
+                    factory.addESM(esm22);
 
                     ESM.queueESM(getApplicationContext(), factory.build());
 

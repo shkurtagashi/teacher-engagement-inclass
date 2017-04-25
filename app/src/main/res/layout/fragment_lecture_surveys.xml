@@ -1,137 +1,205 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.android.teacher.Surveys.SurveysFragments.LectureSurveys">
 
-    <LinearLayout
-        android:gravity="center"
-        android:layout_height="match_parent"
+
+    <TextView
+        android:id="@+id/pam_title"
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:paddingTop="20dp">
+        android:layout_height="61dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="37dp"
+        android:paddingLeft="20dp"
+        android:paddingTop="20dp"
+        android:text="Pre-Lecture Survey"
+        android:textSize="25dp"
+        app:layout_constraintHorizontal_bias="0.571"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/pam_title"
-            android:paddingTop="20dp"
-            android:paddingLeft="20dp"
-            android:textSize="25dp"
-            android:layout_width="match_parent"
+    <View
+        android:layout_width="344dp"
+        android:layout_height="2dp"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintTop_toBottomOf="@+id/post_survey_title"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp" />
+
+
+    <TextView
+        android:id="@+id/break_survey_title"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="2dp"
+        android:paddingLeft="20dp"
+        android:paddingTop="20dp"
+        android:text="Break-Time Survey"
+        android:textSize="25dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <View
+        android:layout_width="344dp"
+        android:layout_height="2dp"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintTop_toBottomOf="@+id/break_survey_title"
+        android:id="@+id/view3"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp" />
+
+
+    <TextView
+        android:id="@+id/post_survey_title"
+        android:layout_width="match_parent"
+        android:layout_height="59dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:paddingLeft="20dp"
+        android:paddingTop="20dp"
+        android:text="Post-Lecture Survey"
+        android:textSize="25dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <View
+        android:layout_width="344dp"
+        android:layout_height="2dp"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintTop_toBottomOf="@+id/pam_title"
+        android:id="@+id/view4"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp" />
+
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="215dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:text="This survey contains a set of 6 questions, one is about your mood and the others refer to the second hour of the lecture. "
+        android:textSize="12sp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/post_survey_title"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintVertical_bias="0.194"
+        android:layout_marginStart="12dp" />
+
+    <Button
+        android:id="@+id/post_lecture_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/roundedbutton"
+        android:text="Take Survey"
+        app:layout_constraintLeft_toRightOf="@+id/textView2"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/post_survey_title"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_bias="0.578"
+        app:layout_constraintVertical_bias="0.181"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="215dp"
+        android:layout_height="65dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="23dp"
+        android:layout_weight="2"
+        android:text="This survey contains a set of 6 questions, one is about your mood and the others refer to the first hour of the lecture."
+        android:textSize="12dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/break_survey_title" />
+
+
+        <Button
+            android:id="@+id/breakButton"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Pre-Lecture Survey"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="@android:color/darker_gray"
-            android:layout_marginBottom="-10dp"/>
-
-        <LinearLayout
-            android:padding="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:textSize="12dp"
-                android:layout_width="0dp"
-                android:layout_marginBottom="20dp"
-                android:layout_weight="2"
-                android:layout_height="wrap_content"
-                android:text="This survey should be completed before starting the lecture. It shows a set of photos and you should choose the one that best suits your current mood."/>
-
-            <!--Photographic Affect Meter "PAM is a novel tool for measuring affect, it shows a set of photos and you should choose the one that best suits your current mood. "-->
-
-            <Button
-                android:id="@+id/pam_button"
-                android:layout_width="0dp"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/roundedbutton"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="Take Survey" />
-
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/break_survey_title"
-            android:textSize="25dp"
-            android:paddingTop="20dp"
-            android:paddingLeft="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Break-Time Survey"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="@android:color/darker_gray"
-            android:layout_marginBottom="-10dp"/>
+            android:layout_weight="1"
+            android:background="@drawable/roundedbutton"
+            android:text="Take Survey"
+            app:layout_constraintLeft_toRightOf="@+id/textView3"
+            android:layout_marginLeft="14dp"
+            app:layout_constraintTop_toTopOf="@+id/view3"
+            android:layout_marginTop="23dp"
+            android:layout_marginRight="8dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/post_survey_title"
+            android:layout_marginStart="14dp"
+            android:layout_marginEnd="8dp" />
 
 
-        <LinearLayout
-            android:padding="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:textSize="12dp"
-                android:layout_width="0dp"
-                android:layout_marginBottom="20dp"
-                android:layout_weight="2"
-                android:layout_height="wrap_content"
-                android:text="This survey contains a set of 6 questions, one is about your mood and the others refer to the first hour of the lecture."/>
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="215dp"
+        android:layout_height="60dp"
+        android:layout_weight="2"
+        android:text="This survey should be completed before starting the lecture. It shows a set of photos and you should choose the one that best suits your current mood."
+        android:textSize="12dp"
+        android:layout_marginLeft="45dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view4"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="8dp" />
 
-            <Button
-                android:id="@+id/breakButton"
-                android:layout_width="0dp"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/roundedbutton"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="Take Survey"/>
+    <Button
+        android:id="@+id/pam_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/roundedbutton"
+        android:text="Take Survey"
+        app:layout_constraintLeft_toRightOf="@+id/textView4"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/pam_title"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/break_survey_title"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp" />
 
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/post_survey_title"
-            android:textSize="25dp"
-            android:paddingTop="20dp"
-            android:paddingLeft="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Post-Lecture Survey"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="@android:color/darker_gray"
-            android:layout_marginBottom="-10dp"/>
-
-
-        <LinearLayout
-            android:padding="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:textSize="12dp"
-                android:layout_marginBottom="20dp"
-                android:layout_width="0dp"
-                android:layout_weight="2"
-                android:layout_height="wrap_content"
-                android:text="This survey contains a set of 6 questions, one is about your mood and the others refer to the second hour of the lecture. "/>
-
-            <Button
-                android:id="@+id/post_lecture_button"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/roundedbutton"
-                android:layout_height="wrap_content"
-                android:text="Take Survey"/>
-
-        </LinearLayout>
-    </LinearLayout>
-
-</FrameLayout>
+</android.support.constraint.ConstraintLayout>

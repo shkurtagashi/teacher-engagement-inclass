@@ -269,6 +269,12 @@ public class EmpaticaService extends Service implements EmpaDataDelegate, EmpaSt
             public void run() {
                 teacherDbHelper.addBvpSensorValues(new BloodVolumePressureSensor(bvp, timestamp), db);
 //                sendBvpResult(bvp + "");
+                if (bvpBuffer.size() < BVP_BUFFER_CAPACITY) {
+                    bvpBuffer.add(bvp + "");
+                } else {
+                    sendBvpResult(bvpBuffer);
+                    bvpBuffer.clear();
+                }
             }
         }).start();
     }
@@ -284,7 +290,13 @@ public class EmpaticaService extends Service implements EmpaDataDelegate, EmpaSt
             @Override
             public void run() {
                 teacherDbHelper.addTempSensorValues(new TemperatureSensor(temp, timestamp), db);
-//                sendTempResult(temp+"");
+                sendTempResult(temp+"");
+//                if (tempBuffer.size() < TEMP_BUFFER_CAPACITY) {
+//                    tempBuffer.add(temp + "");
+//                } else {
+//                    sendTempResult(tempBuffer);
+//                    tempBuffer.clear();
+//                }
             }
         }).start();
 
@@ -300,6 +312,26 @@ public class EmpaticaService extends Service implements EmpaDataDelegate, EmpaSt
 //                sendAccXResult(x+"");
 //                sendAccYResult(y+"");
 //                sendAccZResult(z+"");
+                if (accXBuffer.size() < ACC_BUFFER_CAPACITY) {
+                    accXBuffer.add(x + "");
+                } else {
+                    sendAccXResult(accXBuffer);
+                    accXBuffer.clear();
+                }
+
+                if (accYBuffer.size() < ACC_BUFFER_CAPACITY) {
+                    accYBuffer.add(y + "");
+                } else {
+                    sendAccYResult(accYBuffer);
+                    accYBuffer.clear();
+                }
+
+                if (accZBuffer.size() < ACC_BUFFER_CAPACITY) {
+                    accZBuffer.add(z + "");
+                } else {
+                    sendAccZResult(accZBuffer);
+                    accZBuffer.clear();
+                }
             }
         }).start();
     }
@@ -402,15 +434,15 @@ public class EmpaticaService extends Service implements EmpaDataDelegate, EmpaSt
         if(message != null) {
             intent.putStringArrayListExtra(EDA, (ArrayList<String>) message);
             edaBroadcaster.sendBroadcastSync(intent);
-            Log.v("EmpaticaService", "Eda buffer BROADCASTED" + message);
+//            Log.v("EmpaticaService", "Eda buffer BROADCASTED" + message);
         }
     }
 
-    public void sendBvpResult(final String message) {
+    public void sendBvpResult(final List<String> message) {
         final Intent intent = new Intent(BVP_RESULT);
         if(message != null) {
-            intent.putExtra(BVP, message);
-            bvpBroadcaster.sendBroadcast(intent);
+            intent.putStringArrayListExtra(BVP, (ArrayList<String>) message);
+            bvpBroadcaster.sendBroadcastSync(intent);
 //            Log.v("EmpaticaService", "BVP buffer BROADCASTED" + message);
         }
     }
@@ -419,31 +451,31 @@ public class EmpaticaService extends Service implements EmpaDataDelegate, EmpaSt
         final Intent intent = new Intent(TEMP_RESULT);
         if(message != null) {
             intent.putExtra(TEMP, message);
-            tempBroadcaster.sendBroadcast(intent);
+            tempBroadcaster.sendBroadcastSync(intent);
 //            Log.v("EmpaticaService", "TEMP buffer BROADCASTED" + message);
         }
     }
 
-    public void sendAccXResult(final String message) {
+    public void sendAccXResult(final List<String> message) {
         final Intent intent = new Intent(ACCX_RESULT);
         if(message != null) {
-            intent.putExtra(ACC_X, message);
-            accXBroadcaster.sendBroadcast(intent);
+            intent.putStringArrayListExtra(ACC_X, (ArrayList<String>) message);
+            accXBroadcaster.sendBroadcastSync(intent);
         }
     }
 
-    public void sendAccYResult(final String message) {
+    public void sendAccYResult(final List<String> message) {
         final Intent intent = new Intent(ACCY_RESULT);
         if(message != null) {
-            intent.putExtra(ACC_Y, message);
-            accYBroadcaster.sendBroadcast(intent);
+            intent.putStringArrayListExtra(ACC_Y, (ArrayList<String>) message);
+            accYBroadcaster.sendBroadcastSync(intent);
         }
     }
-    public void sendAccZResult(final String message) {
+    public void sendAccZResult(final List<String> message) {
         final Intent intent = new Intent(ACCZ_RESULT);
         if(message != null) {
-            intent.putExtra(ACC_Z, message);
-            accZBroadcaster.sendBroadcast(intent);
+            intent.putStringArrayListExtra(ACC_Z, (ArrayList<String>) message);
+            accZBroadcaster.sendBroadcastSync(intent);
         }
     }
 

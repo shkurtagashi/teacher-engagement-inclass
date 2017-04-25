@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,9 @@ import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.Viewport;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -45,21 +49,22 @@ public class AccelFragment extends Fragment {
 
     GraphView accGraph;
 
-    BroadcastReceiver accXReceiver;
-    BroadcastReceiver accYReceiver;
-    BroadcastReceiver accZReceiver;
-
 
     public AccelFragment() {
         // Required empty public constructor
     }
 
 
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_accel, container, false);
+
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver((accXReceiver), new IntentFilter(EmpaticaService.ACCX_RESULT));
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver((accYReceiver), new IntentFilter(EmpaticaService.ACCY_RESULT));
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver((accZReceiver), new IntentFilter(EmpaticaService.ACCZ_RESULT));
+
 
 //        xValueTextView = (TextView) rootView.findViewById(R.id.x_value);
 //        yValueTextView = (TextView) rootView.findViewById(R.id.y_value);
@@ -75,76 +80,50 @@ public class AccelFragment extends Fragment {
 
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-//        LocalBroadcastManager.getInstance(getContext()).registerReceiver((accXReceiver), new IntentFilter(EmpaticaService.ACCX_RESULT));
-//        LocalBroadcastManager.getInstance(getContext()).registerReceiver((accYReceiver), new IntentFilter(EmpaticaService.ACCY_RESULT));
-//        LocalBroadcastManager.getInstance(getContext()).registerReceiver((accZReceiver), new IntentFilter(EmpaticaService.ACCZ_RESULT));
-    }
+    BroadcastReceiver accXReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            ArrayList<String> xList = intent.getStringArrayListExtra(EmpaticaService.ACC_X);
 
-    @Override
-    public void onResume(){
-        super.onResume();
-
-        accXReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                final String x = intent.getStringExtra(EmpaticaService.ACC_X);
-
-//                mTimer1 = new Runnable() {
-//                    @Override
-//                    public void run() {
-                        accXseries.appendData(new DataPoint(lastXacc++, Double.parseDouble(x)), false, 70); //64 used 10 for this
-//                    }
-//                };
-//                mHandler.postDelayed(mTimer1, 4000);
+            for (int i = 0; i < xList.size(); i++) {
+                accZseries.appendData(new DataPoint(lastZacc++, Double.parseDouble(xList.get(i))), false, 10);
             }
-        };
+        }
+    };
 
-        accYReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                final String y = intent.getStringExtra(EmpaticaService.ACC_Y);
+    BroadcastReceiver accYReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            ArrayList<String> yList = intent.getStringArrayListExtra(EmpaticaService.ACC_Y);
 
-               // mTimer1 = new Runnable() {
-//                    @Override
-//                    public void run() {
-                        accYseries.appendData(new DataPoint(lastYacc++, Double.parseDouble(y)), false, 70);
-//                    }
-//                };
-//                mHandler.postDelayed(mTimer1, 4000);
+            for (int i = 0; i < yList.size(); i++) {
+                accZseries.appendData(new DataPoint(lastZacc++, Double.parseDouble(yList.get(i))), false, 10);
+
 
             }
-        };
+        }
+    };
 
-        accZReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                final String z = intent.getStringExtra(EmpaticaService.ACC_Z);
+    BroadcastReceiver accZReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            ArrayList<String> zList = intent.getStringArrayListExtra(EmpaticaService.ACC_Z);
 
-//                mTimer1 = new Runnable() {
-//                    @Override
-//                    public void run() {
-                        accZseries.appendData(new DataPoint(lastZacc++, Double.parseDouble(z)), false, 70);
-//                    }
-//                };
-//                mHandler.postDelayed(mTimer1, 4000);
+            for (int i = 0; i < zList.size(); i++) {
+                accZseries.appendData(new DataPoint(lastZacc++, Double.parseDouble(zList.get(i))), false, 10);
             }
-        };
+        }
+    };
 
-        LocalBroadcastManager.getInstance(getContext()).registerReceiver((accXReceiver), new IntentFilter(EmpaticaService.ACCX_RESULT));
-        LocalBroadcastManager.getInstance(getContext()).registerReceiver((accYReceiver), new IntentFilter(EmpaticaService.ACCY_RESULT));
-        LocalBroadcastManager.getInstance(getContext()).registerReceiver((accZReceiver), new IntentFilter(EmpaticaService.ACCZ_RESULT));
-    }
+
 
     @Override
-    public void onStop(){
+    public void onDestroy() {
         LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(accZReceiver);
         LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(accYReceiver);
         LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(accXReceiver);
 
-        super.onStop();
+        super.onDestroy();
     }
 
     public void setUpACCGraph(View rootView) {

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,8 @@ import android.widget.TextView;
 import com.example.android.teacher.EmpaticaE4.EmpaticaService;
 import com.example.android.teacher.R;
 import com.jjoe64.graphview.series.DataPoint;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,8 +32,6 @@ public class TemperatureFragment extends Fragment {
 
     private TextView tempValueTextView;
 
-    BroadcastReceiver tempReceiver;
-
     public TemperatureFragment() {
         // Required empty public constructor
     }
@@ -40,6 +41,8 @@ public class TemperatureFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver((tempReceiver), new IntentFilter(EmpaticaService.TEMP_RESULT));
+
         View rootview = inflater.inflate(R.layout.fragment_temperature, container, false);
         tempValueTextView = (TextView) rootview.findViewById(R.id.temperature_value);
 
@@ -48,31 +51,23 @@ public class TemperatureFragment extends Fragment {
         return rootview;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-//        LocalBroadcastManager.getInstance(getContext()).registerReceiver((tempReceiver), new IntentFilter(EmpaticaService.TEMP_RESULT));
-    }
+
+
+
+    BroadcastReceiver tempReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String temp = intent.getStringExtra(EmpaticaService.TEMP);
+            updateLabel(tempValueTextView, temp);
+//            tempValueTextView.setText(temp);
+        }
+    };
+
 
     @Override
-    public void onResume(){
-        super.onResume();
-
-        tempReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                final String temp = intent.getStringExtra(EmpaticaService.TEMP);
-                tempValueTextView.setText(temp);
-            }
-        };
-
-        LocalBroadcastManager.getInstance(getContext()).registerReceiver((tempReceiver), new IntentFilter(EmpaticaService.TEMP_RESULT));
-    }
-
-    @Override
-    public void onStop(){
+    public void onDestroy(){
         LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(tempReceiver);
-        super.onStop();
+        super.onDestroy();
     }
 
 

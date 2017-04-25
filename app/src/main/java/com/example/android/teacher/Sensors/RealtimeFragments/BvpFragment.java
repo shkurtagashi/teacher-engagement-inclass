@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,8 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.Viewport;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,10 +38,6 @@ public class BvpFragment extends Fragment {
 
     GraphView bvpGraph;
 
-    BroadcastReceiver bvpReceiver;
-
-
-
 
     public BvpFragment() {
         // Required empty public constructor
@@ -48,6 +47,8 @@ public class BvpFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver((bvpReceiver), new IntentFilter(EmpaticaService.BVP_RESULT));
+
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_bvp, container, false);
 
@@ -59,32 +60,22 @@ public class BvpFragment extends Fragment {
         return rootView;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-//        LocalBroadcastManager.getInstance(getContext()).registerReceiver((bvpReceiver), new IntentFilter(EmpaticaService.BVP_RESULT));
-
-    }
-
-    @Override
-    public void onResume(){
-        super.onResume();
-
-        bvpReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                final String bvp = intent.getStringExtra(EmpaticaService.BVP);
-                bvpSeries.appendData(new DataPoint(lastXbvp++, Double.parseDouble(bvp)), false, 400); //384 used 100 for this
+    BroadcastReceiver bvpReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            ArrayList<String> bvpList = intent.getStringArrayListExtra(EmpaticaService.BVP);
+            for (int i = 0; i < bvpList.size(); i++) {
+                bvpSeries.appendData(new DataPoint(lastXbvp++, Double.parseDouble(bvpList.get(i))), false, 10);
             }
-        };
-        LocalBroadcastManager.getInstance(getContext()).registerReceiver((bvpReceiver), new IntentFilter(EmpaticaService.BVP_RESULT));
-    }
+        }
+    };
 
 
     @Override
-    public void onStop(){
+    public void onDestroy() {
+        // Unregister since the activity is about to be closed.
         LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(bvpReceiver);
-        super.onStop();
+        super.onDestroy();
     }
 
     public void setUpBVPGraph() {

@@ -213,8 +213,12 @@ public class QuestionnaireActivity extends AppCompatActivity {
                     .setInstructions("Pick the closest to how you feel now "+moment+" " + course + "!")
                     .setSubmitButton("Done")
                     .setExpirationThreshold(60*expirationThreshold); //setNotificationRetry(3) - number of times to retry notification if it expires
+            ESM_QuickAnswer esm22 = new ESM_QuickAnswer();
+            esm22.setTitle("Thank you message");
+            esm22.setInstructions("Your participation is really important for this study, thank you very much!");
 
             factory.addESM(q1);
+            factory.addESM(esm22);
             ESM.queueESM(getApplicationContext(), factory.build());
         } catch (JSONException e) {
             e.printStackTrace();

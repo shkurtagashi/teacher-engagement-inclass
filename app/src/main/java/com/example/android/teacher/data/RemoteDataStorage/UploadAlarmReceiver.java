@@ -29,7 +29,7 @@ public class UploadAlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         System.out.println("I am in UPLOAD ALARM receiver.");
-        setAlarm(context, 141414);
+        setAlarm(context, 2);
         //Start UploadService
         Intent intent1 = new Intent(context, AlarmService.class);
         context.startService(intent1);

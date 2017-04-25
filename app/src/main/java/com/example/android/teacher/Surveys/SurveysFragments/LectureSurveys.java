@@ -75,7 +75,14 @@ public class LectureSurveys extends Fragment {
                             .setTitle("Photographic Affect Meter")
                             .setExpirationThreshold(60 * expirationThreshold);
 
+                    ESM_QuickAnswer esm22 = new ESM_QuickAnswer();
+                    esm22.setTitle("Thank you message");
+                    esm22.setInstructions("Your participation is really important for this study, thank you very much!");
+
                     factory.addESM(q1);
+                    factory.addESM(esm22);
+
+
                     ESM.queueESM(getActivity().getApplicationContext(), factory.build());
 
                 } catch (JSONException e) {
@@ -123,7 +130,7 @@ public class LectureSurveys extends Fragment {
                     esmFreeText.setTitle("Break - " + UserData._selectedCourses)
                             .setSubmitButton("Finish")
                             .setExpirationThreshold(60*expirationThreshold)
-                            .setInstructions("Please describe the moment(s) during which you felt particularly engaged");
+                            .setInstructions("Please describe the moment(s) during which you felt particularly engaged!");
 
 
                     ESM_QuickAnswer esmQuickAnswer = new ESM_QuickAnswer();
@@ -158,6 +165,7 @@ public class LectureSurveys extends Fragment {
                     factory.addESM(esmRadio3);
                     factory.addESM(esmRadio4);
                     factory.addESM(esmQuickAnswer);
+
 
                     ESM.queueESM(getActivity().getApplicationContext(), factory.build());
 

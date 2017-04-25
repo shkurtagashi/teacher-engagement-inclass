@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_agreement_form"
     android:layout_width="match_parent"
@@ -11,48 +12,316 @@
     android:orientation="vertical"
     tools:context="com.example.android.teacher.UserAccount.AgreementFormActivity">
 
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="50dp"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <ImageView android:src="@drawable/logo"
-        android:id="@+id/app_logo"
-        android:layout_width="wrap_content"
-        android:layout_height="72dp"
-        android:layout_marginBottom="64dp"
-        android:layout_marginTop="54dp"
-        android:contentDescription="Logo"
-        android:layout_gravity="center_horizontal"
-        />
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="55dp"
+            android:layout_height="46dp"
+            app:srcCompat="@drawable/logo"
+            android:layout_marginLeft="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp" />
+
+        <TextView
+            android:id="@+id/textView19"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Informed Consent Form"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            app:layout_constraintLeft_toRightOf="@+id/imageView2"
+            android:layout_marginLeft="8dp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="8dp"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintHorizontal_bias="0.6" />
+
+        <View
+            android:id="@+id/view2"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintBottom_toTopOf="@+id/textview111"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView19"
+            app:layout_constraintVertical_bias="1.0"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintHorizontal_bias="0.0" />
+
+
+
 
     <TextView
-        android:id="@+id/consent_text"
-        android:layout_width="match_parent"
+        android:id="@+id/textview111"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/consent_text"
-        android:layout_below="@id/app_logo"
-        android:layout_gravity="center_vertical"
-        android:layout_weight="3"/>
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:text="Research Study: Using Wearable Devices to Investigate Teachers’ and Students Emotional Engagement in the Classroom"
+        android:textStyle="bold"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/textView19" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/textview112"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal"
-        android:paddingTop="20dp"
-        android:layout_below="@id/consent_text"
-        android:layout_alignParentBottom="true"
-        android:layout_weight="1">
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="70dp"
+        android:text="What is the purpose of this research study?"
+        android:textStyle="bold"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textview111"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp" />
 
-        <Button
-            android:id="@+id/agree_button"
-            android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/textview113"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:text="The purpose of this study is assess the level of engagement of teachers and students during lectures using wearable devices."
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="7dp"
+        app:layout_constraintTop_toBottomOf="@+id/textview112" />
+
+    <TextView
+        android:id="@+id/textview114"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:text="What will you do in the study?"
+        android:textStyle="bold"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textview113"
+        android:layout_marginTop="26dp" />
+
+    <TextView
+        android:id="@+id/textview115"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="During selected lectures, you will wear a sensing device– the E4 wristband by Empatica. The device will collect data about your blood pressure, galvanic skin response and skin temperature. This sensor data will give us an objective basis to understand your level of engagement during lectures. You will also be asked to fill-in short questionnaires before, during and after the lecture. Your answers will allow us to gather information about your subjective perception of your level of engagement during the lecture. You can refrain from answering any question you might prefer not to answer (e.g., because it makes you uncomfortable) and you can stop the survey at any time."
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textview114" />
+
+    <TextView
+        android:id="@+id/textview116"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:text="How long does it last?"
+        android:textStyle="bold"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="30dp"
+        app:layout_constraintTop_toBottomOf="@+id/textview115" />
+
+    <TextView
+        android:id="@+id/textview117"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="7dp"
+        android:text="The study will require about two hours of your time. Most of this time will be spent during the lecture you will teach or attend."
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textview116" />
+
+    <TextView
+        android:id="@+id/textview118"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="47dp"
+        android:text="Is my data going to be confidential?"
+        android:textStyle="bold"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textview117" />
+
+    <TextView
+        android:id="@+id/textview119"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:text="The information and data collected in this study will be stored safely and handled confidentially. Your data will be anonymized through the assignment of an alphanumerical code and your name will never be mentioned in connection to the data or in any report. Any attempt to deduce your identity from the data is explicitly forbidden by our data analysis policy."
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="7dp"
+        app:layout_constraintTop_toBottomOf="@+id/textview118" />
+
+    <TextView
+        android:id="@+id/textview120"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="44dp"
+        android:text="Can I skip the study?"
+        android:textStyle="bold"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textview119" />
+
+    <TextView
+        android:id="@+id/textview121"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Your participation in the study is completely voluntary. You have the right to withdraw from the study at any time without penalty and to require your data to be entirely and permanently deleted."
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textview120" />
+
+    <TextView
+        android:id="@+id/textview122"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="37dp"
+        android:text="Contact person if you have questions about the study:"
+        android:textStyle="bold"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textview121" />
+
+    <TextView
+        android:id="@+id/textview123"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Shkurta Gashi, shkurta.gashi@usi.ch, Elena Di Lascio, elena.di.lascio@usi.ch "
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textview122" />
+
+    <TextView
+        android:id="@+id/textview124"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="33dp"
+        android:text="Agreement"
+        android:textStyle="bold"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textview123" />
+
+    <TextView
+        android:id="@+id/textview125"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:text="I confirm that I carefully read and understand the information reported above and that I agree to participate in the research study."
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/textview124" />
+
+
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Agree"/>
+            android:orientation="horizontal"
+            android:layout_margin="20dp"
+            app:layout_constraintTop_toBottomOf="@+id/textview125">
 
-        <Button
-            android:id="@+id/disagree_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Disagree"/>
-    </LinearLayout>
+            <Button
+                android:id="@+id/agree_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Agree" />
 
+            <Button
+                android:id="@+id/disagree_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Disagree"/>
 
-</LinearLayout>
+        </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>

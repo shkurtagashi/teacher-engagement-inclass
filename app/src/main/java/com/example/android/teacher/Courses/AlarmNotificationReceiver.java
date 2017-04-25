@@ -8,6 +8,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.icu.util.Calendar;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -313,6 +315,7 @@ public class AlarmNotificationReceiver extends BroadcastReceiver {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public Calendar createCalendar(int day, int hour, int minute){
 
         Calendar calendar = Calendar.getInstance();

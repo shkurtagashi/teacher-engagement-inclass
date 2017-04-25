@@ -23,6 +23,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -55,6 +56,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import static android.R.id.input;
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
+
 public class HomeActivity extends AppCompatActivity{
 
     private PendingIntent pendingIntent;
@@ -75,6 +79,8 @@ public class HomeActivity extends AppCompatActivity{
     public String password = "";
 
     private TextView userTextView;
+    private Button createAccountButton;
+
     public String username;
 
     Calendar calendar;
@@ -104,6 +110,8 @@ public class HomeActivity extends AppCompatActivity{
         dbHelper = new DatabaseHelper(this);
 
         userTextView = (TextView) findViewById(R.id.welcome_user);
+        createAccountButton = (Button) findViewById(R.id.createAccountButton);
+
         TextView sensorData = (TextView) findViewById(R.id.sensor_data);
         TextView surveyData = (TextView) findViewById(R.id.survey_data);
         TextView realTimeStreaming = (TextView) findViewById(R.id.real_time_streaming);
@@ -118,6 +126,9 @@ public class HomeActivity extends AppCompatActivity{
             UserData._selectedCourses = null;
 
             userTextView.append(" " + "\n Please create an account first");
+
+            createAccountButton.setVisibility(View.VISIBLE);
+
             sensorData.setEnabled(false);
             sensorData.setBackground(getResources().getDrawable(R.drawable.chartsdisabled));
 
@@ -130,7 +141,14 @@ public class HomeActivity extends AppCompatActivity{
             studentSurveyData.setEnabled(false);
             studentSurveyData.setBackground(getResources().getDrawable(R.drawable.classdisabled));
 
+//            createAccountUserFeedback(surveyData);
+//            createAccountUserFeedback(realTimeStreaming);
+//            createAccountUserFeedback(studentSurveyData);
+//            createAccountUserFeedback(sensorData);
+
         }else if(dbHelper.getUsersCount() == 1){
+            createAccountButton.setVisibility(View.INVISIBLE);
+
             List<User> users = dbHelper.getAllUsers();
             for(User u: users){
                 UserData._username = u.getUsername();
@@ -139,8 +157,9 @@ public class HomeActivity extends AppCompatActivity{
                 Log.v("HomeActivity2", UserData._username);
             }
         }else if(UserData._username == null && dbHelper.getUsersCount() > 1){
-            userTextView.append(" " + "\n Please choose an account first");
+            createAccountButton.setVisibility(View.INVISIBLE);
 
+            userTextView.append(" " + "\n Please choose an account first");
             sensorData.setEnabled(false);
             sensorData.setBackground(getResources().getDrawable(R.drawable.chartsdisabled));
 
@@ -220,7 +239,49 @@ public class HomeActivity extends AppCompatActivity{
             }
         });
 
+        createAccountButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Create new intent to open the @link RegistrationActivity
+                Intent registerUserIntent = new Intent(HomeActivity.this, RegisterFormActivity.class);
+                startActivity(registerUserIntent);
+
+            }
+        });
+
     }
+//
+//    private void createAccountUserFeedback(TextView textview){
+//        textview.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                AlertDialog.Builder alertDialog = new AlertDialog.Builder(HomeActivity.this);
+//                alertDialog.setTitle("Create Account Alert");
+//                alertDialog.setMessage("You need to create an account first. Do you want to proceed?");
+//
+//                alertDialog.setIcon(R.drawable.logo);
+//
+//                alertDialog.setNegativeButton("Create Account",
+//                        new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                    Intent intent = new Intent(getApplicationContext(), RegisterFormActivity.class);
+//                                    startActivityForResult(intent, 0);
+//                            }
+//                        });
+//
+//                alertDialog.setPositiveButton("Cancel",
+//                        new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                dialog.cancel();
+//                            }
+//                        });
+//
+//                alertDialog.show();
+//
+//            }
+//        });
+//
+//    }
 
     private void checkPermissions() {
         // Android 6 (API level 23) now require ACCESS_COARSE_LOCATION permission to use BLE
@@ -271,7 +332,7 @@ public class HomeActivity extends AppCompatActivity{
             Calendar cal = Calendar.getInstance();
             calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
             calendar.set(Calendar.HOUR_OF_DAY, 10);
-            calendar.set(Calendar.MINUTE, 5);
+            calendar.set(Calendar.MINUTE, 15);
 
             if (cal.getTimeInMillis() > System.currentTimeMillis()) { //if it is more than 19:00 o'clock, trigger it tomorrow
                 SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
@@ -300,8 +361,8 @@ public class HomeActivity extends AppCompatActivity{
             AlarmManager am = (AlarmManager) getSystemService(getApplicationContext().ALARM_SERVICE);
 
             Calendar cal = Calendar.getInstance();
-            calendar.set(Calendar.HOUR_OF_DAY, 17);
-            calendar.set(Calendar.MINUTE, 35);
+            calendar.set(Calendar.HOUR_OF_DAY, 18);
+            calendar.set(Calendar.MINUTE, 43);
             cal.set(Calendar.SECOND, 0);
 
             if (cal.getTimeInMillis() > System.currentTimeMillis()) { //if it is more than 19:00 o'clock, trigger it tomorrow
@@ -309,7 +370,7 @@ public class HomeActivity extends AppCompatActivity{
                 String time = sdf.format(new Date());
                 System.out.println(time + ": Alarm should fire in the future");
 
-                am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), PendingIntent.getBroadcast(this, 121212, intent, PendingIntent.FLAG_ONE_SHOT));
+                am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), PendingIntent.getBroadcast(this, 1, intent, PendingIntent.FLAG_ONE_SHOT));
                 UserData.uploadAlarmTriggered = true;
             } else {
                 SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
@@ -317,7 +378,7 @@ public class HomeActivity extends AppCompatActivity{
                 Log.v("HOMEEE", "Upload Alarm Triggered for this week");
                 cal.add(Calendar.DAY_OF_MONTH, 1); //trigger alarm tomorrow
 
-                am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), PendingIntent.getBroadcast(this, 121212, intent, PendingIntent.FLAG_ONE_SHOT));
+                am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), PendingIntent.getBroadcast(this, 1, intent, PendingIntent.FLAG_ONE_SHOT));
                 UserData.uploadAlarmTriggered = true;
             }
 

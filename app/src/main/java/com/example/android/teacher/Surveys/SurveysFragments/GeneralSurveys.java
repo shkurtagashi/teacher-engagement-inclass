@@ -10,6 +10,7 @@ import android.widget.Button;
 
 import com.aware.ESM;
 import com.aware.ui.esms.ESMFactory;
+import com.aware.ui.esms.ESM_QuickAnswer;
 import com.aware.ui.esms.ESM_Radio;
 import com.example.android.teacher.R;
 import com.example.android.teacher.data.User.UserData;
@@ -152,6 +153,11 @@ public class GeneralSurveys extends Fragment {
                     esmRadio21.setTitle("General Survey - " + UserData._selectedCourses + " (21/21)")
                             .setInstructions("In class, I show warmth to my students.");
 
+                    ESM_QuickAnswer esm22 = new ESM_QuickAnswer();
+                    esm22.setTitle("Thank you message");
+                    esm22.setInstructions("Your participation is really important for this study, thank you very much!");
+
+
 
                     ArrayList<ESM_Radio> esms = new ArrayList<>();
                     esms.add(esmRadio1);
@@ -209,6 +215,7 @@ public class GeneralSurveys extends Fragment {
                     factory.addESM(esmRadio19);
                     factory.addESM(esmRadio20);
                     factory.addESM(esmRadio21);
+                    factory.addESM(esm22);
 
 
                     ESM.queueESM(getActivity().getApplicationContext(), factory.build());
