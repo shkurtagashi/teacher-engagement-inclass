@@ -15,7 +15,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import static com.example.android.teacher.HomeActivity.androidID;
-import static com.example.android.teacher.R.drawable.timer;
 
 
 /**
@@ -37,7 +36,6 @@ public class AlarmService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
 
-        // For our recurring task, we'll just display a message
         int MINUTES = 1; //The delay in minutes
 
         Log.v("AlarmService", "I am in AlarmService");

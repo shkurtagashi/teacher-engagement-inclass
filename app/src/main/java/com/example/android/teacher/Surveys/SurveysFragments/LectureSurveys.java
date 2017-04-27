@@ -77,7 +77,7 @@ public class LectureSurveys extends Fragment {
 
                     ESM_QuickAnswer esm22 = new ESM_QuickAnswer();
                     esm22.setTitle("Thank you message");
-                    esm22.setInstructions("Your participation is really important for this study, thank you very much!");
+                    esm22.setInstructions("Thank you for your participation!");
 
                     factory.addESM(q1);
                     factory.addESM(esm22);

@@ -32,8 +32,7 @@ import android.widget.Toast;
 
 import com.aware.Aware;
 import com.example.android.teacher.Courses.FinalScheduler;
-import com.example.android.teacher.Courses.MyScheduler;
-import com.example.android.teacher.Courses.NewScheduler;
+
 import com.example.android.teacher.EmpaticaE4.EmpaticaActivity;
 import com.example.android.teacher.EmpaticaE4.ViewEmpaticaActivity;
 import com.example.android.teacher.data.RemoteDataStorage.DeleteAlarmReceiver;
@@ -55,9 +54,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
-import static android.R.id.input;
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 
 public class HomeActivity extends AppCompatActivity{
 

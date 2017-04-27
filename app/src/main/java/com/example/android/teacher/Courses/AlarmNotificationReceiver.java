@@ -7,13 +7,13 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.icu.util.Calendar;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
+import android.support.v4.app.TaskStackBuilder;
 
 import com.example.android.teacher.R;
+
+import java.util.Calendar;
+import java.util.Random;
 
 /**
  * Code Contribution by Danilo Krasic on 4/6/17.
@@ -315,7 +315,6 @@ public class AlarmNotificationReceiver extends BroadcastReceiver {
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public Calendar createCalendar(int day, int hour, int minute){
 
         Calendar calendar = Calendar.getInstance();
@@ -339,22 +338,31 @@ public class AlarmNotificationReceiver extends BroadcastReceiver {
     }
 
     public void setNotification(Context context, String course, String questionnaire, int requestCode, String title, String content, int notificationID){
-        Intent intent = new Intent(context, QuestionnaireActivity.class);
-        intent.putExtra("questionnaire", questionnaire);
-        intent.putExtra("course", course);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, requestCode, intent, 0);
+        Random rand = new Random();
+        int code = rand.nextInt(100000000);
+        System.out.println("code: "+code);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
         builder.setContentTitle(title);
         builder.setContentText(content);
         builder.setDefaults(Notification.DEFAULT_SOUND);
         builder.setAutoCancel(true);
+
+
+        Intent intent = new Intent(context, QuestionnaireActivity.class);
+        intent.putExtra("questionnaire", questionnaire);
+        intent.putExtra("course", course);
+
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+        stackBuilder.addParentStack(QuestionnaireActivity.class);
+        stackBuilder.addNextIntent(intent);
+        PendingIntent pendingIntent = stackBuilder.getPendingIntent(code, PendingIntent.FLAG_UPDATE_CURRENT);
+
         builder.setContentIntent(pendingIntent);
         builder.setSmallIcon(R.drawable.survey);
 
         //System.out.println("in setNotification");
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
         notificationManager.notify(notificationID, builder.build());
 
     }

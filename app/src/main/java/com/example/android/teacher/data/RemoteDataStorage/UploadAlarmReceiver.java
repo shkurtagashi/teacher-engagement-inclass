@@ -5,20 +5,6 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.util.Log;
-import android.widget.Toast;
-
-import com.example.android.teacher.R;
-import com.example.android.teacher.data.LocalDataStorage.DatabaseHelper;
-import com.example.android.teacher.data.LocalDataStorage.SQLiteController;
-
-import java.util.Timer;
-import java.util.TimerTask;
-
-import static com.example.android.teacher.HomeActivity.androidID;
-import static com.example.android.teacher.R.drawable.timer;
 
 /**
  * Created by shkurtagashi on 04.03.17.
