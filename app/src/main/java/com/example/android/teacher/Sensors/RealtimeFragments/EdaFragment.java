@@ -23,6 +23,7 @@ import com.example.android.teacher.data.LocalDataStorage.DatabaseHelper;
 import com.example.android.teacher.data.Sensors.EdaSensor;
 import com.example.android.teacher.data.Sensors.TemperatureSensor;
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.Viewport;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
@@ -37,6 +38,7 @@ import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static android.graphics.Color.parseColor;
 import static com.example.android.teacher.EmpaticaE4.EmpaticaService.EDA_BUFFER_CAPACITY;
 import static com.example.android.teacher.R.id.chart;
 import static com.example.android.teacher.R.id.eda;
@@ -202,17 +204,23 @@ public class EdaFragment extends Fragment {
 
         GraphView edaGraph = (GraphView) rootView.findViewById(R.id.graphforeda);
 //        edaSeries = new LineGraphSeries<DataPoint>();
-        edaSeries.setTitle("Electrodermal Activity");
+        edaSeries.setTitle("EDA (µS)");
+
 //        edaGraph.getLegendRenderer().setVisible(true);
 //        edaGraph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
 //        edaGraph.getLegendRenderer().setBackgroundColor(Color.parseColor("#EEEEEE"));
-        edaSeries.setColor(Color.parseColor("#03A9F4"));
+        edaSeries.setColor(Color.parseColor("#FF009688"));
         edaSeries.setDrawBackground(true);
-        edaSeries.setBackgroundColor(Color.parseColor("#B3E5FC"));
+        edaSeries.setBackgroundColor(Color.parseColor("#FF80CBC4"));
         edaSeries.setDrawDataPoints(true);
         edaSeries.setDataPointsRadius(10);
         edaSeries.setThickness(8);
         edaGraph.addSeries(edaSeries);
+
+        edaGraph.getLegendRenderer().setVisible(true);
+        edaGraph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
+        edaGraph.getLegendRenderer().setBackgroundColor(Color.parseColor("#FF333333"));
+
 //        edaGraph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));
 //        edaGraph.getGridLabelRenderer().setNumHorizontalLabels(10); // only 4 because of the space
 //        // set manual x bounds to have nice steps

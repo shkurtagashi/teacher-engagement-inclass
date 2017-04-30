@@ -98,8 +98,8 @@ public class TempFragment extends Fragment{
 
             dataSet.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
             dataSet.setDrawFilled(true);
-            dataSet.setFillColor(Color.parseColor("#4CAF50"));
-            dataSet.setColor(Color.parseColor("#4CAF50"));
+            dataSet.setFillColor(Color.parseColor("#FF999999"));
+            dataSet.setColor(Color.parseColor("#FFE43F3F"));
             dataSet.setDrawCircles(false);
             //dataSet.setCircleColor(Color.BLUE);
             //dataSet.setCircleRadius(3f);

@@ -37,14 +37,6 @@ public class AlarmNotificationReceiver extends BroadcastReceiver {
                 setAlarm(context, "MondayLA", "FirstPAM", 61);
                 setNotification(context, "MondayLA", "FirstPAM", 1000, "Questionnaire!", "Time to answer pre-lecture PAM!", 1000);
             }
-//            if(questionnaire.equals("SecondPAM")){
-//                setAlarm(context, "MondayLA", "SecondPAM", 62);
-//                setNotification(context, "MondayLA", "SecondPAM", 2000, "Questionnaire!", "Time to answer first post-lecture PAM!", 2000);
-//            }
-//            if(questionnaire.equals("ThirdPAM")){
-//                setAlarm(context, "MondayLA", "ThirdPAM", 63);
-//                setNotification(context, "MondayLA", "ThirdPAM", 3000, "Questionnaire!", "Time to answer second post-lecture PAM!", 3000);
-//            }
 
             if(questionnaire.equals("FirstPostlecture")){
                 setAlarm(context, "MondayLA", "FirstPostlecture", 64);
@@ -62,15 +54,6 @@ public class AlarmNotificationReceiver extends BroadcastReceiver {
                 setNotification(context, "WednesdayLA", "FirstPAM", 6000, "Questionnaire!", "Time to answer pre-lecture PAM!", 6000);
             }
 
-//            if(questionnaire.equals("SecondPAM")){
-//                setAlarm(context, "WednesdayLA", "SecondPAM", 67);
-//                setNotification(context, "WednesdayLA", "SecondPAM", 7000, "Questionnaire!", "Time to answer first post-lecture PAM!", 7000);
-//            }
-//            if(questionnaire.equals("ThirdPAM")){
-//                setAlarm(context, "WednesdayLA", "ThirdPAM", 68);
-//                setNotification(context, "WednesdayLA", "ThirdPAM", 8000, "Questionnaire!", "Time to answer second post-lecture PAM!", 8000);
-//            }
-
             if(questionnaire.equals("FirstPostlecture")){
                 setAlarm(context, "WednesdayLA", "FirstPostlecture", 69);
                 setNotification(context, "WednesdayLA", "FirstPostlecture", 9000, "Questionnaire!", "Time to answer first post-lecture questionnaire!", 9000);
@@ -86,14 +69,6 @@ public class AlarmNotificationReceiver extends BroadcastReceiver {
                 setAlarm(context, "MondayPF", "FirstPAM", 71);
                 setNotification(context, "MondayPF", "FirstPAM", 11000, "Questionnaire!", "Time to answer pre-lecture PAM!", 11000);
             }
-//            if(questionnaire.equals("SecondPAM")){
-//                setAlarm(context, "MondayPF", "SecondPAM", 72);
-//                setNotification(context, "MondayPF", "SecondPAM", 12000, "Questionnaire!", "Time to answer first post-lecture PAM!", 12000);
-//            }
-//            if(questionnaire.equals("ThirdPAM")){
-//                setAlarm(context, "MondayPF", "ThirdPAM", 73);
-//                setNotification(context, "MondayPF", "ThirdPAM", 13000, "Questionnaire!", "Time to answer second post-lecture PAM!", 13000);
-//            }
 
             if(questionnaire.equals("FirstPostlecture")){
                 setAlarm(context, "MondayPF", "FirstPostlecture", 74);
@@ -110,14 +85,7 @@ public class AlarmNotificationReceiver extends BroadcastReceiver {
                 setAlarm(context, "WednesdayPF", "FirstPAM", 76);
                 setNotification(context, "WednesdayPF", "FirstPAM", 16000, "Questionnaire!", "Time to answer pre-lecture PAM!", 16000);
             }
-//            if(questionnaire.equals("SecondPAM")){
-//                setAlarm(context, "WednesdayPF", "SecondPAM", 77);
-//                setNotification(context, "WednesdayPF", "SecondPAM", 17000, "Questionnaire!", "Time to answer first post-lecture PAM!", 17000);
-//            }
-//            if(questionnaire.equals("ThirdPAM")){
-//                setAlarm(context, "WednesdayPF", "ThirdPAM", 78);
-//                setNotification(context, "WednesdayPF", "ThirdPAM", 18000, "Questionnaire!", "Time to answer second post-lecture PAM!", 18000);
-//            }
+
             if(questionnaire.equals("FirstPostlecture")){
                 setAlarm(context, "WednesdayPF", "FirstPostlecture", 79);
                 setNotification(context, "WednesdayPF", "FirstPostlecture", 19000, "Questionnaire!", "Time to answer first post-lecture questionnaire!", 19000);
@@ -133,14 +101,7 @@ public class AlarmNotificationReceiver extends BroadcastReceiver {
                 setAlarm(context, "FridayPF", "FirstPAM", 81);
                 setNotification(context, "FridayPF", "FirstPAM", 21000, "Questionnaire!", "Time to answer pre-lecture PAM!", 21000);
             }
-//            if(questionnaire.equals("SecondPAM")){
-//                setAlarm(context, "FridayPF", "SecondPAM", 82);
-//                setNotification(context, "FridayPF", "SecondPAM", 22000, "Questionnaire!", "Time to answer first post-lecture PAM!", 22000);
-//            }
-//            if(questionnaire.equals("ThirdPAM")){
-//                setAlarm(context, "FridayPF", "ThirdPAM", 83);
-//                setNotification(context, "FridayPF", "ThirdPAM", 23000, "Questionnaire!", "Time to answer second post-lecture PAM!", 23000);
-//            }
+
             if(questionnaire.equals("FirstPostlecture")){
                 setAlarm(context, "FridayPF", "FirstPostlecture", 84);
                 setNotification(context, "FridayPF", "FirstPostlecture", 24000, "Questionnaire!", "Time to answer first post-lecture questionnaire!", 24000);
@@ -156,14 +117,7 @@ public class AlarmNotificationReceiver extends BroadcastReceiver {
                 setAlarm(context, "TuesdayCC", "FirstPAM", 86);
                 setNotification(context, "TuesdayCC", "FirstPAM", 26000, "Questionnaire!", "Time to answer pre-lecture PAM!", 26000);
             }
-//            if(questionnaire.equals("SecondPAM")){
-//                setAlarm(context, "TuesdayCC", "SecondPAM", 87);
-//                setNotification(context, "TuesdayCC", "SecondPAM", 27000, "Questionnaire!", "Time to answer first post-lecture PAM!", 27000);
-//            }
-//            if(questionnaire.equals("ThirdPAM")){
-//                setAlarm(context, "TuesdayCC", "ThirdPAM", 88);
-//                setNotification(context, "TuesdayCC", "ThirdPAM", 28000, "Questionnaire!", "Time to answer second post-lecture PAM!", 28000);
-//            }
+
             if(questionnaire.equals("FirstPostlecture")){
                 setAlarm(context, "TuesdayCC", "FirstPostlecture", 89);
                 setNotification(context, "TuesdayCC", "FirstPostlecture", 29000, "Questionnaire!", "Time to answer first post-lecture questionnaire!", 29000);
@@ -174,19 +128,28 @@ public class AlarmNotificationReceiver extends BroadcastReceiver {
             }
         }
 
+        if(course.equals("WednesdayMCC")){
+            if(questionnaire.equals("FirstPAM")){
+                setAlarm(context, "WednesdayMCC", "FirstPAM", 9111);
+                setNotification(context, "WednesdayMCC", "FirstPAM", 310000, "Questionnaire!", "Time to answer pre-lecture PAM!", 310000);
+            }
+
+            if(questionnaire.equals("FirstPostlecture")){
+                setAlarm(context, "WednesdayMCC", "FirstPostlecture", 94111);
+                setNotification(context, "WednesdayMCC", "FirstPostlecture", 340000, "Questionnaire!", "Time to answer first post-lecture questionnaire!", 340000);
+            }
+            if(questionnaire.equals("SecondPostlecture")){
+                setAlarm(context, "WednesdayMCC", "SecondPostlecture", 95111);
+                setNotification(context, "WednesdayMCC", "SecondPostlecture", 350000, "Questionnaire!", "Time to answer second post-lecture questionnaire!", 350000);
+            }
+        }
+
         if(course.equals("WednesdayCC")){
             if(questionnaire.equals("FirstPAM")){
                 setAlarm(context, "WednesdayCC", "FirstPAM", 91);
                 setNotification(context, "WednesdayCC", "FirstPAM", 31000, "Questionnaire!", "Time to answer pre-lecture PAM!", 31000);
             }
-//            if(questionnaire.equals("SecondPAM")){
-//                setAlarm(context, "WednesdayCC", "SecondPAM", 92);
-//                setNotification(context, "WednesdayCC", "SecondPAM", 32000, "Questionnaire!", "Time to answer first post-lecture PAM!", 32000);
-//            }
-//            if(questionnaire.equals("ThirdPAM")){
-//                setAlarm(context, "WednesdayCC", "ThirdPAM", 93);
-//                setNotification(context, "WednesdayCC", "ThirdPAM", 33000, "Questionnaire!", "Time to answer second post-lecture PAM!", 33000);
-//            }
+
             if(questionnaire.equals("FirstPostlecture")){
                 setAlarm(context, "WednesdayCC", "FirstPostlecture", 94);
                 setNotification(context, "WednesdayCC", "FirstPostlecture", 34000, "Questionnaire!", "Time to answer first post-lecture questionnaire!", 34000);
@@ -197,19 +160,28 @@ public class AlarmNotificationReceiver extends BroadcastReceiver {
             }
         }
 
+        if(course.equals("ThursdayMCC")){
+            if(questionnaire.equals("FirstPAM")){
+                setAlarm(context, "ThursdayMCC", "FirstPAM", 96111);
+                setNotification(context, "ThursdayMCC", "FirstPAM", 360000, "Questionnaire!", "Time to answer pre-lecture PAM!", 360000);
+            }
+
+            if(questionnaire.equals("FirstPostlecture")){
+                setAlarm(context, "ThursdayMCC", "FirstPostlecture", 99111);
+                setNotification(context, "ThursdayMCC", "FirstPostlecture", 390000, "Questionnaire!", "Time to answer first post-lecture questionnaire!", 390000);
+            }
+            if(questionnaire.equals("SecondPostlecture")){
+                setAlarm(context, "ThursdayMCC", "SecondPostlecture", 100111);
+                setNotification(context, "ThursdayMCC", "SecondPostlecture", 400000, "Questionnaire!", "Time to answer second post-lecture questionnaire!", 400000);
+            }
+        }
+
         if(course.equals("ThursdayCC")){
             if(questionnaire.equals("FirstPAM")){
                 setAlarm(context, "ThursdayCC", "FirstPAM", 96);
                 setNotification(context, "ThursdayCC", "FirstPAM", 36000, "Questionnaire!", "Time to answer pre-lecture PAM!", 36000);
             }
-//            if(questionnaire.equals("SecondPAM")){
-//                setAlarm(context, "ThursdayCC", "SecondPAM", 97);
-//                setNotification(context, "ThursdayCC", "SecondPAM", 37000, "Questionnaire!", "Time to answer first post-lecture PAM!", 37000);
-//            }
-//            if(questionnaire.equals("ThirdPAM")){
-//                setAlarm(context, "ThursdayCC", "ThirdPAM", 98);
-//                setNotification(context, "ThursdayCC", "ThirdPAM", 38000, "Questionnaire!", "Time to answer second post-lecture PAM!", 38000);
-//            }
+
             if(questionnaire.equals("FirstPostlecture")){
                 setAlarm(context, "ThursdayCC", "FirstPostlecture", 99);
                 setNotification(context, "ThursdayCC", "FirstPostlecture", 39000, "Questionnaire!", "Time to answer first post-lecture questionnaire!", 39000);
@@ -226,14 +198,7 @@ public class AlarmNotificationReceiver extends BroadcastReceiver {
                 setAlarm(context, "MondayInf1", "FirstPAM", 101);
                 setNotification(context, "MondayInf1", "FirstPAM", 41000, "Questionnaire!", "Time to answer pre-lecture PAM!", 41000);
             }
-//            if(questionnaire.equals("SecondPAM")){
-//                setAlarm(context, "MondayInf1", "SecondPAM", 102);
-//                setNotification(context, "MondayInf1", "SecondPAM", 42000, "Questionnaire!", "Time to answer first post-lecture PAM!", 42000);
-//            }
-//            if(questionnaire.equals("ThirdPAM")){
-//                setAlarm(context, "MondayInf1", "ThirdPAM", 103);
-//                setNotification(context, "MondayInf1", "ThirdPAM", 43000, "Questionnaire!", "Time to answer second post-lecture PAM!", 33000);
-//            }
+
             if(questionnaire.equals("FirstPostlecture")){
                 setAlarm(context, "MondayInf1", "FirstPostlecture", 104);
                 setNotification(context, "MondayInf1", "FirstPostlecture", 44000, "Questionnaire!", "Time to answer first post-lecture questionnaire!", 44000);
@@ -249,14 +214,7 @@ public class AlarmNotificationReceiver extends BroadcastReceiver {
                 setAlarm(context, "MondayInf2", "FirstPAM", 106);
                 setNotification(context, "MondayInf2", "FirstPAM", 46000, "Questionnaire!", "Time to answer pre-lecture PAM!", 46000);
             }
-//            if(questionnaire.equals("SecondPAM")){
-//                setAlarm(context, "MondayInf2", "SecondPAM", 107);
-//                setNotification(context, "MondayInf2", "SecondPAM", 47000, "Questionnaire!", "Time to answer first post-lecture PAM!", 47000);
-//            }
-//            if(questionnaire.equals("ThirdPAM")){
-//                setAlarm(context, "MondayInf2", "ThirdPAM", 108);
-//                setNotification(context, "MondayInf2", "ThirdPAM", 48000, "Questionnaire!", "Time to answer second post-lecture PAM!", 48000);
-//            }
+
             if(questionnaire.equals("FirstPostlecture")){
                 setAlarm(context, "MondayInf2", "FirstPostlecture", 109);
                 setNotification(context, "MondayInf2", "FirstPostlecture", 49000, "Questionnaire!", "Time to answer first post-lecture questionnaire!", 49000);
@@ -272,14 +230,7 @@ public class AlarmNotificationReceiver extends BroadcastReceiver {
                 setAlarm(context, "TuesdaySAD", "FirstPAM", 111);
                 setNotification(context, "TuesdaySAD", "FirstPAM", 51000, "Questionnaire!", "Time to answer pre-lecture PAM!", 51000);
             }
-//            if(questionnaire.equals("SecondPAM")){
-//                setAlarm(context, "TuesdaySAD", "SecondPAM", 112);
-//                setNotification(context, "TuesdaySAD", "SecondPAM", 52000, "Questionnaire!", "Time to answer first post-lecture PAM!", 52000);
-//            }
-//            if(questionnaire.equals("ThirdPAM")){
-//                setAlarm(context, "TuesdaySAD", "ThirdPAM", 113);
-//                setNotification(context, "TuesdaySAD", "ThirdPAM", 53000, "Questionnaire!", "Time to answer second post-lecture PAM!", 53000);
-//            }
+
             if(questionnaire.equals("FirstPostlecture")){
                 setAlarm(context, "TuesdaySAD", "FirstPostlecture", 114);
                 setNotification(context, "TuesdaySAD", "FirstPostlecture", 54000, "Questionnaire!", "Time to answer first post-lecture questionnaire!", 54000);
@@ -295,14 +246,7 @@ public class AlarmNotificationReceiver extends BroadcastReceiver {
                 setAlarm(context, "ThursdaySAD", "FirstPAM", 116);
                 setNotification(context, "ThursdaySAD", "FirstPAM", 56000, "Questionnaire!", "Time to answer pre-lecture PAM!", 56000);
             }
-//            if(questionnaire.equals("SecondPAM")){
-//                setAlarm(context, "ThursdaySAD", "SecondPAM", 117);
-//                setNotification(context, "ThursdaySAD", "SecondPAM", 57000, "Questionnaire!", "Time to answer first post-lecture PAM!", 57000);
-//            }
-//            if(questionnaire.equals("ThirdPAM")){
-//                setAlarm(context, "ThursdaySAD", "ThirdPAM", 118);
-//                setNotification(context, "ThursdaySAD", "ThirdPAM", 58000, "Questionnaire!", "Time to answer second post-lecture PAM!", 58000);
-//            }
+
             if(questionnaire.equals("FirstPostlecture")){
                 setAlarm(context, "ThursdaySAD", "FirstPostlecture", 119);
                 setNotification(context, "ThursdaySAD", "FirstPostlecture", 59000, "Questionnaire!", "Time to answer first post-lecture questionnaire!", 59000);

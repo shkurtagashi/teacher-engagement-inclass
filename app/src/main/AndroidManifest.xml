@@ -93,10 +93,8 @@
             android:name=".EmpaticaE4.EditEmpaticaActivity"
             android:label="@string/title_activity_edit_empatica" />
 
-        <service android:name=".data.RemoteDataStorage.AlarmService"/>
+        <service android:name=".data.RemoteDataStorage.AlarmService" />
+
     </application>
 
 </manifest>
-
-
-

@@ -129,21 +129,12 @@ public class QuestionnaireActivity extends AppCompatActivity {
             }
         }
 
-        if(course.equals("TuesdayCC") || course.equals("WednesdayCC") || course.equals("ThursdayCC")){
+        if(course.equals("TuesdayCC") || course.equals("WednesdayCC") || course.equals("WednesdayMCC") || course.equals("ThursdayCC") || course.equals("ThursdayMCC")){
             if(questionnaire.equals("FirstPAM")){
                 createPAM("before", "Cyber Communication","Pre-lecture PAM", 40);
                 finish();
-
             }
-//            if(questionnaire.equals("SecondPAM")){
-//                createPAM("after the first part of", "Cyber Communication","Post-lecture PAM", 40);
-//                finish();
-//
-//            }
-//            if(questionnaire.equals("ThirdPAM")){
-//                createPAM("after the second part of", "Cyber Communication","Post-lecture PAM", 40);
-//                finish();
-//            }
+
             if(questionnaire.equals("FirstPostlecture")){
                 createPostLecture("first part", "Cyber Communication", 40);
                 finish();
@@ -159,14 +150,7 @@ public class QuestionnaireActivity extends AppCompatActivity {
                 createPAM("before", "Information Security","Pre-lecture PAM", 40);
                 finish();
             }
-//            if(questionnaire.equals("SecondPAM")){
-//                createPAM("after the first part of", "Information Security","Post-lecture PAM", 40);
-//                finish();
-//            }
-//            if(questionnaire.equals("ThirdPAM")){
-//                createPAM("after the second part of", "Information Security","Post-lecture PAM", 40);
-//                finish();
-//            }
+
             if(questionnaire.equals("FirstPostlecture")){
                 createPostLecture("first part", "Information Security", 40);
                 finish();
@@ -183,14 +167,6 @@ public class QuestionnaireActivity extends AppCompatActivity {
                 finish();
             }
 
-//            if(questionnaire.equals("SecondPAM")){
-//                createPAM("after the first part of", "Software Architecture and Design","Post-lecture PAM", 40);
-//                finish();
-//            }
-//            if(questionnaire.equals("ThirdPAM")){
-//                createPAM("after the second part of", "Software Architecture and Design","Post-lecture PAM", 40);
-//                finish();
-//            }
             if(questionnaire.equals("FirstPostlecture")){
                 createPostLecture("first part", "Software Architecture and Design", 40);
                 finish();

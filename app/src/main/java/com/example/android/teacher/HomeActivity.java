@@ -121,7 +121,7 @@ public class HomeActivity extends AppCompatActivity{
             UserData._username = null;
             UserData._selectedCourses = null;
 
-            userTextView.append(" " + "\n Please create an account first");
+            userTextView.append(" " + "\nPlease create an account!");
 
             createAccountButton.setVisibility(View.VISIBLE);
 
@@ -155,7 +155,7 @@ public class HomeActivity extends AppCompatActivity{
         }else if(UserData._username == null && dbHelper.getUsersCount() > 1){
             createAccountButton.setVisibility(View.INVISIBLE);
 
-            userTextView.append(" " + "\n Please choose an account first");
+            userTextView.append(" " + "\nPlease choose an account!");
             sensorData.setEnabled(false);
             sensorData.setBackground(getResources().getDrawable(R.drawable.chartsdisabled));
 
@@ -188,7 +188,7 @@ public class HomeActivity extends AppCompatActivity{
             Aware.startESM(this);
             triggerSchedulers();
             uploadDataEveryday();
-            deleteSensorDataEveryWeek();
+//            deleteSensorDataEveryWeek();
         }
 
 
@@ -320,34 +320,34 @@ public class HomeActivity extends AppCompatActivity{
         }
     }
 
-    private void deleteSensorDataEveryWeek() {
-        if(!UserData.deleteAlarmTriggered){
-            Intent intent = new Intent(getApplicationContext(), DeleteAlarmReceiver.class);
-            AlarmManager am = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
-
-            Calendar cal = Calendar.getInstance();
-            calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
-            calendar.set(Calendar.HOUR_OF_DAY, 10);
-            calendar.set(Calendar.MINUTE, 15);
-
-            if (cal.getTimeInMillis() > System.currentTimeMillis()) { //if it is more than 19:00 o'clock, trigger it tomorrow
-                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-                String time = sdf.format(new Date());
-                System.out.println(time + ": Alarm in the future");
-
-                am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), PendingIntent.getBroadcast(this, 131313, intent, PendingIntent.FLAG_ONE_SHOT));
-                UserData.deleteAlarmTriggered = true;
-            } else {
-                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-                String time = sdf.format(new Date());
-                System.out.println(time + ": Alarm in the past");
-                cal.add(Calendar.WEEK_OF_MONTH, 1); //trigger alarm next week
-
-                am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), PendingIntent.getBroadcast(this, 131313, intent, PendingIntent.FLAG_ONE_SHOT));
-                UserData.deleteAlarmTriggered = true;
-            }
-        }
-    }
+//    private void deleteSensorDataEveryWeek() {
+//        if(!UserData.deleteAlarmTriggered){
+//            Intent intent = new Intent(getApplicationContext(), DeleteAlarmReceiver.class);
+//            AlarmManager am = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+//
+//            Calendar cal = Calendar.getInstance();
+//            calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+//            calendar.set(Calendar.HOUR_OF_DAY, 10);
+//            calendar.set(Calendar.MINUTE, 15);
+//
+//            if (cal.getTimeInMillis() > System.currentTimeMillis()) { //if it is more than 19:00 o'clock, trigger it tomorrow
+//                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+//                String time = sdf.format(new Date());
+//                System.out.println(time + ": Alarm in the future");
+//
+//                am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), PendingIntent.getBroadcast(this, 131313, intent, PendingIntent.FLAG_ONE_SHOT));
+//                UserData.deleteAlarmTriggered = true;
+//            } else {
+//                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+//                String time = sdf.format(new Date());
+//                System.out.println(time + ": Alarm in the past");
+//                cal.add(Calendar.WEEK_OF_MONTH, 1); //trigger alarm next week
+//
+//                am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), PendingIntent.getBroadcast(this, 131313, intent, PendingIntent.FLAG_ONE_SHOT));
+//                UserData.deleteAlarmTriggered = true;
+//            }
+//        }
+//    }
 
     public void uploadDataEveryday(){
 
@@ -357,27 +357,25 @@ public class HomeActivity extends AppCompatActivity{
             AlarmManager am = (AlarmManager) getSystemService(getApplicationContext().ALARM_SERVICE);
 
             Calendar cal = Calendar.getInstance();
-            calendar.set(Calendar.HOUR_OF_DAY, 18);
-            calendar.set(Calendar.MINUTE, 43);
+            cal.set(Calendar.HOUR_OF_DAY, 19);
+            cal.set(Calendar.MINUTE, 30);
             cal.set(Calendar.SECOND, 0);
 
             if (cal.getTimeInMillis() > System.currentTimeMillis()) { //if it is more than 19:00 o'clock, trigger it tomorrow
                 SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
                 String time = sdf.format(new Date());
-                System.out.println(time + ": Alarm should fire in the future");
+                System.out.println(time + ": Upload alarm triggered for today");
 
-                am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), PendingIntent.getBroadcast(this, 1, intent, PendingIntent.FLAG_ONE_SHOT));
+                am.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), PendingIntent.getBroadcast(this, 1, intent, PendingIntent.FLAG_ONE_SHOT));
                 UserData.uploadAlarmTriggered = true;
             } else {
                 SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-                String time = sdf.format(new Date());
-                Log.v("HOMEEE", "Upload Alarm Triggered for this week");
+                Log.v("HOMEEE", "Upload Alarm Triggered for next day");
                 cal.add(Calendar.DAY_OF_MONTH, 1); //trigger alarm tomorrow
 
-                am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), PendingIntent.getBroadcast(this, 1, intent, PendingIntent.FLAG_ONE_SHOT));
+                am.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), PendingIntent.getBroadcast(this, 1, intent, PendingIntent.FLAG_ONE_SHOT));
                 UserData.uploadAlarmTriggered = true;
             }
-
         }
     }
 

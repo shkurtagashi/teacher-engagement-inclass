@@ -21,57 +21,32 @@ public class FinalScheduler {
     /* Creation of the courses - BEGIN */
 
     //Linear Algebra on Monday and  Wednesday from 8:30 until 10:15
-//    public Weekday mondayLA = new Weekday(8, 25, Calendar.MONDAY);             //Exact schedule should be Monday 8:30     DAY - SUNDAY=1, MONDAY=2
-//    public Weekday wednesdayLA = new Weekday(8, 25, Calendar.WEDNESDAY);       //Exact schedule should be Wednesday 8:30
-//    public Course LinearAlgebra = new Course(mondayLA, wednesdayLA, "Linear Algebra");
-//
-//    //Programming Fundamentals on Monday, Wednesday and Friday from 10:30 until 12:15
-//    public Weekday mondayPF = new Weekday(10, 25, Calendar.MONDAY);            //Exact schedule should be Monday 10:30
-//    public Weekday wednesdayPF = new Weekday(10, 25, Calendar.WEDNESDAY);      //Exact schedule should be Wednesday 10:30
-//    public Weekday fridayPF = new Weekday(10, 25, Calendar.FRIDAY);            //Exact schedule should be Friday 10:30
-//    public Course ProgrammingFundamentals = new Course(mondayPF, wednesdayPF,fridayPF, "Programming Fundamentals");
-//
-//    //Cyber Communication on Tuesday, Wednesday and Thursday from 10:30 until 12:15
-//    public Weekday tuesdayCC = new Weekday(10, 25, Calendar.TUESDAY);          //Exact schedule should be Tuesday 10:30
-//    public Weekday wednesdayCC = new Weekday(10, 25, Calendar.WEDNESDAY);      //Exact schedule should be Wednesday 10:30
-//    public Weekday thursdayCC = new Weekday(10, 25, Calendar.THURSDAY);        //Exact schedule should be Thursday 10:30
-//    public Course CyberCommunication = new Course(tuesdayCC, wednesdayCC,thursdayCC, "Cyber Communication");
-//
-//    //Information Security on Monday from 13:30 until 17:15
-//    public Weekday mondayInf1 = new Weekday(13, 25, Calendar.MONDAY);          //Exact schedule should be Monday 13:30
-//    public Weekday mondayInf2 = new Weekday(15, 25, Calendar.MONDAY);          //Exact schedule should be Monday 15:30
-//    public Course InformationSecurity = new Course(mondayInf1, mondayInf2, "Information Security");
-//
-//    //Software Architecture on Tuesday and Thursday from 13:30 until 17:15
-//    public Weekday tuesdaySAD = new Weekday(13, 25, Calendar.TUESDAY);         //Exact schedule should be Tuesday 13:30
-//    public Weekday thursdaySAD = new Weekday(13, 25, Calendar.THURSDAY);       //Exact schedule should be Thursday 13:30
-//    public Course SoftwareArchitecture = new Course(tuesdaySAD, thursdaySAD, "Software Architecture and Design");
-
-    //Linear Algebra on Monday and  Wednesday from 8:30 until 10:15
-    public Weekday mondayLA = new Weekday(9, 0, Calendar.FRIDAY);             //Exact schedule should be Monday 8:30     DAY - SUNDAY=1, MONDAY=2
-    public Weekday wednesdayLA = new Weekday(9, 30, Calendar.FRIDAY);       //Exact schedule should be Wednesday 8:30
+    public Weekday mondayLA = new Weekday(8, 25, Calendar.MONDAY);             //Exact schedule should be Monday 8:30     DAY - SUNDAY=1, MONDAY=2
+    public Weekday wednesdayLA = new Weekday(8, 25, Calendar.WEDNESDAY);       //Exact schedule should be Wednesday 8:30
     public Course LinearAlgebra = new Course(mondayLA, wednesdayLA, "Linear Algebra");
 
     //Programming Fundamentals on Monday, Wednesday and Friday from 10:30 until 12:15
-    public Weekday mondayPF = new Weekday(10, 0, Calendar.FRIDAY);            //Exact schedule should be Monday 10:30
-    public Weekday wednesdayPF = new Weekday(10, 30, Calendar.FRIDAY);      //Exact schedule should be Wednesday 10:30
-    public Weekday fridayPF = new Weekday(11, 0, Calendar.FRIDAY);            //Exact schedule should be Friday 10:30
+    public Weekday mondayPF = new Weekday(10, 25, Calendar.MONDAY);            //Exact schedule should be Monday 10:30
+    public Weekday wednesdayPF = new Weekday(10, 25, Calendar.WEDNESDAY);      //Exact schedule should be Wednesday 10:30
+    public Weekday fridayPF = new Weekday(10, 25, Calendar.FRIDAY);            //Exact schedule should be Friday 10:30
     public Course ProgrammingFundamentals = new Course(mondayPF, wednesdayPF,fridayPF, "Programming Fundamentals");
 
     //Cyber Communication on Tuesday, Wednesday and Thursday from 10:30 until 12:15
-    public Weekday tuesdayCC = new Weekday(11, 30, Calendar.FRIDAY);          //Exact schedule should be Tuesday 10:30
-    public Weekday wednesdayCC = new Weekday(12, 0, Calendar.FRIDAY);      //Exact schedule should be Wednesday 10:30
-    public Weekday thursdayCC = new Weekday(12, 30, Calendar.FRIDAY);        //Exact schedule should be Thursday 10:30
+    public Weekday tuesdayCC = new Weekday(10, 25, Calendar.TUESDAY);          //Exact schedule should be Tuesday 10:30
+    public Weekday wednesdayMCC = new Weekday(8, 25, Calendar.WEDNESDAY);      //Exact schedule should be Wednesday 8:30
+    public Weekday wednesdayCC = new Weekday(10, 25, Calendar.WEDNESDAY);      //Exact schedule should be Wednesday 10:30
+    public Weekday thursdayMCC = new Weekday(8, 25, Calendar.THURSDAY);        //Exact schedule should be Thursday 8:30
+    public Weekday thursdayCC = new Weekday(10, 25, Calendar.THURSDAY);        //Exact schedule should be Thursday 10:30
     public Course CyberCommunication = new Course(tuesdayCC, wednesdayCC,thursdayCC, "Cyber Communication");
 
     //Information Security on Monday from 13:30 until 17:15
-    public Weekday mondayInf1 = new Weekday(13, 0, Calendar.FRIDAY);          //Exact schedule should be Monday 13:30
-    public Weekday mondayInf2 = new Weekday(13, 30, Calendar.FRIDAY);          //Exact schedule should be Monday 15:30
+    public Weekday mondayInf1 = new Weekday(13, 25, Calendar.MONDAY);          //Exact schedule should be Monday 13:30
+    public Weekday mondayInf2 = new Weekday(15, 25, Calendar.MONDAY);          //Exact schedule should be Monday 15:30
     public Course InformationSecurity = new Course(mondayInf1, mondayInf2, "Information Security");
 
     //Software Architecture on Tuesday and Thursday from 13:30 until 17:15
-    public Weekday tuesdaySAD = new Weekday(14, 0, Calendar.FRIDAY);         //Exact schedule should be Tuesday 13:30
-    public Weekday thursdaySAD = new Weekday(14, 30, Calendar.FRIDAY);       //Exact schedule should be Thursday 13:30
+    public Weekday tuesdaySAD = new Weekday(13, 25, Calendar.TUESDAY);         //Exact schedule should be Tuesday 13:30
+    public Weekday thursdaySAD = new Weekday(13, 25, Calendar.THURSDAY);       //Exact schedule should be Thursday 13:30
     public Course SoftwareArchitecture = new Course(tuesdaySAD, thursdaySAD, "Software Architecture and Design");
 
 
@@ -81,7 +56,7 @@ public class FinalScheduler {
     public void createFirstPAM(Context context, String courses) {
 
         /*LINEAR ALGEBRA*/
-        if (courses.contains(LinearAlgebra.getName())) { //&& !UserData._username.equals("/") REMOVED THIS
+        if (courses.contains(LinearAlgebra.getName())) {
             setAlarm(context, "MondayLA", "FirstPAM", 10, mondayLA, 0, 0);
             setAlarm(context, "WednesdayLA", "FirstPAM", 20, wednesdayLA, 0, 0);
         }
@@ -96,7 +71,9 @@ public class FinalScheduler {
         /*CYBER COMMUNICATION*/
         if (courses.contains(CyberCommunication.getName())) {
             setAlarm(context, "TuesdayCC", "FirstPAM", 60, tuesdayCC, 0, 0);
+            setAlarm(context, "WednesdayMCC", "FirstPAM", 71, wednesdayMCC, 0, 0);
             setAlarm(context, "WednesdayCC", "FirstPAM", 70, wednesdayCC, 0, 0);
+            setAlarm(context, "ThursdayMCC", "FirstPAM", 81, thursdayMCC, 0, 0);
             setAlarm(context, "ThursdayCC", "FirstPAM", 80, thursdayCC, 0, 0);
         }
 
@@ -119,34 +96,36 @@ public class FinalScheduler {
 
         /*LINEAR ALGEBRA*/
         if (courses.contains(LinearAlgebra.getName())) {
-            setAlarm(context, "MondayLA", "FirstPostlecture", 370, mondayLA, 0, 5);  //hour and time addition 1 and 15
-            setAlarm(context, "WednesdayLA", "FirstPostlecture", 380, wednesdayLA, 0, 5);
+            setAlarm(context, "MondayLA", "FirstPostlecture", 370, mondayLA, 0, 50);  //hour and time addition 1 and 15
+            setAlarm(context, "WednesdayLA", "FirstPostlecture", 380, wednesdayLA, 0, 50);
         }
 
         /*PROGRAMMING FUNDAMENTALS 2*/
         if (courses.contains(ProgrammingFundamentals.getName())) {
-            setAlarm(context, "MondayPF", "FirstPostlecture", 390, mondayPF, 0, 5);
-            setAlarm(context, "WednesdayPF", "FirstPostlecture", 400, wednesdayPF, 0, 5);
-            setAlarm(context, "FridayPF", "FirstPostlecture", 410, fridayPF, 0, 5);
+            setAlarm(context, "MondayPF", "FirstPostlecture", 390, mondayPF, 0, 50);
+            setAlarm(context, "WednesdayPF", "FirstPostlecture", 400, wednesdayPF, 0, 50);
+            setAlarm(context, "FridayPF", "FirstPostlecture", 410, fridayPF, 0, 50);
         }
 
         /*CYBER COMMUNICATION*/
         if (courses.contains(CyberCommunication.getName())) {
-            setAlarm(context, "TuesdayCC", "FirstPostlecture", 420, tuesdayCC, 0, 5);
-            setAlarm(context, "WednesdayCC", "FirstPostlecture", 430, wednesdayCC, 0, 5);
-            setAlarm(context, "ThursdayCC", "FirstPostlecture", 440, thursdayCC, 0, 5);
+            setAlarm(context, "TuesdayCC", "FirstPostlecture", 420, tuesdayCC, 0, 50);
+            setAlarm(context, "WednesdayMCC", "FirstPostlecture", 431, wednesdayMCC, 0, 50);
+            setAlarm(context, "WednesdayCC", "FirstPostlecture", 430, wednesdayCC, 0, 50);
+            setAlarm(context, "ThursdayMCC", "FirstPostlecture", 441, thursdayMCC, 0, 50);
+            setAlarm(context, "ThursdayCC", "FirstPostlecture", 440, thursdayCC, 0, 50);
         }
 
         /*INFORMATION SECURITY*/
         if (courses.contains(InformationSecurity.getName())) {
-            setAlarm(context, "MondayInf1", "FirstPostlecture", 450, mondayInf1, 0, 5);
-            setAlarm(context, "MondayInf2", "FirstPostlecture", 460, mondayInf2, 0, 5);
+            setAlarm(context, "MondayInf1", "FirstPostlecture", 450, mondayInf1, 0, 50);
+            setAlarm(context, "MondayInf2", "FirstPostlecture", 460, mondayInf2, 0, 50);
         }
 
         /*SOFTWARE ARCHITECTURE AND DESIGN*/
         if (courses.contains(SoftwareArchitecture.getName())) {
-            setAlarm(context, "TuesdaySAD", "FirstPostlecture", 470, tuesdaySAD, 0, 5);
-            setAlarm(context, "ThursdaySAD", "FirstPostlecture", 480, thursdaySAD, 0, 5);
+            setAlarm(context, "TuesdaySAD", "FirstPostlecture", 470, tuesdaySAD, 0, 50);
+            setAlarm(context, "ThursdaySAD", "FirstPostlecture", 480, thursdaySAD, 0, 50);
         }
     }
 
@@ -155,34 +134,36 @@ public class FinalScheduler {
 
         /*LINEAR ALGEBRA*/
         if (courses.contains(LinearAlgebra.getName())){
-            setAlarm(context, "MondayLA", "SecondPostlecture", 490, mondayLA, 0, 10);  //hour and time addition 1 and 40, why 2 :15?
-            setAlarm(context, "WednesdayLA", "SecondPostlecture", 500, wednesdayLA, 0, 10);
+            setAlarm(context, "MondayLA", "SecondPostlecture", 490, mondayLA, 1, 50);  //hour and time addition 1 and 40, why 2 :15?
+            setAlarm(context, "WednesdayLA", "SecondPostlecture", 500, wednesdayLA, 1, 50);
         }
 
         /*PROGRAMMING FUNDAMENTALS 2*/
         if (courses.contains(ProgrammingFundamentals.getName())) {
-            setAlarm(context, "MondayPF", "SecondPostlecture", 510, mondayPF, 0, 10);
-            setAlarm(context, "WednesdayPF", "SecondPostlecture", 520, wednesdayPF, 0, 10);
-            setAlarm(context, "FridayPF", "SecondPostlecture", 530, fridayPF, 0, 10);
+            setAlarm(context, "MondayPF", "SecondPostlecture", 510, mondayPF, 1, 50);
+            setAlarm(context, "WednesdayPF", "SecondPostlecture", 520, wednesdayPF, 1, 50);
+            setAlarm(context, "FridayPF", "SecondPostlecture", 530, fridayPF, 1, 50);
         }
 
         /*CYBER COMMUNICATION*/
         if (courses.contains(CyberCommunication.getName())) {
-            setAlarm(context, "TuesdayCC", "SecondPostlecture", 540, tuesdayCC, 0, 10);
-            setAlarm(context, "WednesdayCC", "SecondPostlecture", 550, wednesdayCC, 0, 10);
-            setAlarm(context, "ThursdayCC", "SecondPostlecture", 560, thursdayCC, 0, 10);
+            setAlarm(context, "TuesdayCC", "SecondPostlecture", 540, tuesdayCC, 1, 50);
+            setAlarm(context, "WednesdayMCC", "SecondPostlecture", 551, wednesdayMCC, 1, 50);
+            setAlarm(context, "WednesdayCC", "SecondPostlecture", 550, wednesdayCC, 1, 50);
+            setAlarm(context, "ThursdayMCC", "SecondPostlecture", 561, thursdayMCC, 1, 50);
+            setAlarm(context, "ThursdayCC", "SecondPostlecture", 560, thursdayCC, 1, 50);
         }
 
         /*INFORMATION SECURITY*/
         if (courses.contains(InformationSecurity.getName())) {
-            setAlarm(context, "MondayInf1", "SecondPostlecture", 570, mondayInf1, 0, 10);
-            setAlarm(context, "MondayInf2", "SecondPostlecture", 580, mondayInf2, 0, 10);
+            setAlarm(context, "MondayInf1", "SecondPostlecture", 570, mondayInf1, 1, 50);
+            setAlarm(context, "MondayInf2", "SecondPostlecture", 580, mondayInf2, 1, 50);
         }
 
         /*SOFTWARE ARCHITECTURE AND DESIGN*/
         if (courses.contains(SoftwareArchitecture.getName())) {
-            setAlarm(context, "TuesdaySAD", "SecondPostlecture", 590, tuesdaySAD, 0, 10);
-            setAlarm(context, "ThursdaySAD", "SecondPostlecture", 600, thursdaySAD, 0, 10);
+            setAlarm(context, "TuesdaySAD", "SecondPostlecture", 590, tuesdaySAD, 1, 50);
+            setAlarm(context, "ThursdaySAD", "SecondPostlecture", 600, thursdaySAD, 1, 50);
         }
     }
 

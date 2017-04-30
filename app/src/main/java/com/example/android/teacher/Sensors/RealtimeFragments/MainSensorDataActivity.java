@@ -464,7 +464,7 @@ public class MainSensorDataActivity extends AppCompatActivity {
     public void setUpE4Data(){
         AlertDialog.Builder builder = new AlertDialog.Builder(MainSensorDataActivity.this);
         builder.setMessage(R.string.enterE4Data)
-                .setNegativeButton(R.string.yes, new DialogInterface.OnClickListener() {
+                .setNegativeButton("Yes, enter E4 data!", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Intent enterE4data = new Intent(getApplicationContext(), EmpaticaActivity.class);
@@ -472,10 +472,12 @@ public class MainSensorDataActivity extends AppCompatActivity {
                         finish();
                     }
                 })
-                .setPositiveButton(R.string.no, new DialogInterface.OnClickListener() {
+                .setPositiveButton("No", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
+                        Toast.makeText(MainSensorDataActivity.this, "Sorry, you need to provide data about Empatica E4 to go further in Real-time Streaming module!", Toast.LENGTH_LONG).show();
+                        finish();
                     }
                 });
 

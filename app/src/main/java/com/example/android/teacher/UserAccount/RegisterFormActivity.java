@@ -37,6 +37,7 @@ import android.provider.Settings.Secure;
 
 import java.util.ArrayList;
 
+import static android.R.id.input;
 import static com.example.android.teacher.HomeActivity.admin_password;
 
 
@@ -172,13 +173,39 @@ public class RegisterFormActivity extends AppCompatActivity {
                 UserData._selectedCourses = selectedCoursesString;
 
                 dbHelper.addUser(user);
-                Toast.makeText(getApplicationContext(), "You have successfully created profile with username: " + username + ", age: " + ageSelection +
-                        ", gender: " + genderSelection + ", faculty: " + facultySelection + ", programme " + programmeSelection +
-                        ", course " + selectedCoursesString + ", status " + statusSelection + " and with teaching experience of: " + teachingExpSelection,
-                        Toast.LENGTH_LONG).show();
-                Intent i = new Intent (getApplicationContext(), AgreementFormActivity.class);
-                startActivity(i);
-                finish();
+
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(RegisterFormActivity.this);
+                alertDialog.setTitle("New User Account");
+                alertDialog.setMessage("You have successfully created account with: \n \n" + "Username: " + username + "\nAge: " + ageSelection +
+                        "\nGender: " + genderSelection + "\nFaculty: " + facultySelection + "\nProgramme: " + programmeSelection +
+                        "\nCourse(s): " + selectedCoursesString + "\nStatus: " + statusSelection + "\nTeaching experience of: " + teachingExpSelection + " \n \n \n Do you want to proceed?");
+
+                alertDialog.setIcon(R.drawable.logo);
+
+                alertDialog.setNegativeButton(R.string.yes,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Toast.makeText(getApplicationContext(), "Thank you!", Toast.LENGTH_SHORT).show();
+                                Intent i = new Intent (getApplicationContext(), AgreementFormActivity.class);
+                                startActivity(i);
+                                finish();
+                            }
+                        });
+
+                alertDialog.setPositiveButton(R.string.no,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+
+                alertDialog.show();
+
+//                Toast.makeText(getApplicationContext(), "You have successfully created profile with username: " + username + ", age: " + ageSelection +
+//                        ", gender: " + genderSelection + ", faculty: " + facultySelection + ", programme " + programmeSelection +
+//                        ", course " + selectedCoursesString + ", status " + statusSelection + " and with teaching experience of: " + teachingExpSelection,
+//                        Toast.LENGTH_LONG).show();
+
             }
         });
 

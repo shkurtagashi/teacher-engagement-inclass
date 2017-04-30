@@ -81,10 +81,10 @@ public class EDAFragment extends Fragment {
 
         edaValues = teacherDbHelper.getAllEdaSensorValues();
 
-//        if(!teacherDbHelper.isLastSession()){
-//            edaValues = teacherDbHelper.getLastEdaSensorValues();
-//            Log.v("EDA FRAGGG", "FALSEE");
-//        }
+        if(!teacherDbHelper.isLastSession()){
+            edaValues = teacherDbHelper.getLastEdaSensorValues();
+            Log.v("EDA FRAGGG", "FALSEE");
+        }
 
 
         setUpEdaGraph(edaValues);
@@ -118,8 +118,9 @@ public class EDAFragment extends Fragment {
             LineDataSet dataSet = new LineDataSet(entries, "GSR value through Time for session on:" + date); // add entries to dataset
             dataSet.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
             dataSet.setDrawFilled(true);
-            dataSet.setFillColor(Color.parseColor("#2196F3"));
-            dataSet.setColor(Color.parseColor("#2196F3"));
+            dataSet.setFillColor(Color.parseColor("#FF80CBC4"));
+            dataSet.setColor(Color.parseColor("#FF009688"));
+
             dataSet.setDrawCircles(false);
             //dataSet.setCircleColor(Color.BLUE);
             //dataSet.setCircleRadius(3f);

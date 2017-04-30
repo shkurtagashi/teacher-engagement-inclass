@@ -85,6 +85,9 @@ public class AgreementFormActivity extends AppCompatActivity{
             // The code in this method will be executed when the Agree Button is clicked on.
             @Override
             public void onClick(View v){
+
+                Toast.makeText(getApplicationContext(), "Thank you very much for your participation!", Toast.LENGTH_LONG);
+
                 try {
 
                     ESMFactory factory = new ESMFactory();

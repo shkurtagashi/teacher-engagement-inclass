@@ -175,6 +175,7 @@ public class EmpaticaService extends Service implements EmpaDataDelegate, EmpaSt
 
         startForeground(717038, notification);
 
+
         return START_STICKY;
     }
 
@@ -190,6 +191,7 @@ public class EmpaticaService extends Service implements EmpaDataDelegate, EmpaSt
             deviceManager.authenticateWithAPIKey(EMPATICA_API_KEY);
         }else{
             Toast.makeText(EmpaticaService.this, "Sorry, you need WiFi connection to connect to Empatica E4!", Toast.LENGTH_SHORT).show();
+            stopSelf();
         }
     }
 
@@ -208,6 +210,7 @@ public class EmpaticaService extends Service implements EmpaDataDelegate, EmpaSt
     public IBinder onBind(Intent intent) {
         return null;
     }
+
 
 //    public class LocalBinder extends Binder {
 //        EmpaticaService getService() {

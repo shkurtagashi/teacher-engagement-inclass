@@ -154,14 +154,32 @@ public class EditRegistrationActivity extends AppCompatActivity {
                 UserData._selectedCourses = user.getCourse();
                 dbHelper.updateUserRegistration(user);
 
-                Toast.makeText(getApplicationContext(), "You have successfully updated profile with username: " + user.getUsername() + ", age: " + user.getAge() +
-                                ", gender: " + user.getGender() + ", faculty: " + user.getFaculty() + ", programme " + user.getProgramme() +
-                                ", course " + user.getCourse() + ", status " + user.getStatus() + " and with teaching experience of: " + user.getTeachingExperience(),
-                        Toast.LENGTH_LONG).show();
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(EditRegistrationActivity.this);
+                alertDialog.setTitle("New User Account");
+                alertDialog.setMessage("You have successfully updated account with: \n \n" + "Username: " + UserData._username + "\nAge: " + ageSelection +
+                        "\nGender: " + genderSelection + "\nFaculty: " + facultySelection + "\nProgramme: " + programmeSelection +
+                        "\nCourse(s): " + selectedCoursesString + "\nStatus: " + statusSelection + "\nTeaching experience of: " + teachingExpSelection + " \n \n \n Do you want to proceed?");
 
-                Intent i = new Intent (getApplicationContext(), HomeActivity.class);
-                startActivity(i);
-                finish();
+                alertDialog.setIcon(R.drawable.logo);
+
+                alertDialog.setNegativeButton(R.string.yes,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Toast.makeText(getApplicationContext(), "Thank you!", Toast.LENGTH_SHORT).show();
+                                Intent i = new Intent (getApplicationContext(), HomeActivity.class);
+                                startActivity(i);
+                                finish();
+                            }
+                        });
+
+                alertDialog.setPositiveButton(R.string.no,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+
+                alertDialog.show();
             }
         });
     }

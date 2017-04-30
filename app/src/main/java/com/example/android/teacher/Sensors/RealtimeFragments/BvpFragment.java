@@ -24,6 +24,7 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,6 +36,7 @@ public class BvpFragment extends Fragment {
 
     private LineGraphSeries<DataPoint> bvpSeries;
     private double lastXbvp = 0;
+
 
     GraphView bvpGraph;
 
@@ -82,7 +84,7 @@ public class BvpFragment extends Fragment {
 
 //        bvpSeries = new LineGraphSeries<DataPoint>();
         bvpSeries.setTitle("Blood Volume Pressure");
-        bvpSeries.setColor(Color.parseColor("#F44336"));
+        bvpSeries.setColor(Color.parseColor("#FFE43F3F"));
         //bvpSeries.setDrawDataPoints(true);
         //bvpSeries.setDataPointsRadius(10);
         //bvpSeries.setThickness(8);

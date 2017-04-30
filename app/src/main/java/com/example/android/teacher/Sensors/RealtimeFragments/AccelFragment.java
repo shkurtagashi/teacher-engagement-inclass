@@ -86,7 +86,7 @@ public class AccelFragment extends Fragment {
             ArrayList<String> xList = intent.getStringArrayListExtra(EmpaticaService.ACC_X);
 
             for (int i = 0; i < xList.size(); i++) {
-                accZseries.appendData(new DataPoint(lastZacc++, Double.parseDouble(xList.get(i))), false, 10);
+                accXseries.appendData(new DataPoint(lastXacc++, Double.parseDouble(xList.get(i))), false, 10);
             }
         }
     };
@@ -97,7 +97,7 @@ public class AccelFragment extends Fragment {
             ArrayList<String> yList = intent.getStringArrayListExtra(EmpaticaService.ACC_Y);
 
             for (int i = 0; i < yList.size(); i++) {
-                accZseries.appendData(new DataPoint(lastZacc++, Double.parseDouble(yList.get(i))), false, 10);
+                accYseries.appendData(new DataPoint(lastYacc++, Double.parseDouble(yList.get(i))), false, 10);
 
 
             }
@@ -130,26 +130,26 @@ public class AccelFragment extends Fragment {
         accGraph = (GraphView) rootView.findViewById(R.id.graphforacc);
 
         accXseries.setTitle("X");
-        accXseries.setColor(Color.parseColor("#F44336"));
+        accXseries.setColor(Color.parseColor("#FFCCCCCC"));
         accXseries.setDrawDataPoints(true);
-        accXseries.setDataPointsRadius(10);
+        accXseries.setDataPointsRadius(0);
         accXseries.setThickness(8);
 
         accYseries.setTitle("Y");
-        accYseries.setColor(Color.parseColor("#4CAF50"));
+        accYseries.setColor(Color.parseColor("#FF999999"));
         accYseries.setDrawDataPoints(true);
-        accYseries.setDataPointsRadius(10);
+        accYseries.setDataPointsRadius(0);
         accYseries.setThickness(8);
 
         accZseries.setTitle("Z");
-        accZseries.setColor(Color.parseColor("#FFC107"));
+        accZseries.setColor(Color.parseColor("#FF777777"));
         accZseries.setDrawDataPoints(true);
-        accZseries.setDataPointsRadius(10);
+        accZseries.setDataPointsRadius(0);
         accZseries.setThickness(8);
 
         accGraph.getLegendRenderer().setVisible(true);
-        accGraph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
-        accGraph.getLegendRenderer().setBackgroundColor(Color.parseColor("#EEEEEE"));
+        accGraph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.BOTTOM);
+        accGraph.getLegendRenderer().setBackgroundColor(Color.parseColor("#FF333333"));
 
         accGraph.addSeries(accXseries);
         accGraph.addSeries(accYseries);
